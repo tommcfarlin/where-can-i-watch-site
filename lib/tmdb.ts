@@ -4,6 +4,8 @@ import {
   TMDBError,
   isTMDBError,
   MediaType,
+  MovieItem,
+  TVItem,
 } from '@/types/tmdb';
 
 // TMDB API configuration
@@ -101,17 +103,43 @@ export class TMDBClient {
   }
 
   // Get popular movies (for fuzzy search database)
-  async getPopularMovies(page = 1): Promise<SearchMultiResponse> {
-    return this.fetchFromTMDB<SearchMultiResponse>('/movie/popular', {
+  async getPopularMovies(page = 1): Promise<{ results: MovieItem[] }> {
+    const response = await this.fetchFromTMDB<{
+      page: number;
+      results: MovieItem[];
+      total_pages: number;
+      total_results: number;
+    }>('/movie/popular', {
       page: page.toString(),
     });
+
+    // Add media_type to each movie
+    return {
+      results: response.results.map(movie => ({
+        ...movie,
+        media_type: 'movie' as MediaType
+      }))
+    };
   }
 
   // Get popular TV shows (for fuzzy search database)
-  async getPopularTVShows(page = 1): Promise<SearchMultiResponse> {
-    return this.fetchFromTMDB<SearchMultiResponse>('/tv/popular', {
+  async getPopularTVShows(page = 1): Promise<{ results: TVItem[] }> {
+    const response = await this.fetchFromTMDB<{
+      page: number;
+      results: TVItem[];
+      total_pages: number;
+      total_results: number;
+    }>('/tv/popular', {
       page: page.toString(),
     });
+
+    // Add media_type to each TV show
+    return {
+      results: response.results.map(show => ({
+        ...show,
+        media_type: 'tv' as MediaType
+      }))
+    };
   }
 
   // Helper method to build image URLs
