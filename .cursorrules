@@ -4,7 +4,7 @@
 - Branch naming convention: feature/[feature-name] or fix/[bug-name]
 - Use kebab-case for branch names
 - Create pull request when feature is complete
-- Delete feature branches after merge
+- Keep feature branches after merge for historical reference
 
 # Project-Specific Rules
 - All API keys must be in .env.local
