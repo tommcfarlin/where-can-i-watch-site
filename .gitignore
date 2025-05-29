@@ -1,0 +1,14 @@
+# Environment
+.env.local
+.env
+
+# Internal documentation
+docs/internal/
+
+# Dependencies
+node_modules/
+
+# Build outputs
+.next/
+out/
+build/
