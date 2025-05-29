@@ -1,0 +1,13 @@
+# Git Workflow Rules
+- ALWAYS create a feature branch for new work
+- NEVER commit directly to master/main
+- Branch naming convention: feature/[feature-name] or fix/[bug-name]
+- Use kebab-case for branch names
+- Create pull request when feature is complete
+- Keep feature branches after merge for historical reference
+
+# Project-Specific Rules
+- All API keys must be in .env.local
+- Never commit .env files
+- Test all searches with both correct and misspelled titles
+- Document all technical decisions in docs/internal/DECISIONS.md
