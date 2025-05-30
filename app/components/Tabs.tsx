@@ -16,13 +16,13 @@ export default function Tabs({ activeTab, onTabChange, movieCount, tvCount }: Ta
 
   return (
     <div className="border-b border-gray-200 dark:border-gray-700 mb-6">
-      <nav className="-mb-px flex space-x-8" aria-label="Tabs">
+      <nav className="-mb-px flex space-x-4 sm:space-x-6 md:space-x-8" aria-label="Tabs">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => onTabChange(tab.id)}
             className={`
-              py-2 px-1 border-b-2 font-medium text-base transition-colors flex items-center gap-2
+              py-2 px-1 border-b-2 font-medium text-sm md:text-base transition-colors flex items-center gap-1 sm:gap-2
               ${
                 activeTab === tab.id
                   ? 'border-blue-500 text-blue-600 dark:text-blue-400'
@@ -30,11 +30,11 @@ export default function Tabs({ activeTab, onTabChange, movieCount, tvCount }: Ta
               }
             `}
           >
-            <span className="text-lg">{tab.icon}</span>
+            <span className="text-base md:text-lg">{tab.icon}</span>
             <span>{tab.label}</span>
             {tab.count > 0 && (
               <span
-                className={`ml-2 py-0.5 px-2 rounded-full text-xs ${
+                className={`ml-1 sm:ml-2 py-0.5 px-1.5 sm:px-2 rounded-full text-xs ${
                   activeTab === tab.id
                     ? 'bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-400'
                     : 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-300'

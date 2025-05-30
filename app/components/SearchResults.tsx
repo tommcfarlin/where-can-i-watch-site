@@ -13,7 +13,7 @@ interface SearchResultsProps {
 }
 
 export default function SearchResults({ results, isLoading, searchQuery }: SearchResultsProps) {
-  const [activeTab, setActiveTab] = useState<'all' | 'movie' | 'tv'>('all');
+  const [activeTab, setActiveTab] = useState<'all' | 'movie' | 'tv'>('tv');
 
   // Calculate counts for each media type
   const { movieCount, tvCount, filteredResults } = useMemo(() => {
@@ -82,11 +82,27 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
 
       {/* Results Grid */}
       {hasResults && !isLoading && (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-          {filteredResults.map((item) => (
-            <ResultCard key={item.id} item={item} />
-          ))}
-        </div>
+        <>
+          {filteredResults.length > 0 ? (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              {filteredResults.map((item) => (
+                <ResultCard key={item.id} item={item} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-gray-500 dark:text-gray-400">
+                {activeTab === 'movie'
+                  ? `No movies found for "${searchQuery}"`
+                  : `No TV shows found for "${searchQuery}"`
+                }
+              </p>
+              <p className="text-sm text-gray-400 dark:text-gray-500 mt-2">
+                Try switching to the {activeTab === 'movie' ? 'TV Shows' : 'Movies'} tab
+              </p>
+            </div>
+          )}
+        </>
       )}
 
       {/* Loading State */}
