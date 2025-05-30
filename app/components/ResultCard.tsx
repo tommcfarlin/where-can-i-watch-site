@@ -14,6 +14,9 @@ interface ProviderApiResponse {
   providers: CountryProviders;
 }
 
+// Base64 encoded 1x1 transparent pixel as a lightweight placeholder
+const BLUR_PLACEHOLDER = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k=';
+
 export default function ResultCard({ item }: ResultCardProps) {
   const [providers, setProviders] = useState<ProviderApiResponse | null>(null);
   const [showProviders, setShowProviders] = useState(false);
@@ -22,6 +25,25 @@ export default function ResultCard({ item }: ResultCardProps) {
   const title = isMovieItem(item) ? item.title : item.name;
   const releaseDate = isMovieItem(item) ? item.release_date : item.first_air_date;
   const year = releaseDate ? new Date(releaseDate).getFullYear() : '';
+
+  // Auto-fetch providers on mount for better UX
+  useEffect(() => {
+    const fetchProviders = async () => {
+      try {
+        const response = await fetch(
+          `/api/providers?id=${item.id}&type=${item.media_type}`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setProviders(data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch providers:', error);
+      }
+    };
+
+    fetchProviders();
+  }, [item.id, item.media_type]);
 
   const handleCardClick = async () => {
     if (!showProviders && !providers) {
@@ -61,6 +83,9 @@ export default function ResultCard({ item }: ResultCardProps) {
               fill
               sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
               className="object-cover"
+              placeholder="blur"
+              blurDataURL={BLUR_PLACEHOLDER}
+              loading="lazy"
             />
           ) : (
             <div className="flex items-center justify-center h-full">
@@ -97,6 +122,51 @@ export default function ResultCard({ item }: ResultCardProps) {
             <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
               {year}
             </p>
+          )}
+
+          {/* Quick Provider Preview */}
+          {providers && allProviders.length > 0 && !showProviders && (
+            <div className="mt-2 flex items-center gap-2">
+              <div className="flex -space-x-2">
+                {allProviders.slice(0, 3).map((provider, index) => (
+                  <div
+                    key={provider.provider_id}
+                    className="relative w-6 h-6 rounded-full overflow-hidden border-2 border-white dark:border-gray-800"
+                    style={{ zIndex: 3 - index }}
+                  >
+                    {provider.logo_path ? (
+                      <Image
+                        src={`https://image.tmdb.org/t/p/original${provider.logo_path}`}
+                        alt={provider.provider_name}
+                        fill
+                        sizes="24px"
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gray-300 dark:bg-gray-600" />
+                    )}
+                  </div>
+                ))}
+              </div>
+              {allProviders.length > 3 && (
+                <span className="text-xs text-gray-500 dark:text-gray-400">
+                  +{allProviders.length - 3} more
+                </span>
+              )}
+              <svg
+                className="w-4 h-4 text-gray-400 ml-auto"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </div>
           )}
         </div>
 
