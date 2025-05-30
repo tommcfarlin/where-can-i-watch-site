@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getTMDBClient, TMDBApiError } from '@/lib/tmdb';
 import { getFuzzySearchService } from '@/lib/fuzzy-search';
+import { detectFranchise, getFranchiseSearchTerms } from '@/lib/franchise-mappings';
+import { SearchResultItem, ExtendedSearchResponse } from '@/types/tmdb';
 
 export async function GET(request: NextRequest) {
   try {
@@ -26,7 +28,35 @@ export async function GET(request: NextRequest) {
     const results = await client.searchMulti(query, parseInt(page));
 
     // Filter out person results (we only want movies and TV shows)
-    const filteredResults = results.results.filter(item => item.media_type !== 'person');
+    let filteredResults = results.results.filter(item => item.media_type !== 'person');
+
+    // Check for franchise detection
+    const detectedFranchise = detectFranchise(query);
+
+    if (detectedFranchise && page === '1') {
+      // Get additional franchise-related titles
+      const franchiseTerms = getFranchiseSearchTerms(detectedFranchise);
+      const seenIds = new Set(filteredResults.map(item => `${item.media_type}-${item.id}`));
+
+      // Search for each related title
+      for (const relatedTitle of franchiseTerms.slice(0, 5)) { // Limit to avoid too many API calls
+        try {
+          const relatedResults = await client.searchMulti(relatedTitle, 1);
+          const relatedFiltered = relatedResults.results
+            .filter(item => item.media_type !== 'person')
+            .filter(item => !seenIds.has(`${item.media_type}-${item.id}`));
+
+          // Add unique results
+          for (const item of relatedFiltered) {
+            seenIds.add(`${item.media_type}-${item.id}`);
+            filteredResults.push(item);
+          }
+        } catch (error) {
+          // Continue with other searches if one fails
+          console.error(`Failed to search for related title "${relatedTitle}":`, error);
+        }
+      }
+    }
 
     // Check if we should suggest a correction
     const suggestion = await fuzzySearch.getSuggestion(query);
@@ -37,7 +67,8 @@ export async function GET(request: NextRequest) {
       ...results,
       results: filteredResults,
       suggestion: null,
-      didAutoCorrect: false
+      didAutoCorrect: false,
+      detectedFranchise
     };
 
     // If we have a likely typo and a good suggestion

@@ -47,6 +47,20 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
         />
       )}
 
+      {/* Franchise Detection Notice */}
+      {(results as any).detectedFranchise && (
+        <div className="mb-6 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-200 dark:border-purple-800">
+          <p className="text-sm">
+            <span className="font-semibold text-purple-700 dark:text-purple-300">
+              🎬 Franchise detected!
+            </span>
+            <span className="text-gray-700 dark:text-gray-300 ml-2">
+              Showing additional {(results as any).detectedFranchise} universe content that might not contain "{searchQuery}" in the title.
+            </span>
+          </p>
+        </div>
+      )}
+
       {/* Tabs for filtering */}
       {hasResults && !isLoading && (
         <Tabs
