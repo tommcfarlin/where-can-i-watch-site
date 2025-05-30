@@ -1,6 +1,8 @@
 // TMDB API Test Script
 // Run with: npx tsx lib/tmdb-test.ts
 
+import { Provider } from '@/types/tmdb';
+
 const API_KEY = process.env.TMDB_API_KEY;
 const BASE_URL = 'https://api.themoviedb.org/3';
 
@@ -27,8 +29,8 @@ async function testEndpoint(name: string, url: string) {
 
     console.log(`✅ Success! Results:`, JSON.stringify(data, null, 2).substring(0, 500) + '...');
     return data;
-  } catch (error) {
-    console.error(`❌ Failed:`, error);
+  } catch (error: unknown) {
+    console.error('❌ Failed:', error);
   }
 }
 
@@ -62,10 +64,10 @@ async function runTests() {
   if (providers?.results?.US) {
     console.log('\n📺 US Streaming Providers:');
     if (providers.results.US.flatrate) {
-      console.log('Subscription:', providers.results.US.flatrate.map((p: any) => p.provider_name).join(', '));
+      console.log('Subscription:', providers.results.US.flatrate.map((p: Provider) => p.provider_name).join(', '));
     }
     if (providers.results.US.buy) {
-      console.log('Purchase:', providers.results.US.buy.map((p: any) => p.provider_name).join(', '));
+      console.log('Purchase:', providers.results.US.buy.map((p: Provider) => p.provider_name).join(', '));
     }
   }
 

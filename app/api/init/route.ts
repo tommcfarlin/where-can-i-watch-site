@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { getFuzzySearchService } from '@/lib/fuzzy-search';
-import { getPopularTitlesCache } from '@/lib/popular-titles-cache';
 
 export async function GET() {
   try {

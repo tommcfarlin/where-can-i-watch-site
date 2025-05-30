@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getTMDBClient, TMDBApiError } from '@/lib/tmdb';
 import { getFuzzySearchService } from '@/lib/fuzzy-search';
 import { detectFranchise, getFranchiseSearchTerms } from '@/lib/franchise-mappings';
-import { SearchResultItem, ExtendedSearchResponse } from '@/types/tmdb';
+import { ExtendedSearchResponse } from '@/types/tmdb';
 
 export async function GET(request: NextRequest) {
   try {
@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
     const results = await client.searchMulti(query, parseInt(page));
 
     // Filter out person results (we only want movies and TV shows)
-    let filteredResults = results.results.filter(item => item.media_type !== 'person');
+    const filteredResults = results.results.filter(item => item.media_type !== 'person');
 
     // Check for franchise detection
     const detectedFranchise = detectFranchise(query);
@@ -63,13 +63,13 @@ export async function GET(request: NextRequest) {
     const hasLikelyTypo = await fuzzySearch.hasLikelyTypo(query, filteredResults.length);
 
     // Prepare response
-    const response: any = {
+    const response = {
       ...results,
       results: filteredResults,
       suggestion: null,
       didAutoCorrect: false,
       detectedFranchise
-    };
+    } as ExtendedSearchResponse & { detectedFranchise?: string };
 
     // If we have a likely typo and a good suggestion
     if (hasLikelyTypo && suggestion && autoCorrect) {

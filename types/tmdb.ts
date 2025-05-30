@@ -192,8 +192,12 @@ export function isTVItem(item: SearchResultItem): item is TVItem & { media_type:
   return item.media_type === 'tv';
 }
 
-export function isTMDBError(response: any): response is TMDBError {
-  return response && typeof response.status_code === 'number' && !response.results;
+export function isTMDBError(response: unknown): response is TMDBError {
+  return response !== null &&
+    typeof response === 'object' &&
+    'status_code' in response &&
+    typeof (response as TMDBError).status_code === 'number' &&
+    !('results' in response);
 }
 
 // Extended search response with fuzzy search features
