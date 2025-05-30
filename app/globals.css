@@ -5,26 +5,26 @@
 /* Light mode - warm and inviting */
 :root {
   /* Background colors - slightly warm whites */
-  --background: 30 20% 99%;
+  --background: 30 20% 98%;
   --foreground: 224 71.4% 4.1%;
 
-  /* Card and muted colors */
-  --card: 30 20% 98%;
+  /* Card and muted colors - more distinct from background */
+  --card: 0 0% 100%;
   --card-foreground: 224 71.4% 4.1%;
-  --muted: 30 10% 96%;
+  --muted: 30 10% 94%;
   --muted-foreground: 220 8.9% 46.1%;
 
-  /* Primary - your purple accent */
-  --primary: 271 91% 65%;
+  /* Primary - warm teal/blue-green instead of purple */
+  --primary: 173 58% 39%;
   --primary-foreground: 0 0% 100%;
 
   /* Secondary - complementary warm tone */
-  --secondary: 30 20% 94%;
+  --secondary: 30 20% 90%;
   --secondary-foreground: 220 8.9% 20%;
 
   /* Accent for highlights */
-  --accent: 271 60% 94%;
-  --accent-foreground: 271 91% 30%;
+  --accent: 173 40% 94%;
+  --accent-foreground: 173 58% 25%;
 
   /* Border radius */
   --radius: 0.75rem;
@@ -32,22 +32,23 @@
 
 /* Dark mode - deep but not pure black */
 :root.dark {
-  --background: 224 71.4% 4.1%;
+  --background: 222 47% 11%;
   --foreground: 30 20% 98%;
 
-  --card: 224 50% 8%;
+  --card: 222 47% 15%;
   --card-foreground: 30 20% 98%;
-  --muted: 220 30% 13%;
+  --muted: 220 30% 20%;
   --muted-foreground: 220 8.9% 65%;
 
-  --primary: 271 91% 65%;
-  --primary-foreground: 0 0% 100%;
+  /* Primary - slightly brighter teal for dark mode */
+  --primary: 173 58% 45%;
+  --primary-foreground: 222 47% 11%;
 
-  --secondary: 220 30% 15%;
+  --secondary: 220 30% 25%;
   --secondary-foreground: 30 20% 98%;
 
-  --accent: 271 50% 20%;
-  --accent-foreground: 271 91% 80%;
+  --accent: 173 40% 25%;
+  --accent-foreground: 173 58% 80%;
 }
 
 /* Base styles */
@@ -76,7 +77,7 @@ body.dark {
   background-image: linear-gradient(
     to bottom right,
     hsl(var(--background)),
-    hsl(224 50% 6%)
+    hsl(222 47% 9%)
   );
 }
 
