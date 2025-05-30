@@ -1,5 +1,4 @@
 import { getTMDBClient } from '@/lib/tmdb';
-import { SearchResultItem, isMovieItem, isTVItem, MovieItem, TVItem } from '@/types/tmdb';
 
 export interface SimplifiedTitle {
   id: number;

@@ -11,7 +11,6 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [darkMode, setDarkMode] = useState(false);
-  const [manualOverride, setManualOverride] = useState(false);
 
   // Initialize dark mode from system preference and listen for changes
   useEffect(() => {
@@ -52,7 +51,6 @@ export default function Home() {
   const toggleDarkMode = () => {
     const newDarkMode = !darkMode;
     setDarkMode(newDarkMode);
-    setManualOverride(true);
 
     // Save preference
     localStorage.setItem('theme-preference', newDarkMode ? 'dark' : 'light');

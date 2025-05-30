@@ -48,14 +48,14 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
       )}
 
       {/* Franchise Detection Notice */}
-      {(results as any).detectedFranchise && (
+      {(results as ExtendedSearchResponse & { detectedFranchise?: string }).detectedFranchise && (
         <div className="mb-6 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-200 dark:border-purple-800">
           <p className="text-sm">
             <span className="font-semibold text-purple-700 dark:text-purple-300">
               🎬 Franchise detected!
             </span>
             <span className="text-gray-700 dark:text-gray-300 ml-2">
-              Showing additional {(results as any).detectedFranchise} universe content that might not contain "{searchQuery}" in the title.
+              Showing additional {(results as ExtendedSearchResponse & { detectedFranchise?: string }).detectedFranchise} universe content that might not contain &ldquo;{searchQuery}&rdquo; in the title.
             </span>
           </p>
         </div>
@@ -71,11 +71,29 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
         />
       )}
 
-      {/* No Results */}
-      {!hasResults && !isLoading && (
+      {/* Empty state for specific tabs */}
+      {activeTab !== 'all' && filteredResults.length === 0 && results.results.length > 0 && (
+        <div className="text-center py-12">
+          <p className="text-gray-500 dark:text-gray-400 mb-4">
+            No {activeTab === 'tv' ? 'TV shows' : 'movies'} found for &ldquo;{searchQuery}&rdquo;
+          </p>
+          <button
+            onClick={() => setActiveTab('all')}
+            className="text-primary hover:underline"
+          >
+            View all results
+          </button>
+        </div>
+      )}
+
+      {/* General empty state */}
+      {results.results.length === 0 && !isLoading && (
         <div className="text-center py-12">
           <p className="text-gray-500 dark:text-gray-400">
-            No results found for "{searchQuery}"
+            No results found for &ldquo;{searchQuery}&rdquo;
+          </p>
+          <p className="text-sm text-gray-400 dark:text-gray-500 mt-2">
+            Try checking your spelling or using different keywords
           </p>
         </div>
       )}
@@ -93,8 +111,8 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
             <div className="text-center py-12">
               <p className="text-gray-500 dark:text-gray-400">
                 {activeTab === 'movie'
-                  ? `No movies found for "${searchQuery}"`
-                  : `No TV shows found for "${searchQuery}"`
+                  ? `No movies found for &ldquo;${searchQuery}&rdquo;`
+                  : `No TV shows found for &ldquo;${searchQuery}&rdquo;`
                 }
               </p>
               <p className="text-sm text-gray-400 dark:text-gray-500 mt-2">

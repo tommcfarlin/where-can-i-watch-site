@@ -23,10 +23,10 @@ export default function DidYouMean({ suggestion, confidence, searchQuery }: DidY
           Showing results for
         </span>
         <span className="font-semibold text-blue-700 dark:text-blue-300 mx-1">
-          "{suggestion}"
+          &ldquo;{suggestion}&rdquo;
         </span>
         <span className="text-gray-700 dark:text-gray-300">
-          instead of "{searchQuery}"
+          instead of &ldquo;{searchQuery}&rdquo;
         </span>
       </p>
 
@@ -39,7 +39,7 @@ export default function DidYouMean({ suggestion, confidence, searchQuery }: DidY
           onClick={handleClick}
           className="text-xs text-blue-600 dark:text-blue-400 hover:underline"
         >
-          Search for "{searchQuery}" instead
+          Search for &ldquo;{searchQuery}&rdquo; instead
         </button>
       </div>
     </div>

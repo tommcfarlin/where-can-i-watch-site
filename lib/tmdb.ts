@@ -1,7 +1,6 @@
 import {
   SearchMultiResponse,
   WatchProvidersResponse,
-  TMDBError,
   isTMDBError,
   MediaType,
   MovieItem,
@@ -15,7 +14,7 @@ const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p';
 // API client class
 export class TMDBClient {
   private apiKey: string;
-  private requestQueue: Promise<any> = Promise.resolve();
+  private requestQueue: Promise<unknown> = Promise.resolve();
   private requestCount = 0;
   private resetTime = Date.now();
 

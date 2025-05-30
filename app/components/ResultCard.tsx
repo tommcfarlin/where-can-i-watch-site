@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { SearchResultItem, isMovieItem, isTVItem, CountryProviders } from '@/types/tmdb';
+import { SearchResultItem, isMovieItem, CountryProviders } from '@/types/tmdb';
 import ProviderBadge from './ProviderBadge';
 
 interface ResultCardProps {
