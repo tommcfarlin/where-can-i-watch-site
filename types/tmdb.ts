@@ -195,3 +195,13 @@ export function isTVItem(item: SearchResultItem): item is TVItem & { media_type:
 export function isTMDBError(response: any): response is TMDBError {
   return response && typeof response.status_code === 'number' && !response.results;
 }
+
+// Extended search response with fuzzy search features
+export interface ExtendedSearchResponse extends SearchMultiResponse {
+  suggestion: {
+    suggestion: string;
+    confidence: number;
+  } | null;
+  didAutoCorrect: boolean;
+  originalQuery?: string;
+}
