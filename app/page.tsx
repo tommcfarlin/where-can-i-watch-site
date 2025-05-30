@@ -11,21 +11,51 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [darkMode, setDarkMode] = useState(false);
+  const [manualOverride, setManualOverride] = useState(false);
 
-  // Initialize dark mode from system preference
+  // Initialize dark mode from system preference and listen for changes
   useEffect(() => {
-    const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    setDarkMode(isDark);
-    if (isDark) {
+    // Check if user has a saved preference
+    const savedTheme = localStorage.getItem('theme-preference');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+    // Apply saved preference or system preference
+    if (savedTheme === 'dark' || (savedTheme !== 'light' && systemPrefersDark.matches)) {
+      setDarkMode(true);
       document.documentElement.classList.add('dark');
       document.body.classList.add('dark');
+    } else {
+      setDarkMode(false);
+      document.documentElement.classList.remove('dark');
+      document.body.classList.remove('dark');
     }
+
+    // Listen for system theme changes (only if not manually overridden)
+    const handleChange = (e: MediaQueryListEvent) => {
+      if (!localStorage.getItem('theme-preference')) {
+        setDarkMode(e.matches);
+        if (e.matches) {
+          document.documentElement.classList.add('dark');
+          document.body.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+          document.body.classList.remove('dark');
+        }
+      }
+    };
+
+    systemPrefersDark.addEventListener('change', handleChange);
+    return () => systemPrefersDark.removeEventListener('change', handleChange);
   }, []);
 
   // Toggle dark mode
   const toggleDarkMode = () => {
     const newDarkMode = !darkMode;
     setDarkMode(newDarkMode);
+    setManualOverride(true);
+
+    // Save preference
+    localStorage.setItem('theme-preference', newDarkMode ? 'dark' : 'light');
 
     if (newDarkMode) {
       document.documentElement.classList.add('dark');
