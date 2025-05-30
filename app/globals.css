@@ -35,16 +35,16 @@
   --background: 222 47% 11%;
   --foreground: 30 20% 98%;
 
-  --card: 222 47% 15%;
+  --card: 222 47% 20%;
   --card-foreground: 30 20% 98%;
-  --muted: 220 30% 20%;
+  --muted: 220 30% 25%;
   --muted-foreground: 220 8.9% 65%;
 
   /* Primary - slightly brighter teal for dark mode */
   --primary: 173 58% 45%;
   --primary-foreground: 222 47% 11%;
 
-  --secondary: 220 30% 25%;
+  --secondary: 220 30% 30%;
   --secondary-foreground: 30 20% 98%;
 
   --accent: 173 40% 25%;
