@@ -50,7 +50,7 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
-        <header className="text-center mb-12">
+        <header className="text-center mb-16 mt-12">
           <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4">
             Where Can I Watch?
           </h1>
@@ -60,7 +60,7 @@ export default function Home() {
         </header>
 
         {/* Search Section */}
-        <div className={`transition-all duration-500 ${searchResults ? 'mb-8' : 'mt-20'}`}>
+        <div className={`transition-all duration-500 ${searchResults ? 'mb-8' : 'mb-32'}`}>
           <SearchBar onSearch={handleSearch} isLoading={isLoading} />
         </div>
 
@@ -80,26 +80,6 @@ export default function Home() {
             isLoading={isLoading}
             searchQuery={searchQuery}
           />
-        )}
-
-        {/* Initial State */}
-        {!searchResults && !error && !isLoading && (
-          <div className="text-center mt-20">
-            <p className="text-gray-500 dark:text-gray-400 mb-8">
-              Try searching for your favorite movie or TV show
-            </p>
-            <div className="flex flex-wrap justify-center gap-2 max-w-2xl mx-auto">
-              {['The Office', 'Stranger Things', 'Breaking Bad', 'The Mandalorian'].map((title) => (
-                <button
-                  key={title}
-                  onClick={() => handleSearch(title)}
-                  className="px-4 py-2 bg-white dark:bg-gray-800 rounded-full shadow-sm hover:shadow-md transition-shadow text-sm text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
-                >
-                  {title}
-                </button>
-              ))}
-            </div>
-          </div>
         )}
       </div>
     </div>

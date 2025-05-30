@@ -9,35 +9,55 @@ interface SearchBarProps {
 
 export default function SearchBar({ onSearch, isLoading = false }: SearchBarProps) {
   const [query, setQuery] = useState('');
-  const [debouncedQuery, setDebouncedQuery] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
+  const debounceTimer = useRef<number | null>(null);
 
-  // Debounce the search query
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedQuery(query);
-    }, 300);
-
-    return () => clearTimeout(timer);
-  }, [query]);
-
-  // Trigger search when debounced query changes
-  useEffect(() => {
-    if (debouncedQuery !== '') {
-      onSearch(debouncedQuery);
+  // Debounced search function
+  const debouncedSearch = (searchQuery: string) => {
+    // Clear any existing timer
+    if (debounceTimer.current) {
+      clearTimeout(debounceTimer.current);
     }
-  }, [debouncedQuery, onSearch]);
+
+    // Only search if query is empty or has at least 2 characters
+    if (searchQuery.length === 0 || searchQuery.length >= 2) {
+      debounceTimer.current = window.setTimeout(() => {
+        onSearch(searchQuery);
+      }, 300);
+    }
+  };
+
+  // Handle input changes
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newQuery = e.target.value;
+    setQuery(newQuery);
+    debouncedSearch(newQuery);
+  };
+
+  // Cleanup timer on unmount
+  useEffect(() => {
+    return () => {
+      if (debounceTimer.current) {
+        clearTimeout(debounceTimer.current);
+      }
+    };
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (debounceTimer.current) {
+      clearTimeout(debounceTimer.current);
+    }
     if (query.trim()) {
       onSearch(query);
     }
   };
 
   const handleClear = () => {
+    if (debounceTimer.current) {
+      clearTimeout(debounceTimer.current);
+    }
     setQuery('');
-    setDebouncedQuery('');
     onSearch('');
     inputRef.current?.focus();
   };
@@ -49,9 +69,9 @@ export default function SearchBar({ onSearch, isLoading = false }: SearchBarProp
           ref={inputRef}
           type="text"
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={handleInputChange}
           placeholder="Search for a movie or TV show..."
-          className="w-full px-6 py-4 pr-24 text-lg bg-white dark:bg-gray-800 rounded-full shadow-lg focus:outline-none focus:ring-4 focus:ring-blue-500/20 dark:focus:ring-blue-400/20 transition-all"
+          className="w-full pl-14 pr-24 py-4 text-lg bg-white dark:bg-gray-800 rounded-full shadow-lg focus:outline-none focus:ring-4 focus:ring-blue-500/20 dark:focus:ring-blue-400/20 transition-all"
           autoFocus
         />
 
