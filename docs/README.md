@@ -27,9 +27,10 @@ If a title isn't available on any streaming service, we'll let you know it's not
 
 Built with modern web technologies for speed and reliability:
 
-- Next.js 14 with TypeScript
-- Tailwind CSS for styling
-- TMDB API for data
+- Next.js 15 with TypeScript
+- Tailwind CSS with custom design system
+- TMDB API for movie/TV data
+- Fuse.js for intelligent search
 - Hosted on Vercel
 
 ## Data Source
@@ -45,18 +46,26 @@ Streaming availability data is provided by [The Movie Database (TMDB)](https://w
 
 ## Roadmap
 
-Currently in development:
-- ✅ Basic search functionality
-- ✅ Streaming provider display
+### Completed Features (v1)
+- ✅ Smart search with typo correction
+- ✅ Streaming provider display with logos
 - ✅ Mobile responsive design
-- 🚧 Fuzzy search for misspellings
-- 🚧 Performance optimizations
+- ✅ TV/Movie filtering tabs
+- ✅ Franchise detection (e.g., "Star Wars" finds all related content)
+- ✅ Dark mode with OS sync
+- ✅ Beautiful, warm design system
+- ✅ Provider preview on search results
 
-Future features (v2+):
+### In Development
+- 🚧 Final testing and optimization
+- 🚧 Production deployment
+
+### Future Features (v2+)
 - 🌍 International availability
 - 🔗 Direct links to watch
-- 🌙 Dark mode
 - 📊 Price comparisons
+- 🔔 Notifications for new availability
+- 📱 Mobile apps
 
 ## Contributing
 
@@ -73,6 +82,13 @@ For questions, feedback, or issues:
 If you're interested in the technical implementation, see:
 - [API Documentation](./API.md)
 - [Setup Guide](./SETUP.md)
+
+### Internal Documentation
+For developers and contributors:
+- [Technical Decisions](./internal/DECISIONS.md)
+- [Session Summaries](./internal/)
+- [Phase 4 Design System](./internal/PHASE4_SESSION_SUMMARY.md)
+- [Future Scope](./internal/FUTURE_SCOPE.md)
 
 ## License
 
