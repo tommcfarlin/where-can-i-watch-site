@@ -1,26 +1,135 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+/* Light mode - warm and inviting */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Background colors - slightly warm whites */
+  --background: 30 20% 98%;
+  --foreground: 224 71.4% 4.1%;
+
+  /* Card and muted colors - more distinct from background */
+  --card: 0 0% 100%;
+  --card-foreground: 224 71.4% 4.1%;
+  --muted: 30 10% 94%;
+  --muted-foreground: 220 8.9% 46.1%;
+
+  /* Primary - warm teal/blue-green instead of purple */
+  --primary: 173 58% 39%;
+  --primary-foreground: 0 0% 100%;
+
+  /* Secondary - complementary warm tone */
+  --secondary: 30 20% 90%;
+  --secondary-foreground: 220 8.9% 20%;
+
+  /* Accent for highlights */
+  --accent: 173 40% 94%;
+  --accent-foreground: 173 58% 25%;
+
+  /* Border radius */
+  --radius: 0.75rem;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Dark mode - deep but not pure black */
+:root.dark {
+  --background: 222 47% 11%;
+  --foreground: 30 20% 98%;
+
+  --card: 222 47% 20%;
+  --card-foreground: 30 20% 98%;
+  --muted: 220 30% 25%;
+  --muted-foreground: 220 8.9% 65%;
+
+  /* Primary - slightly brighter teal for dark mode */
+  --primary: 173 58% 45%;
+  --primary-foreground: 222 47% 11%;
+
+  --secondary: 220 30% 30%;
+  --secondary-foreground: 30 20% 98%;
+
+  --accent: 173 40% 25%;
+  --accent-foreground: 173 58% 80%;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Base styles */
+* {
+  box-sizing: border-box;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  @apply bg-background text-foreground antialiased;
+  font-feature-settings: "rlig" 1, "calt" 1;
+  min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Light mode gradient */
+body:not(.dark) {
+  background-image: linear-gradient(
+    to bottom right,
+    hsl(var(--background)),
+    hsl(var(--background) / 0.95)
+  );
+}
+
+/* Dark mode gradient */
+body.dark {
+  background-image: linear-gradient(
+    to bottom right,
+    hsl(var(--background)),
+    hsl(222 47% 9%)
+  );
+}
+
+/* Smooth transitions for theme changes */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Focus styles */
+:focus {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+}
+
+/* Selection color */
+::selection {
+  background-color: hsl(var(--primary) / 0.2);
+  color: hsl(var(--primary));
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
+}
+
+/* Utility classes */
+.animate-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

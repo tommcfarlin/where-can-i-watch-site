@@ -63,22 +63,22 @@ export default function SearchBar({ onSearch, isLoading = false }: SearchBarProp
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-2xl mx-auto">
-      <div className="relative">
+    <form onSubmit={handleSubmit} className="w-full max-w-2xl mx-auto animate-fade-up">
+      <div className="relative group">
         <input
           ref={inputRef}
           type="text"
           value={query}
           onChange={handleInputChange}
-          placeholder="Search for a movie or TV show..."
-          className="w-full pl-14 pr-24 py-4 text-lg bg-white dark:bg-gray-800 rounded-full shadow-lg focus:outline-none focus:ring-4 focus:ring-blue-500/20 dark:focus:ring-blue-400/20 transition-all"
+          placeholder="Search movies or TV shows..."
+          className="w-full pl-12 sm:pl-14 pr-20 sm:pr-24 py-3 sm:py-4 text-base sm:text-lg bg-white dark:bg-card text-card-foreground rounded-full shadow-lg shadow-black/10 dark:shadow-black/30 focus:outline-none focus:ring-4 focus:ring-primary/20 transition-all duration-300 placeholder:text-muted-foreground placeholder:text-sm sm:placeholder:text-base border border-muted/50 dark:border-muted hover:border-primary/30 focus:border-primary/50 dark:hover:border-primary/40 dark:focus:border-primary/60"
           autoFocus
         />
 
         {/* Search Icon */}
-        <div className="absolute left-6 top-1/2 -translate-y-1/2 pointer-events-none">
+        <div className="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 pointer-events-none">
           <svg
-            className="w-5 h-5 text-gray-400"
+            className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground transition-colors duration-300 group-focus-within:text-primary"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -94,9 +94,9 @@ export default function SearchBar({ onSearch, isLoading = false }: SearchBarProp
 
         {/* Loading Spinner */}
         {isLoading && (
-          <div className="absolute right-16 top-1/2 -translate-y-1/2">
+          <div className="absolute right-12 sm:right-16 top-1/2 -translate-y-1/2">
             <svg
-              className="animate-spin h-5 w-5 text-gray-400"
+              className="animate-spin h-4 w-4 sm:h-5 sm:w-5 text-primary"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -123,10 +123,10 @@ export default function SearchBar({ onSearch, isLoading = false }: SearchBarProp
           <button
             type="button"
             onClick={handleClear}
-            className="absolute right-6 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+            className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 p-1 sm:p-1.5 rounded-full hover:bg-muted transition-all duration-200 hover:scale-110"
           >
             <svg
-              className="w-5 h-5 text-gray-500"
+              className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground hover:text-foreground transition-colors"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"

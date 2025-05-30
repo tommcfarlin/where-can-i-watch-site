@@ -14,6 +14,9 @@ interface ProviderApiResponse {
   providers: CountryProviders;
 }
 
+// Base64 encoded 1x1 transparent pixel as a lightweight placeholder
+const BLUR_PLACEHOLDER = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k=';
+
 export default function ResultCard({ item }: ResultCardProps) {
   const [providers, setProviders] = useState<ProviderApiResponse | null>(null);
   const [showProviders, setShowProviders] = useState(false);
@@ -22,6 +25,25 @@ export default function ResultCard({ item }: ResultCardProps) {
   const title = isMovieItem(item) ? item.title : item.name;
   const releaseDate = isMovieItem(item) ? item.release_date : item.first_air_date;
   const year = releaseDate ? new Date(releaseDate).getFullYear() : '';
+
+  // Auto-fetch providers on mount for better UX
+  useEffect(() => {
+    const fetchProviders = async () => {
+      try {
+        const response = await fetch(
+          `/api/providers?id=${item.id}&type=${item.media_type}`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setProviders(data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch providers:', error);
+      }
+    };
+
+    fetchProviders();
+  }, [item.id, item.media_type]);
 
   const handleCardClick = async () => {
     if (!showProviders && !providers) {
@@ -50,22 +72,25 @@ export default function ResultCard({ item }: ResultCardProps) {
   ];
 
   return (
-    <div className="group cursor-pointer" onClick={handleCardClick}>
-      <div className="relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow">
+    <div className="group cursor-pointer animate-scale-in" onClick={handleCardClick}>
+      <div className="relative overflow-hidden rounded-xl bg-card shadow-lg shadow-black/5 hover:shadow-xl hover:shadow-black/10 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1">
         {/* Poster */}
-        <div className="aspect-[2/3] relative bg-gray-200 dark:bg-gray-700">
+        <div className="aspect-[2/3] relative bg-muted">
           {item.poster_path ? (
             <Image
               src={`https://image.tmdb.org/t/p/w342${item.poster_path}`}
               alt={title}
               fill
               sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
-              className="object-cover"
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
+              placeholder="blur"
+              blurDataURL={BLUR_PLACEHOLDER}
+              loading="lazy"
             />
           ) : (
             <div className="flex items-center justify-center h-full">
               <svg
-                className="w-20 h-20 text-gray-400"
+                className="w-20 h-20 text-muted-foreground"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -81,32 +106,79 @@ export default function ResultCard({ item }: ResultCardProps) {
           )}
 
           {/* Media Type Badge */}
-          <div className="absolute top-2 left-2">
-            <span className="px-2 py-1 text-xs font-medium bg-black/60 text-white rounded">
-              {item.media_type === 'movie' ? 'Movie' : 'TV Show'}
+          <div className="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <span className="px-2 py-1 text-xs font-medium bg-black/70 backdrop-blur-sm text-white rounded-md">
+              {item.media_type === 'movie' ? '🎬 Movie' : '📺 TV Show'}
             </span>
           </div>
         </div>
 
         {/* Title and Info */}
         <div className="p-3">
-          <h3 className="font-semibold text-sm line-clamp-1 text-gray-900 dark:text-white">
+          <h3 className="font-semibold text-sm line-clamp-1 text-card-foreground">
             {title}
           </h3>
           {year && (
-            <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+            <p className="text-xs text-muted-foreground mt-1">
               {year}
             </p>
+          )}
+
+          {/* Quick Provider Preview */}
+          {providers && allProviders.length > 0 && !showProviders && (
+            <div className="mt-2 flex items-center gap-2">
+              <div className="flex -space-x-2">
+                {allProviders.slice(0, 3).map((provider, index) => (
+                  <div
+                    key={provider.provider_id}
+                    className="relative w-6 h-6 rounded-full overflow-hidden border-2 border-card ring-1 ring-black/5"
+                    style={{ zIndex: 3 - index }}
+                  >
+                    {provider.logo_path ? (
+                      <Image
+                        src={`https://image.tmdb.org/t/p/original${provider.logo_path}`}
+                        alt={provider.provider_name}
+                        fill
+                        sizes="24px"
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-muted" />
+                    )}
+                  </div>
+                ))}
+              </div>
+              {allProviders.length > 3 && (
+                <span className="text-xs text-muted-foreground">
+                  +{allProviders.length - 3} more
+                </span>
+              )}
+              <svg
+                className={`w-4 h-4 text-muted-foreground ml-auto transition-transform duration-300 ${
+                  showProviders ? 'rotate-180' : ''
+                }`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </div>
           )}
         </div>
 
         {/* Providers Section */}
         {showProviders && (
-          <div className="border-t border-gray-200 dark:border-gray-700 p-3">
+          <div className="border-t border-muted p-3 animate-slide-in">
             {isLoadingProviders ? (
               <div className="flex justify-center py-2">
                 <svg
-                  className="animate-spin h-5 w-5 text-gray-400"
+                  className="animate-spin h-5 w-5 text-primary"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -128,7 +200,7 @@ export default function ResultCard({ item }: ResultCardProps) {
               </div>
             ) : allProviders.length > 0 ? (
               <div>
-                <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">
+                <p className="text-xs text-muted-foreground mb-2">
                   Available on:
                 </p>
                 <div className="flex flex-wrap gap-2">
@@ -138,7 +210,7 @@ export default function ResultCard({ item }: ResultCardProps) {
                 </div>
               </div>
             ) : (
-              <p className="text-xs text-gray-500 dark:text-gray-400 text-center py-2">
+              <p className="text-xs text-muted-foreground text-center py-2">
                 Not available for streaming in the US
               </p>
             )}
