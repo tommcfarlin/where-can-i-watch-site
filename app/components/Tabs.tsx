@@ -9,9 +9,9 @@ interface TabsProps {
 
 export default function Tabs({ activeTab, onTabChange, movieCount, tvCount }: TabsProps) {
   const tabs = [
-    { id: 'all', label: 'All', count: movieCount + tvCount },
-    { id: 'movie', label: 'Movies', count: movieCount },
-    { id: 'tv', label: 'TV Shows', count: tvCount },
+    { id: 'tv', label: 'TV Shows', icon: '📺', count: tvCount },
+    { id: 'movie', label: 'Movies', icon: '🎬', count: movieCount },
+    { id: 'all', label: 'All', icon: '🎯', count: movieCount + tvCount },
   ] as const;
 
   return (
@@ -22,7 +22,7 @@ export default function Tabs({ activeTab, onTabChange, movieCount, tvCount }: Ta
             key={tab.id}
             onClick={() => onTabChange(tab.id)}
             className={`
-              py-2 px-1 border-b-2 font-medium text-sm transition-colors
+              py-2 px-1 border-b-2 font-medium text-base transition-colors flex items-center gap-2
               ${
                 activeTab === tab.id
                   ? 'border-blue-500 text-blue-600 dark:text-blue-400'
@@ -30,7 +30,8 @@ export default function Tabs({ activeTab, onTabChange, movieCount, tvCount }: Ta
               }
             `}
           >
-            {tab.label}
+            <span className="text-lg">{tab.icon}</span>
+            <span>{tab.label}</span>
             {tab.count > 0 && (
               <span
                 className={`ml-2 py-0.5 px-2 rounded-full text-xs ${
