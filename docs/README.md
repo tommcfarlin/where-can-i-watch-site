@@ -4,7 +4,7 @@
 
 Where Can I Watch (WCIW) is a simple, fast web application that helps you find which streaming services offer the movie or TV show you want to watch. No more checking multiple apps - just search once and see all your options.
 
-**Live at**: [wciw.tiommcfarlin.com](https://wciw.tommcfarlin.com) *(coming soon)*
+**Live at**: [wciw.tommcfarlin.com](https://wciw.tommcfarlin.com) *(coming soon)*
 
 ## Features
 
