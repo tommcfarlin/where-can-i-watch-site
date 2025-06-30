@@ -2,7 +2,7 @@
 
 A modern, responsive web application that helps you find where to stream your favorite movies and TV shows. Built with Next.js 15 and featuring intelligent search with typo correction.
 
-🔗 **Live Demo**: [wciw.tunelink.io](https://wciw.tunelink.io)
+🔗 **Live Demo**: [wciw.tommcfarlin.com](https://wciw.tommcfarlin.com)
 
 ## ✨ Features
 
@@ -155,7 +155,3 @@ This project is licensed under the MIT License.
 - [TMDB](https://www.themoviedb.org/) for the comprehensive movie/TV database
 - [Vercel](https://vercel.com/) for hosting and deployment
 - [Fuse.js](https://fusejs.io/) for fuzzy search capabilities
-
----
-
-Built with ❤️ by [Your Name]
