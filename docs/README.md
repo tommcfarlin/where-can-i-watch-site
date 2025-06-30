@@ -4,7 +4,7 @@
 
 Where Can I Watch (WCIW) is a simple, fast web application that helps you find which streaming services offer the movie or TV show you want to watch. No more checking multiple apps - just search once and see all your options.
 
-**Live at**: [wciw.tunelink.io](https://wciw.tunelink.io) *(coming soon)*
+**Live at**: [wciw.tiommcfarlin.com](https://wciw.tommcfarlin.com) *(coming soon)*
 
 ## Features
 
@@ -77,22 +77,13 @@ For questions, feedback, or issues:
 - Create an issue on GitHub
 - Visit [tommcfarlin.com](https://tommcfarlin.com)
 
-## API Documentation
+## Documentation
 
-If you're interested in the technical implementation, see:
-- [API Documentation](./API.md)
-- [Setup Guide](./SETUP.md)
-
-### Internal Documentation
-For developers and contributors:
-- [Technical Decisions](./internal/DECISIONS.md)
-- [Session Summaries](./internal/)
-- [Phase 4 Design System](./internal/PHASE4_SESSION_SUMMARY.md)
-- [Future Scope](./internal/FUTURE_SCOPE.md)
+For detailed technical documentation and setup instructions, see the main [project README](../README.md).
 
 ## License
 
-Copyright © 2024. All rights reserved.
+Copyright © 2025. All rights reserved.
 
 ---
 
