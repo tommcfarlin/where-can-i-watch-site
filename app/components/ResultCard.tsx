@@ -74,12 +74,18 @@ export default function ResultCard({ item, providers: externalProviders }: Resul
   };
 
   const usProviders = providers?.providers;
-  const allProviders = [
+  // Combine all providers and deduplicate by provider_id
+  const allProvidersWithDuplicates = [
     ...(usProviders?.flatrate || []),
     ...(usProviders?.free || []),
     ...(usProviders?.buy || []),
     ...(usProviders?.rent || [])
   ];
+
+  // Deduplicate providers by provider_id
+  const allProviders = allProvidersWithDuplicates.filter((provider, index, array) =>
+    array.findIndex(p => p.provider_id === provider.provider_id) === index
+  );
 
   return (
     <div className="group cursor-pointer animate-scale-in" onClick={handleCardClick}>
