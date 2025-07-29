@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import { ExtendedSearchResponse } from '@/types/tmdb';
+import { useState, useMemo, useEffect } from 'react';
+import { ExtendedSearchResponse, CountryProviders } from '@/types/tmdb';
+import { isStreamable } from '@/lib/streaming-detection';
 import ResultCard from './ResultCard';
 import DidYouMean from './DidYouMean';
 import Tabs from './Tabs';
@@ -14,31 +15,81 @@ interface SearchResultsProps {
 
 export default function SearchResults({ results, isLoading, searchQuery }: SearchResultsProps) {
   const [activeTab, setActiveTab] = useState<'all' | 'movie' | 'tv' | 'not-streaming'>('tv');
+  const [providersData, setProvidersData] = useState<Record<string, CountryProviders | null>>({});
+
+  // Fetch providers data for all results
+  useEffect(() => {
+    const fetchAllProviders = async () => {
+      const newProvidersData: Record<string, CountryProviders | null> = {};
+
+      // Fetch providers for each result
+      const promises = results.results.map(async (item) => {
+        const key = `${item.media_type}-${item.id}`;
+        try {
+          const response = await fetch(
+            `/api/providers?id=${item.id}&type=${item.media_type}`
+          );
+          if (response.ok) {
+            const data = await response.json();
+            newProvidersData[key] = data.providers;
+          } else {
+            newProvidersData[key] = null;
+          }
+        } catch (error) {
+          console.error(`Failed to fetch providers for ${key}:`, error);
+          newProvidersData[key] = null;
+        }
+      });
+
+      await Promise.all(promises);
+      setProvidersData(newProvidersData);
+    };
+
+    if (results.results.length > 0) {
+      fetchAllProviders();
+    }
+  }, [results.results]);
 
   // Calculate counts for each media type including streaming status
   const { movieCount, tvCount, notStreamingCount, filteredResults } = useMemo(() => {
-    // For now, treat all results as streaming until we implement the streaming detection logic
-    // This will be updated in Task 3.2
-    const movies = results.results.filter(item => item.media_type === 'movie');
-    const tvShows = results.results.filter(item => item.media_type === 'tv');
-    const notStreaming: any[] = []; // Placeholder - will be implemented in next task
+    // Helper function to get providers for an item
+    const getItemProviders = (item: any) => {
+      const key = `${item.media_type}-${item.id}`;
+      return providersData[key] || null;
+    };
 
-    let filtered = results.results;
+    // Categorize all results by media type and streaming status
+    const allStreaming = results.results.filter(item => {
+      const providers = getItemProviders(item);
+      return isStreamable(providers, 'US');
+    });
+
+    const allNotStreaming = results.results.filter(item => {
+      const providers = getItemProviders(item);
+      return !isStreamable(providers, 'US');
+    });
+
+    // Filter streaming results by media type
+    const streamingMovies = allStreaming.filter(item => item.media_type === 'movie');
+    const streamingTVShows = allStreaming.filter(item => item.media_type === 'tv');
+
+    // Determine filtered results based on active tab
+    let filtered = allStreaming; // Default to all streaming content
     if (activeTab === 'movie') {
-      filtered = movies;
+      filtered = streamingMovies;
     } else if (activeTab === 'tv') {
-      filtered = tvShows;
+      filtered = streamingTVShows;
     } else if (activeTab === 'not-streaming') {
-      filtered = notStreaming;
+      filtered = allNotStreaming;
     }
 
     return {
-      movieCount: movies.length,
-      tvCount: tvShows.length,
-      notStreamingCount: notStreaming.length,
+      movieCount: streamingMovies.length,
+      tvCount: streamingTVShows.length,
+      notStreamingCount: allNotStreaming.length,
       filteredResults: filtered,
     };
-  }, [results.results, activeTab]);
+  }, [results.results, activeTab, providersData]);
 
   const hasResults = results.results && results.results.length > 0;
 
@@ -97,9 +148,17 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
         <>
           {filteredResults.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-              {filteredResults.map((item) => (
-                <ResultCard key={item.id} item={item} />
-              ))}
+              {filteredResults.map((item) => {
+                const key = `${item.media_type}-${item.id}`;
+                const itemProviders = providersData[key];
+                return (
+                  <ResultCard
+                    key={item.id}
+                    item={item}
+                    providers={itemProviders}
+                  />
+                );
+              })}
             </div>
           ) : (
             <div className="text-center py-12">

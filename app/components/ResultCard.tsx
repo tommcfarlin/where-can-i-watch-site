@@ -7,6 +7,7 @@ import ProviderBadge from './ProviderBadge';
 
 interface ResultCardProps {
   item: SearchResultItem;
+  providers?: CountryProviders | null; // Optional: if provided, skip API fetch
 }
 
 interface ProviderApiResponse {
@@ -17,7 +18,7 @@ interface ProviderApiResponse {
 // Base64 encoded 1x1 transparent pixel as a lightweight placeholder
 const BLUR_PLACEHOLDER = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k=';
 
-export default function ResultCard({ item }: ResultCardProps) {
+export default function ResultCard({ item, providers: externalProviders }: ResultCardProps) {
   const [providers, setProviders] = useState<ProviderApiResponse | null>(null);
   const [showProviders, setShowProviders] = useState(false);
   const [isLoadingProviders, setIsLoadingProviders] = useState(false);
@@ -26,8 +27,14 @@ export default function ResultCard({ item }: ResultCardProps) {
   const releaseDate = isMovieItem(item) ? item.release_date : item.first_air_date;
   const year = releaseDate ? new Date(releaseDate).getFullYear() : '';
 
-  // Auto-fetch providers on mount for better UX
+  // Auto-fetch providers on mount for better UX (only if not provided externally)
   useEffect(() => {
+    if (externalProviders !== undefined) {
+      // Use externally provided providers data
+      setProviders(externalProviders ? { id: item.id, providers: externalProviders } : null);
+      return;
+    }
+
     const fetchProviders = async () => {
       try {
         const response = await fetch(
@@ -43,7 +50,7 @@ export default function ResultCard({ item }: ResultCardProps) {
     };
 
     fetchProviders();
-  }, [item.id, item.media_type]);
+  }, [item.id, item.media_type, externalProviders]);
 
   const handleCardClick = async () => {
     if (!showProviders && !providers) {
