@@ -28,7 +28,7 @@ export default function ProviderBadge({ provider }: ProviderBadgeProps) {
 
   // Fallback to text if no logo
   return (
-    <span className="inline-block px-3 py-1 text-xs font-medium bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full">
+          <span className="inline-block px-3 py-1 text-xs font-medium bg-gray-700 text-gray-300 rounded-full">
       {provider.provider_name}
     </span>
   );
