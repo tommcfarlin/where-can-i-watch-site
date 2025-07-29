@@ -120,14 +120,7 @@ export default function ResultCard({ item, providers: externalProviders }: Resul
             </span>
           </div>
 
-                    {/* External Links */}
-          <div className="absolute top-2 right-2 opacity-80 hover:opacity-100 transition-opacity duration-300 z-10">
-            <ExternalLinks
-              id={item.id}
-              mediaType={item.media_type}
-              className="drop-shadow-sm"
-            />
-          </div>
+
         </div>
 
         {/* Title and Info */}
@@ -231,6 +224,15 @@ export default function ResultCard({ item, providers: externalProviders }: Resul
                 Not available for streaming in the US
               </p>
             )}
+
+            {/* External Links */}
+            <div className="mt-3 pt-3 border-t border-muted">
+              <ExternalLinks
+                id={item.id}
+                mediaType={item.media_type}
+                className="inline-display"
+              />
+            </div>
           </div>
         )}
       </div>

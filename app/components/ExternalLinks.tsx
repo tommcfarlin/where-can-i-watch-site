@@ -85,13 +85,52 @@ export default function ExternalLinks({ id, mediaType, className = '' }: Externa
     }
   };
 
+    const isInlineDisplay = className.includes('inline-display');
+
+  if (isInlineDisplay) {
+    // Inline display for below providers
+    return (
+      <div className={`flex items-center gap-3 text-sm ${className.replace('inline-display', '')}`}>
+        {externalLinks.map((link) => (
+          <button
+            key={link.name}
+            onClick={() => handleLinkClick(link.url, link.name)}
+            className="
+              flex items-center gap-2
+              text-muted-foreground hover:text-foreground
+              transition-colors duration-200
+              focus:outline-none focus:ring-2 focus:ring-primary/50
+              rounded-md px-1
+            "
+            title={`View on ${link.name}`}
+            aria-label={`View on ${link.name}`}
+          >
+            <img
+              src="https://www.imdb.com/favicon.ico"
+              alt="IMDb"
+              className="w-4 h-4"
+              onError={(e) => {
+                // Fallback to emoji if favicon fails to load
+                e.currentTarget.style.display = 'none';
+                e.currentTarget.nextElementSibling!.style.display = 'inline';
+              }}
+            />
+            <span className="hidden text-lg">{link.icon}</span>
+            <span className="font-medium">View on {link.name}</span>
+          </button>
+        ))}
+      </div>
+    );
+  }
+
+  // Original icon display for other uses
   return (
     <div className={`flex gap-1 ${className}`}>
       {externalLinks.map((link) => (
         <button
           key={link.name}
           onClick={() => handleLinkClick(link.url, link.name)}
-                    className="
+          className="
             flex items-center justify-center
             w-8 h-8 sm:w-7 sm:h-7 md:w-8 md:h-8
             bg-card hover:bg-muted
