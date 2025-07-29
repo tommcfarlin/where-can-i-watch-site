@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Footer from "./components/Footer";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -33,10 +34,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${geistMono.variable} font-sans antialiased`}
+        className={`${inter.variable} ${geistMono.variable} font-sans antialiased min-h-screen flex flex-col`}
         suppressHydrationWarning
       >
-        {children}
+        <main className="flex-1">
+          {children}
+        </main>
+        <Footer />
       </body>
     </html>
   );
