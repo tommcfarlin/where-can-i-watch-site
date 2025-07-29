@@ -17,27 +17,27 @@ export default function DidYouMean({ suggestion, confidence, searchQuery }: DidY
   };
 
   return (
-    <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+    <div className="mb-6 p-4 bg-card rounded-lg border border-muted">
       <p className="text-sm">
-        <span className="text-gray-700 dark:text-gray-300">
+        <span className="text-muted-foreground">
           Showing results for
         </span>
-        <span className="font-semibold text-blue-700 dark:text-blue-300 mx-1">
+        <span className="font-semibold text-foreground mx-1">
           &ldquo;{suggestion}&rdquo;
         </span>
-        <span className="text-gray-700 dark:text-gray-300">
+        <span className="text-muted-foreground">
           instead of &ldquo;{searchQuery}&rdquo;
         </span>
       </p>
 
       <div className="flex items-center gap-4 mt-2">
-        <p className="text-xs text-gray-600 dark:text-gray-400">
+        <p className="text-xs text-muted-foreground">
           ({Math.round(confidence * 100)}% confidence)
         </p>
 
         <button
           onClick={handleClick}
-          className="text-xs text-blue-600 dark:text-blue-400 hover:underline"
+          className="text-xs text-muted-foreground hover:text-foreground hover:underline transition-colors"
         >
           Search for &ldquo;{searchQuery}&rdquo; instead
         </button>

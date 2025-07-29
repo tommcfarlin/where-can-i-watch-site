@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import { ExtendedSearchResponse } from '@/types/tmdb';
+import { useState, useMemo, useEffect } from 'react';
+import { ExtendedSearchResponse, CountryProviders } from '@/types/tmdb';
+import { isStreamable } from '@/lib/streaming-detection';
 import ResultCard from './ResultCard';
 import DidYouMean from './DidYouMean';
 import Tabs from './Tabs';
@@ -13,26 +14,111 @@ interface SearchResultsProps {
 }
 
 export default function SearchResults({ results, isLoading, searchQuery }: SearchResultsProps) {
-  const [activeTab, setActiveTab] = useState<'all' | 'movie' | 'tv'>('tv');
+  const [activeTab, setActiveTab] = useState<'all' | 'movie' | 'tv' | 'not-streaming'>('tv');
+  const [providersData, setProvidersData] = useState<Record<string, CountryProviders | null>>({});
+  const [isLoadingProviders, setIsLoadingProviders] = useState(false);
 
-  // Calculate counts for each media type
-  const { movieCount, tvCount, filteredResults } = useMemo(() => {
-    const movies = results.results.filter(item => item.media_type === 'movie');
-    const tvShows = results.results.filter(item => item.media_type === 'tv');
+    // Fetch providers data for all results using batch API
+  useEffect(() => {
+    const fetchAllProviders = async () => {
+      if (results.results.length === 0) {
+        setIsLoadingProviders(false);
+        return;
+      }
 
-    let filtered = results.results;
+      setIsLoadingProviders(true);
+      try {
+        // Prepare batch request
+        const items = results.results.map(item => ({
+          id: item.id,
+          media_type: item.media_type,
+        }));
+
+        // Make batch request
+        const response = await fetch('/api/providers/batch', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ items }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Batch providers request failed');
+        }
+
+        const data = await response.json();
+        const newProvidersData: Record<string, CountryProviders | null> = {};
+
+        // Process batch response
+        data.results?.forEach((result: any) => {
+          const key = `${result.media_type}-${result.id}`;
+          newProvidersData[key] = result.providers;
+        });
+
+        setProvidersData(newProvidersData);
+      } catch (error) {
+        console.error('Failed to fetch providers batch:', error);
+        // Fallback to empty providers data
+        setProvidersData({});
+      } finally {
+        setIsLoadingProviders(false);
+      }
+    };
+
+    fetchAllProviders();
+  }, [results.results]);
+
+  // Calculate counts for each media type including streaming status
+  const { movieCount, tvCount, notStreamingCount, filteredResults } = useMemo(() => {
+    // Don't filter until providers data is loaded
+    if (isLoadingProviders || Object.keys(providersData).length === 0) {
+      return {
+        movieCount: 0,
+        tvCount: 0,
+        notStreamingCount: 0,
+        filteredResults: [],
+      };
+    }
+
+    // Helper function to get providers for an item
+    const getItemProviders = (item: any) => {
+      const key = `${item.media_type}-${item.id}`;
+      return providersData[key] || null;
+    };
+
+    // Categorize all results by media type and streaming status
+    const allStreaming = results.results.filter(item => {
+      const providers = getItemProviders(item);
+      return isStreamable(providers, 'US');
+    });
+
+    const allNotStreaming = results.results.filter(item => {
+      const providers = getItemProviders(item);
+      return !isStreamable(providers, 'US');
+    });
+
+    // Filter streaming results by media type
+    const streamingMovies = allStreaming.filter(item => item.media_type === 'movie');
+    const streamingTVShows = allStreaming.filter(item => item.media_type === 'tv');
+
+    // Determine filtered results based on active tab
+    let filtered = allStreaming; // Default to all streaming content
     if (activeTab === 'movie') {
-      filtered = movies;
+      filtered = streamingMovies;
     } else if (activeTab === 'tv') {
-      filtered = tvShows;
+      filtered = streamingTVShows;
+    } else if (activeTab === 'not-streaming') {
+      filtered = allNotStreaming;
     }
 
     return {
-      movieCount: movies.length,
-      tvCount: tvShows.length,
+      movieCount: streamingMovies.length,
+      tvCount: streamingTVShows.length,
+      notStreamingCount: allNotStreaming.length,
       filteredResults: filtered,
     };
-  }, [results.results, activeTab]);
+  }, [results.results, activeTab, providersData, isLoadingProviders]);
 
   const hasResults = results.results && results.results.length > 0;
 
@@ -49,12 +135,12 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
 
       {/* Franchise Detection Notice */}
       {(results as ExtendedSearchResponse & { detectedFranchise?: string }).detectedFranchise && (
-        <div className="mb-6 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-200 dark:border-purple-800">
+                <div className="mb-6 p-4 bg-card rounded-lg border border-muted">
           <p className="text-sm">
-            <span className="font-semibold text-purple-700 dark:text-purple-300">
+            <span className="font-semibold text-foreground">
               🎬 Franchise detected!
             </span>
-            <span className="text-gray-700 dark:text-gray-300 ml-2">
+            <span className="text-muted-foreground ml-2">
               Showing additional {(results as ExtendedSearchResponse & { detectedFranchise?: string }).detectedFranchise} universe content that might not contain &ldquo;{searchQuery}&rdquo; in the title.
             </span>
           </p>
@@ -62,62 +148,77 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
       )}
 
       {/* Tabs for filtering */}
-      {hasResults && !isLoading && (
+      {hasResults && !isLoading && !isLoadingProviders && (
         <Tabs
           activeTab={activeTab}
           onTabChange={setActiveTab}
           movieCount={movieCount}
           tvCount={tvCount}
+          notStreamingCount={notStreamingCount}
         />
       )}
 
-      {/* Empty state for specific tabs */}
-      {activeTab !== 'all' && filteredResults.length === 0 && results.results.length > 0 && (
-        <div className="text-center py-12">
-          <p className="text-gray-500 dark:text-gray-400 mb-4">
-            No {activeTab === 'tv' ? 'TV shows' : 'movies'} found for &ldquo;{searchQuery}&rdquo;
-          </p>
-          <button
-            onClick={() => setActiveTab('all')}
-            className="text-primary hover:underline"
-          >
-            View all results
-          </button>
-        </div>
-      )}
+
 
       {/* General empty state */}
       {results.results.length === 0 && !isLoading && (
         <div className="text-center py-12">
-          <p className="text-gray-500 dark:text-gray-400">
+          <p className="text-muted-foreground">
             No results found for &ldquo;{searchQuery}&rdquo;
           </p>
-          <p className="text-sm text-gray-400 dark:text-gray-500 mt-2">
+          <p className="text-sm text-muted-foreground/70 mt-2">
             Try checking your spelling or using different keywords
           </p>
         </div>
       )}
 
+      {/* Loading providers state */}
+      {hasResults && !isLoading && isLoadingProviders && (
+        <div className="text-center py-8">
+          <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+          <p className="text-sm text-muted-foreground mt-2">Loading streaming availability...</p>
+        </div>
+      )}
+
       {/* Results Grid */}
-      {hasResults && !isLoading && (
+      {hasResults && !isLoading && !isLoadingProviders && (
         <>
           {filteredResults.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-              {filteredResults.map((item) => (
-                <ResultCard key={item.id} item={item} />
-              ))}
+              {filteredResults.map((item) => {
+                const key = `${item.media_type}-${item.id}`;
+                const itemProviders = providersData[key];
+                return (
+                  <ResultCard
+                    key={item.id}
+                    item={item}
+                    providers={itemProviders}
+                  />
+                );
+              })}
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-gray-500 dark:text-gray-400">
-                {activeTab === 'movie'
-                  ? `No movies found for &ldquo;${searchQuery}&rdquo;`
-                  : `No TV shows found for &ldquo;${searchQuery}&rdquo;`
-                }
+              <p className="text-muted-foreground">
+                {activeTab === 'movie' && `No movies found for "${searchQuery}"`}
+                {activeTab === 'tv' && `No TV shows found for "${searchQuery}"`}
+                {activeTab === 'not-streaming' && `No non-streaming content found for "${searchQuery}"`}
+                {activeTab === 'all' && `No results found for "${searchQuery}"`}
               </p>
-              <p className="text-sm text-gray-400 dark:text-gray-500 mt-2">
-                Try switching to the {activeTab === 'movie' ? 'TV Shows' : 'Movies'} tab
+              <p className="text-sm text-muted-foreground/70 mt-2">
+                {activeTab === 'movie' && 'Try switching to the TV Shows tab'}
+                {activeTab === 'tv' && 'Try switching to the Movies tab'}
+                {activeTab === 'not-streaming' && 'Try switching to the All tab'}
+                {activeTab === 'all' && 'Try checking your spelling or using different keywords'}
               </p>
+              {activeTab !== 'all' && (
+                <button
+                  onClick={() => setActiveTab('all')}
+                  className="mt-4 text-muted-foreground hover:text-foreground hover:underline transition-colors"
+                >
+                  View all results
+                </button>
+              )}
             </div>
           )}
         </>
@@ -131,9 +232,9 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
               key={i}
               className="animate-pulse"
             >
-              <div className="aspect-[2/3] bg-gray-200 dark:bg-gray-700 rounded-lg" />
-              <div className="mt-2 h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4" />
-              <div className="mt-1 h-3 bg-gray-200 dark:bg-gray-700 rounded w-1/2" />
+                      <div className="aspect-[2/3] bg-muted rounded-lg" />
+        <div className="mt-2 h-4 bg-muted rounded w-3/4" />
+        <div className="mt-1 h-3 bg-muted rounded w-1/2" />
             </div>
           ))}
         </div>

@@ -4,9 +4,11 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { SearchResultItem, isMovieItem, CountryProviders } from '@/types/tmdb';
 import ProviderBadge from './ProviderBadge';
+import ExternalLinks from './ExternalLinks';
 
 interface ResultCardProps {
   item: SearchResultItem;
+  providers?: CountryProviders | null; // Optional: if provided, skip API fetch
 }
 
 interface ProviderApiResponse {
@@ -17,7 +19,7 @@ interface ProviderApiResponse {
 // Base64 encoded 1x1 transparent pixel as a lightweight placeholder
 const BLUR_PLACEHOLDER = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k=';
 
-export default function ResultCard({ item }: ResultCardProps) {
+export default function ResultCard({ item, providers: externalProviders }: ResultCardProps) {
   const [providers, setProviders] = useState<ProviderApiResponse | null>(null);
   const [showProviders, setShowProviders] = useState(false);
   const [isLoadingProviders, setIsLoadingProviders] = useState(false);
@@ -26,8 +28,14 @@ export default function ResultCard({ item }: ResultCardProps) {
   const releaseDate = isMovieItem(item) ? item.release_date : item.first_air_date;
   const year = releaseDate ? new Date(releaseDate).getFullYear() : '';
 
-  // Auto-fetch providers on mount for better UX
+  // Auto-fetch providers on mount for better UX (only if not provided externally)
   useEffect(() => {
+    if (externalProviders !== undefined) {
+      // Use externally provided providers data
+      setProviders(externalProviders ? { id: item.id, providers: externalProviders } : null);
+      return;
+    }
+
     const fetchProviders = async () => {
       try {
         const response = await fetch(
@@ -43,7 +51,7 @@ export default function ResultCard({ item }: ResultCardProps) {
     };
 
     fetchProviders();
-  }, [item.id, item.media_type]);
+  }, [item.id, item.media_type, externalProviders]);
 
   const handleCardClick = async () => {
     if (!showProviders && !providers) {
@@ -66,14 +74,22 @@ export default function ResultCard({ item }: ResultCardProps) {
   };
 
   const usProviders = providers?.providers;
-  const allProviders = [
+  // Combine all providers and deduplicate by provider_id
+  const allProvidersWithDuplicates = [
     ...(usProviders?.flatrate || []),
-    ...(usProviders?.free || [])
+    ...(usProviders?.free || []),
+    ...(usProviders?.buy || []),
+    ...(usProviders?.rent || [])
   ];
+
+  // Deduplicate providers by provider_id
+  const allProviders = allProvidersWithDuplicates.filter((provider, index, array) =>
+    array.findIndex(p => p.provider_id === provider.provider_id) === index
+  );
 
   return (
     <div className="group cursor-pointer animate-scale-in" onClick={handleCardClick}>
-      <div className="relative overflow-hidden rounded-xl bg-card shadow-lg shadow-black/5 hover:shadow-xl hover:shadow-black/10 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1">
+      <div className="relative overflow-hidden rounded-lg bg-card border border-muted hover:border-muted-foreground transition-all duration-200">
         {/* Poster */}
         <div className="aspect-[2/3] relative bg-muted">
           {item.poster_path ? (
@@ -111,6 +127,8 @@ export default function ResultCard({ item }: ResultCardProps) {
               {item.media_type === 'movie' ? '🎬 Movie' : '📺 TV Show'}
             </span>
           </div>
+
+
         </div>
 
         {/* Title and Info */}
@@ -214,6 +232,15 @@ export default function ResultCard({ item }: ResultCardProps) {
                 Not available for streaming in the US
               </p>
             )}
+
+            {/* External Links */}
+            <div className="mt-3 pt-3 border-t border-muted">
+              <ExternalLinks
+                id={item.id}
+                mediaType={item.media_type}
+                className="inline-display"
+              />
+            </div>
           </div>
         )}
       </div>

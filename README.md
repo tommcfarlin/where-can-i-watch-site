@@ -15,15 +15,16 @@ A modern, responsive web application that helps you find where to stream your fa
 ### User Experience
 - **Lightning Fast**: Optimized API calls with intelligent caching
 - **Mobile First**: Fully responsive design that works beautifully on all devices
-- **Dark Mode**: Smart theme switching that respects OS preferences
-- **Filter Tabs**: Easily filter between TV Shows, Movies, or see All results
-- **Provider Preview**: See top 3 streaming providers directly on search results
+- **Permanent Dark Mode**: Clean Vercel-inspired dark theme for optimal viewing
+- **Smart Filtering**: Filter between TV Shows, Movies, All results, or Not Streaming content
+- **Provider Preview**: See streaming providers directly on search results
+- **External Links**: Direct access to IMDB pages for movies and TV shows
 
 ### Design
-- **Modern UI**: Clean, Google-inspired search interface
+- **Modern UI**: Clean, Vercel-inspired dark interface
 - **Smooth Animations**: Subtle transitions for a polished feel
-- **Accessibility**: WCAG compliant with proper focus states
-- **Beautiful Colors**: Warm teal/blue-green theme that's easy on the eyes
+- **Accessibility**: WCAG compliant with proper focus states and motion preferences
+- **Minimalist Aesthetic**: Pure blacks, clean whites, and subtle gray accents
 
 ## 🛠 Tech Stack
 
@@ -87,15 +88,17 @@ npm run dev
 ## 🎨 Design System
 
 ### Colors
-- **Primary**: Teal (`hsl(173 58% 39%)`)
-- **Background**: Warm whites/deep blues
-- **Cards**: Distinct from background for clarity
+- **Background**: Pure black (`hsl(0 0% 0%)`)
+- **Foreground**: Clean white (`hsl(0 0% 100%)`)
+- **Cards**: Subtle dark gray for contrast
+- **Accents**: Minimal blue highlights for links
 
 ### Features
 - Responsive breakpoints: mobile, tablet, desktop
-- Dark mode with OS sync and persistence
+- Permanent dark mode with Vercel aesthetic
 - Smooth transitions and hover states
 - Consistent spacing and typography
+- Motion-reduced animations for accessibility
 
 ## 🧪 Key Features Explained
 
@@ -113,19 +116,26 @@ Automatically expands searches for major franchises:
 - Lord of the Rings → includes The Hobbit
 - Game of Thrones → includes House of the Dragon
 
-### Dark Mode
-Intelligent theme management:
-- Detects OS preference on first visit
-- Syncs with OS theme changes in real-time
-- Remembers manual preference
-- Smooth transitions between themes
+### External Integration
+Direct access to additional content information:
+- IMDB links with proper validation and error handling
+- Favicon integration with emoji fallbacks
+- Opens in new tabs for seamless browsing experience
+
+### Streaming Detection
+Advanced content filtering:
+- Differentiates between streaming, purchase, and rental options
+- Separates truly unavailable content into "Not Streaming" tab
+- Batch API optimization for faster provider data loading
+- Intelligent caching to reduce redundant API calls
 
 ## 📊 Performance
 
 - **Fast Initial Load**: Optimized bundle size
 - **Image Optimization**: Lazy loading with blur placeholders
-- **API Efficiency**: Debounced search, parallel provider fetching
-- **Caching**: Popular titles cached for instant fuzzy search
+- **API Efficiency**: Batch provider fetching, debounced external ID requests
+- **Caching**: Popular titles and provider data cached for instant results
+- **Smart Loading**: Provider data fetched after search results for better UX
 
 ## 🔐 Security
 

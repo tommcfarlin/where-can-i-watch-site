@@ -5,11 +5,11 @@ module.exports = {
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
-  darkMode: 'class',
+  darkMode: 'class', // Keep for compatibility but always use dark
   theme: {
     extend: {
       colors: {
-        // Warm neutrals instead of pure black/white
+        // Vercel-inspired color system
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
@@ -32,18 +32,24 @@ module.exports = {
           DEFAULT: 'hsl(var(--accent))',
           foreground: 'hsl(var(--accent-foreground))',
         },
-        // Your purple for franchise detection
-        purple: {
-          50: '#faf5ff',
-          100: '#f3e8ff',
-          200: '#e9d5ff',
-          300: '#d8b4fe',
-          400: '#c084fc',
-          500: '#a855f7',
-          600: '#9333ea',
-          700: '#7e22ce',
-          800: '#6b21a8',
-          900: '#581c87',
+        // Vercel accent color for minimal usage
+        'vercel-blue': '#0070f3',
+        // Minimal color palette
+        blue: {
+          500: '#0070f3', // Vercel blue for rare accents
+        },
+        // Additional grays following Vercel's system
+        gray: {
+          50: '#fafafa',
+          100: '#f5f5f5',
+          200: '#eeeeee',
+          300: '#e0e0e0',
+          400: '#bdbdbd',
+          500: '#9e9e9e',
+          600: '#757575',
+          700: '#616161',
+          800: '#424242',
+          900: '#212121',
         },
       },
       fontFamily: {
