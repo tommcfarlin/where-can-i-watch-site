@@ -78,22 +78,7 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
         />
       )}
 
-      {/* Empty state for specific tabs */}
-      {activeTab !== 'all' && filteredResults.length === 0 && results.results.length > 0 && (
-        <div className="text-center py-12">
-          <p className="text-muted-foreground mb-4">
-            {activeTab === 'tv' && `No TV shows found for "${searchQuery}"`}
-            {activeTab === 'movie' && `No movies found for "${searchQuery}"`}
-            {activeTab === 'not-streaming' && `No non-streaming content found for "${searchQuery}"`}
-          </p>
-          <button
-            onClick={() => setActiveTab('all')}
-            className="text-muted-foreground hover:text-foreground hover:underline transition-colors"
-          >
-            View all results
-          </button>
-        </div>
-      )}
+
 
       {/* General empty state */}
       {results.results.length === 0 && !isLoading && (
@@ -130,6 +115,14 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
                 {activeTab === 'not-streaming' && 'Try switching to the All tab'}
                 {activeTab === 'all' && 'Try checking your spelling or using different keywords'}
               </p>
+              {activeTab !== 'all' && (
+                <button
+                  onClick={() => setActiveTab('all')}
+                  className="mt-4 text-muted-foreground hover:text-foreground hover:underline transition-colors"
+                >
+                  View all results
+                </button>
+              )}
             </div>
           )}
         </>
