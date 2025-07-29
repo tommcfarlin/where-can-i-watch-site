@@ -105,14 +105,17 @@ export default function ExternalLinks({ id, mediaType, className = '' }: Externa
             title={`View on ${link.name}`}
             aria-label={`View on ${link.name}`}
           >
-            <img
+                        <img
               src="https://www.imdb.com/favicon.ico"
               alt="IMDb"
               className="w-4 h-4"
               onError={(e) => {
                 // Fallback to emoji if favicon fails to load
                 e.currentTarget.style.display = 'none';
-                e.currentTarget.nextElementSibling!.style.display = 'inline';
+                const fallbackSpan = e.currentTarget.nextElementSibling as HTMLElement;
+                if (fallbackSpan) {
+                  fallbackSpan.style.display = 'inline';
+                }
               }}
             />
             <span className="hidden text-lg">{link.icon}</span>
