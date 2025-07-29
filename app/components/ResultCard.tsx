@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { SearchResultItem, isMovieItem, CountryProviders } from '@/types/tmdb';
 import ProviderBadge from './ProviderBadge';
+import ExternalLinks from './ExternalLinks';
 
 interface ResultCardProps {
   item: SearchResultItem;
@@ -117,6 +118,15 @@ export default function ResultCard({ item, providers: externalProviders }: Resul
             <span className="px-2 py-1 text-xs font-medium bg-black/70 backdrop-blur-sm text-white rounded-md">
               {item.media_type === 'movie' ? '🎬 Movie' : '📺 TV Show'}
             </span>
+          </div>
+
+          {/* External Links */}
+          <div className="absolute top-2 right-2 opacity-80 hover:opacity-100 transition-opacity duration-300">
+            <ExternalLinks
+              id={item.id}
+              mediaType={item.media_type}
+              className="drop-shadow-sm"
+            />
           </div>
         </div>
 
