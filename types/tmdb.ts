@@ -200,6 +200,21 @@ export function isTMDBError(response: unknown): response is TMDBError {
     !('results' in response);
 }
 
+// External IDs response
+export interface ExternalIds {
+  id: number;
+  imdb_id: string | null;
+  facebook_id: string | null;
+  instagram_id: string | null;
+  twitter_id: string | null;
+  wikidata_id: string | null;
+  // TV-specific IDs
+  tvdb_id?: number | null;
+  // Additional IDs that might be available
+  tiktok_id?: string | null;
+  youtube_id?: string | null;
+}
+
 // Extended search response with fuzzy search features
 export interface ExtendedSearchResponse extends SearchMultiResponse {
   suggestion: {

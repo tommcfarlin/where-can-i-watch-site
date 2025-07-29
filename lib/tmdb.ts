@@ -1,6 +1,7 @@
 import {
   SearchMultiResponse,
   WatchProvidersResponse,
+  ExternalIds,
   isTMDBError,
   MediaType,
   MovieItem,
