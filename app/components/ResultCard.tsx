@@ -76,7 +76,9 @@ export default function ResultCard({ item, providers: externalProviders }: Resul
   const usProviders = providers?.providers;
   const allProviders = [
     ...(usProviders?.flatrate || []),
-    ...(usProviders?.free || [])
+    ...(usProviders?.free || []),
+    ...(usProviders?.buy || []),
+    ...(usProviders?.rent || [])
   ];
 
   return (
