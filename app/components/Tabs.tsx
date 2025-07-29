@@ -1,17 +1,19 @@
 'use client';
 
 interface TabsProps {
-  activeTab: 'all' | 'movie' | 'tv';
-  onTabChange: (tab: 'all' | 'movie' | 'tv') => void;
+  activeTab: 'all' | 'movie' | 'tv' | 'not-streaming';
+  onTabChange: (tab: 'all' | 'movie' | 'tv' | 'not-streaming') => void;
   movieCount: number;
   tvCount: number;
+  notStreamingCount: number;
 }
 
-export default function Tabs({ activeTab, onTabChange, movieCount, tvCount }: TabsProps) {
+export default function Tabs({ activeTab, onTabChange, movieCount, tvCount, notStreamingCount }: TabsProps) {
   const tabs = [
     { id: 'tv', label: 'TV Shows', icon: '📺', count: tvCount },
     { id: 'movie', label: 'Movies', icon: '🎬', count: movieCount },
     { id: 'all', label: 'All', icon: '🎯', count: movieCount + tvCount },
+    { id: 'not-streaming', label: 'Not Streaming', icon: '⚠️', count: notStreamingCount },
   ] as const;
 
   return (

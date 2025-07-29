@@ -13,23 +13,29 @@ interface SearchResultsProps {
 }
 
 export default function SearchResults({ results, isLoading, searchQuery }: SearchResultsProps) {
-  const [activeTab, setActiveTab] = useState<'all' | 'movie' | 'tv'>('tv');
+  const [activeTab, setActiveTab] = useState<'all' | 'movie' | 'tv' | 'not-streaming'>('tv');
 
-  // Calculate counts for each media type
-  const { movieCount, tvCount, filteredResults } = useMemo(() => {
+  // Calculate counts for each media type including streaming status
+  const { movieCount, tvCount, notStreamingCount, filteredResults } = useMemo(() => {
+    // For now, treat all results as streaming until we implement the streaming detection logic
+    // This will be updated in Task 3.2
     const movies = results.results.filter(item => item.media_type === 'movie');
     const tvShows = results.results.filter(item => item.media_type === 'tv');
+    const notStreaming: any[] = []; // Placeholder - will be implemented in next task
 
     let filtered = results.results;
     if (activeTab === 'movie') {
       filtered = movies;
     } else if (activeTab === 'tv') {
       filtered = tvShows;
+    } else if (activeTab === 'not-streaming') {
+      filtered = notStreaming;
     }
 
     return {
       movieCount: movies.length,
       tvCount: tvShows.length,
+      notStreamingCount: notStreaming.length,
       filteredResults: filtered,
     };
   }, [results.results, activeTab]);
@@ -68,18 +74,21 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
           onTabChange={setActiveTab}
           movieCount={movieCount}
           tvCount={tvCount}
+          notStreamingCount={notStreamingCount}
         />
       )}
 
       {/* Empty state for specific tabs */}
       {activeTab !== 'all' && filteredResults.length === 0 && results.results.length > 0 && (
         <div className="text-center py-12">
-                  <p className="text-muted-foreground mb-4">
-          No {activeTab === 'tv' ? 'TV shows' : 'movies'} found for &ldquo;{searchQuery}&rdquo;
-        </p>
+          <p className="text-muted-foreground mb-4">
+            {activeTab === 'tv' && `No TV shows found for "${searchQuery}"`}
+            {activeTab === 'movie' && `No movies found for "${searchQuery}"`}
+            {activeTab === 'not-streaming' && `No non-streaming content found for "${searchQuery}"`}
+          </p>
           <button
             onClick={() => setActiveTab('all')}
-            className="text-primary hover:underline"
+            className="text-muted-foreground hover:text-foreground hover:underline transition-colors"
           >
             View all results
           </button>
@@ -110,13 +119,16 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
           ) : (
             <div className="text-center py-12">
               <p className="text-muted-foreground">
-                {activeTab === 'movie'
-                  ? `No movies found for &ldquo;${searchQuery}&rdquo;`
-                  : `No TV shows found for &ldquo;${searchQuery}&rdquo;`
-                }
+                {activeTab === 'movie' && `No movies found for "${searchQuery}"`}
+                {activeTab === 'tv' && `No TV shows found for "${searchQuery}"`}
+                {activeTab === 'not-streaming' && `No non-streaming content found for "${searchQuery}"`}
+                {activeTab === 'all' && `No results found for "${searchQuery}"`}
               </p>
               <p className="text-sm text-muted-foreground/70 mt-2">
-                Try switching to the {activeTab === 'movie' ? 'TV Shows' : 'Movies'} tab
+                {activeTab === 'movie' && 'Try switching to the TV Shows tab'}
+                {activeTab === 'tv' && 'Try switching to the Movies tab'}
+                {activeTab === 'not-streaming' && 'Try switching to the All tab'}
+                {activeTab === 'all' && 'Try checking your spelling or using different keywords'}
               </p>
             </div>
           )}
