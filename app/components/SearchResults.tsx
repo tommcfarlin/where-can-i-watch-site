@@ -49,12 +49,12 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
 
       {/* Franchise Detection Notice */}
       {(results as ExtendedSearchResponse & { detectedFranchise?: string }).detectedFranchise && (
-        <div className="mb-6 p-4 bg-purple-900/20 rounded-lg border border-purple-800">
+                <div className="mb-6 p-4 bg-card rounded-lg border border-muted">
           <p className="text-sm">
-                          <span className="font-semibold text-purple-300">
+            <span className="font-semibold text-foreground">
               🎬 Franchise detected!
             </span>
-            <span className="text-gray-300 ml-2">
+            <span className="text-muted-foreground ml-2">
               Showing additional {(results as ExtendedSearchResponse & { detectedFranchise?: string }).detectedFranchise} universe content that might not contain &ldquo;{searchQuery}&rdquo; in the title.
             </span>
           </p>
@@ -74,9 +74,9 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
       {/* Empty state for specific tabs */}
       {activeTab !== 'all' && filteredResults.length === 0 && results.results.length > 0 && (
         <div className="text-center py-12">
-          <p className="text-gray-400 mb-4">
-            No {activeTab === 'tv' ? 'TV shows' : 'movies'} found for &ldquo;{searchQuery}&rdquo;
-          </p>
+                  <p className="text-muted-foreground mb-4">
+          No {activeTab === 'tv' ? 'TV shows' : 'movies'} found for &ldquo;{searchQuery}&rdquo;
+        </p>
           <button
             onClick={() => setActiveTab('all')}
             className="text-primary hover:underline"
@@ -89,10 +89,10 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
       {/* General empty state */}
       {results.results.length === 0 && !isLoading && (
         <div className="text-center py-12">
-          <p className="text-gray-400">
+          <p className="text-muted-foreground">
             No results found for &ldquo;{searchQuery}&rdquo;
           </p>
-          <p className="text-sm text-gray-500 mt-2">
+          <p className="text-sm text-muted-foreground/70 mt-2">
             Try checking your spelling or using different keywords
           </p>
         </div>
@@ -109,13 +109,13 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-gray-400">
+              <p className="text-muted-foreground">
                 {activeTab === 'movie'
                   ? `No movies found for &ldquo;${searchQuery}&rdquo;`
                   : `No TV shows found for &ldquo;${searchQuery}&rdquo;`
                 }
               </p>
-              <p className="text-sm text-gray-500 mt-2">
+              <p className="text-sm text-muted-foreground/70 mt-2">
                 Try switching to the {activeTab === 'movie' ? 'TV Shows' : 'Movies'} tab
               </p>
             </div>
@@ -131,9 +131,9 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
               key={i}
               className="animate-pulse"
             >
-                      <div className="aspect-[2/3] bg-gray-700 rounded-lg" />
-        <div className="mt-2 h-4 bg-gray-700 rounded w-3/4" />
-        <div className="mt-1 h-3 bg-gray-700 rounded w-1/2" />
+                      <div className="aspect-[2/3] bg-muted rounded-lg" />
+        <div className="mt-2 h-4 bg-muted rounded w-3/4" />
+        <div className="mt-1 h-3 bg-muted rounded w-1/2" />
             </div>
           ))}
         </div>

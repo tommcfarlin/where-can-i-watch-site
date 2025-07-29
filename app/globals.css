@@ -2,53 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Light mode - warm and inviting */
+/* Vercel-inspired Dark Mode Color System */
 :root {
-  /* Background colors - slightly warm whites */
-  --background: 30 20% 98%;
-  --foreground: 224 71.4% 4.1%;
+  /* Vercel's Geist design system colors - dark only */
+  --background: 0 0% 0%;           /* Pure black like Vercel */
+  --foreground: 0 0% 100%;         /* Pure white text */
 
-  /* Card and muted colors - more distinct from background */
-  --card: 0 0% 100%;
-  --card-foreground: 224 71.4% 4.1%;
-  --muted: 30 10% 94%;
-  --muted-foreground: 220 8.9% 46.1%;
+  /* Card colors - subtle contrast from background */
+  --card: 0 0% 7%;                /* Very dark gray (#111111) */
+  --card-foreground: 0 0% 100%;    /* White text on cards */
 
-  /* Primary - warm teal/blue-green instead of purple */
-  --primary: 173 58% 39%;
-  --primary-foreground: 0 0% 100%;
+  /* Muted colors - Vercel's accent system */
+  --muted: 0 0% 20%;               /* #333333 - darker muted background */
+  --muted-foreground: 0 0% 60%;    /* #999999 - muted text */
 
-  /* Secondary - complementary warm tone */
-  --secondary: 30 20% 90%;
-  --secondary-foreground: 220 8.9% 20%;
+  /* Primary - neutral gray, use blue sparingly */
+  --primary: 0 0% 90%;             /* Light gray for most UI elements */
+  --primary-foreground: 0 0% 0%;   /* Black text on light elements */
 
-  /* Accent for highlights */
-  --accent: 173 40% 94%;
-  --accent-foreground: 173 58% 25%;
+  /* Secondary - subtle grays */
+  --secondary: 0 0% 26%;           /* #444444 */
+  --secondary-foreground: 0 0% 100%;
 
-  /* Border radius */
-  --radius: 0.75rem;
-}
+  /* Accent for highlights and interactions */
+  --accent: 0 0% 13%;              /* #222222 - slightly lighter than background */
+  --accent-foreground: 0 0% 100%;
 
-/* Dark mode - deep but not pure black */
-:root.dark {
-  --background: 222 47% 11%;
-  --foreground: 30 20% 98%;
-
-  --card: 222 47% 20%;
-  --card-foreground: 30 20% 98%;
-  --muted: 220 30% 25%;
-  --muted-foreground: 220 8.9% 65%;
-
-  /* Primary - slightly brighter teal for dark mode */
-  --primary: 173 58% 45%;
-  --primary-foreground: 222 47% 11%;
-
-  --secondary: 220 30% 30%;
-  --secondary-foreground: 30 20% 98%;
-
-  --accent: 173 40% 25%;
-  --accent-foreground: 173 58% 80%;
+  /* Border radius - Vercel's subtle curves */
+  --radius: 0.5rem;
 }
 
 /* Base styles */
@@ -63,22 +44,9 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Light mode gradient */
-body:not(.dark) {
-  background-image: linear-gradient(
-    to bottom right,
-    hsl(var(--background)),
-    hsl(var(--background) / 0.95)
-  );
-}
-
-/* Dark mode gradient */
-body.dark {
-  background-image: linear-gradient(
-    to bottom right,
-    hsl(var(--background)),
-    hsl(222 47% 9%)
-  );
+/* Clean background - no gradients like Vercel */
+body {
+  background-color: hsl(var(--background));
 }
 
 /* Smooth transitions for theme changes */
@@ -92,10 +60,10 @@ body.dark {
   outline-offset: 2px;
 }
 
-/* Selection color */
+/* Selection color - Vercel-style */
 ::selection {
-  background-color: hsl(var(--primary) / 0.2);
-  color: hsl(var(--primary));
+  background-color: hsl(var(--primary) / 0.15);
+  color: hsl(var(--foreground));
 }
 
 /* Scrollbar styling */

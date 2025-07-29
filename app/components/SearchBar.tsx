@@ -71,7 +71,7 @@ export default function SearchBar({ onSearch, isLoading = false }: SearchBarProp
           value={query}
           onChange={handleInputChange}
           placeholder="Search movies or TV shows..."
-          className="w-full pl-12 sm:pl-14 pr-20 sm:pr-24 py-3 sm:py-4 text-base sm:text-lg bg-card text-card-foreground rounded-full shadow-lg shadow-black/30 focus:outline-none focus:ring-4 focus:ring-primary/20 transition-all duration-300 placeholder:text-muted-foreground placeholder:text-sm sm:placeholder:text-base border border-muted hover:border-primary/40 focus:border-primary/60"
+          className="w-full pl-12 sm:pl-14 pr-20 sm:pr-24 py-3 sm:py-4 text-base sm:text-lg bg-card text-card-foreground rounded-lg border border-muted hover:border-muted-foreground focus:outline-none focus:ring-2 focus:ring-vercel-blue/20 focus:border-vercel-blue transition-all duration-200 placeholder:text-muted-foreground placeholder:text-sm sm:placeholder:text-base"
           autoFocus
         />
 

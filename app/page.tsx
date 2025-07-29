@@ -57,7 +57,7 @@ export default function Home() {
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <header className="text-center mb-16 mt-12 animate-fade-in">
-          <h1 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-4">
+          <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
             Where Can I Watch?
           </h1>
           <p className="text-lg text-muted-foreground">
@@ -73,8 +73,8 @@ export default function Home() {
         {/* Error Message */}
         {error && (
           <div className="max-w-2xl mx-auto mb-8 animate-fade-in">
-            <div className="bg-red-900/10 border border-red-800/50 rounded-lg p-4">
-              <p className="text-red-400">{error}</p>
+            <div className="bg-card border border-muted rounded-lg p-4">
+              <p className="text-foreground">{error}</p>
             </div>
           </div>
         )}

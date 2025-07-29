@@ -73,7 +73,7 @@ export default function ResultCard({ item }: ResultCardProps) {
 
   return (
     <div className="group cursor-pointer animate-scale-in" onClick={handleCardClick}>
-      <div className="relative overflow-hidden rounded-xl bg-card shadow-lg shadow-black/5 hover:shadow-xl hover:shadow-black/10 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1">
+      <div className="relative overflow-hidden rounded-lg bg-card border border-muted hover:border-muted-foreground transition-all duration-200">
         {/* Poster */}
         <div className="aspect-[2/3] relative bg-muted">
           {item.poster_path ? (
