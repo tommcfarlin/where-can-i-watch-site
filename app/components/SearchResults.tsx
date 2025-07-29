@@ -16,12 +16,17 @@ interface SearchResultsProps {
 export default function SearchResults({ results, isLoading, searchQuery }: SearchResultsProps) {
   const [activeTab, setActiveTab] = useState<'all' | 'movie' | 'tv' | 'not-streaming'>('tv');
   const [providersData, setProvidersData] = useState<Record<string, CountryProviders | null>>({});
+  const [isLoadingProviders, setIsLoadingProviders] = useState(false);
 
     // Fetch providers data for all results using batch API
   useEffect(() => {
     const fetchAllProviders = async () => {
-      if (results.results.length === 0) return;
+      if (results.results.length === 0) {
+        setIsLoadingProviders(false);
+        return;
+      }
 
+      setIsLoadingProviders(true);
       try {
         // Prepare batch request
         const items = results.results.map(item => ({
@@ -56,6 +61,8 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
         console.error('Failed to fetch providers batch:', error);
         // Fallback to empty providers data
         setProvidersData({});
+      } finally {
+        setIsLoadingProviders(false);
       }
     };
 
@@ -64,6 +71,16 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
 
   // Calculate counts for each media type including streaming status
   const { movieCount, tvCount, notStreamingCount, filteredResults } = useMemo(() => {
+    // Don't filter until providers data is loaded
+    if (isLoadingProviders || Object.keys(providersData).length === 0) {
+      return {
+        movieCount: 0,
+        tvCount: 0,
+        notStreamingCount: 0,
+        filteredResults: [],
+      };
+    }
+
     // Helper function to get providers for an item
     const getItemProviders = (item: any) => {
       const key = `${item.media_type}-${item.id}`;
@@ -101,7 +118,7 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
       notStreamingCount: allNotStreaming.length,
       filteredResults: filtered,
     };
-  }, [results.results, activeTab, providersData]);
+  }, [results.results, activeTab, providersData, isLoadingProviders]);
 
   const hasResults = results.results && results.results.length > 0;
 
@@ -131,7 +148,7 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
       )}
 
       {/* Tabs for filtering */}
-      {hasResults && !isLoading && (
+      {hasResults && !isLoading && !isLoadingProviders && (
         <Tabs
           activeTab={activeTab}
           onTabChange={setActiveTab}
@@ -155,8 +172,16 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
         </div>
       )}
 
+      {/* Loading providers state */}
+      {hasResults && !isLoading && isLoadingProviders && (
+        <div className="text-center py-8">
+          <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+          <p className="text-sm text-muted-foreground mt-2">Loading streaming availability...</p>
+        </div>
+      )}
+
       {/* Results Grid */}
-      {hasResults && !isLoading && (
+      {hasResults && !isLoading && !isLoadingProviders && (
         <>
           {filteredResults.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
