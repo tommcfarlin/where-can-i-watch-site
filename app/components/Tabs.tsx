@@ -22,11 +22,11 @@ export default function Tabs({ activeTab, onTabChange, movieCount, tvCount }: Ta
             key={tab.id}
             onClick={() => onTabChange(tab.id)}
             className={`
-              py-2 px-0.5 sm:px-1 border-b-2 font-medium text-xs sm:text-sm md:text-base transition-all duration-300 flex items-center gap-0.5 sm:gap-1 md:gap-2 whitespace-nowrap
+              py-2 px-0.5 sm:px-1 border-b-2 font-medium text-xs sm:text-sm md:text-base transition-all duration-200 flex items-center gap-0.5 sm:gap-1 md:gap-2 whitespace-nowrap
               ${
                 activeTab === tab.id
-                  ? 'border-primary text-primary'
-                  : 'border-transparent text-muted-foreground hover:text-foreground hover:border-muted-foreground/30'
+                  ? 'border-foreground text-foreground'
+                  : 'border-transparent text-muted-foreground hover:text-foreground hover:border-muted'
               }
             `}
           >
@@ -34,9 +34,9 @@ export default function Tabs({ activeTab, onTabChange, movieCount, tvCount }: Ta
             <span>{tab.label}</span>
             {tab.count > 0 && (
               <span
-                className={`ml-0.5 sm:ml-1 md:ml-2 py-0.5 px-1 sm:px-1.5 md:px-2 rounded-full text-[10px] sm:text-xs transition-colors duration-300 ${
+                className={`ml-0.5 sm:ml-1 md:ml-2 py-0.5 px-1 sm:px-1.5 md:px-2 rounded-full text-[10px] sm:text-xs transition-colors duration-200 ${
                   activeTab === tab.id
-                    ? 'bg-primary/10 text-primary'
+                    ? 'bg-card border border-muted text-foreground'
                     : 'bg-muted text-muted-foreground'
                 }`}
               >
