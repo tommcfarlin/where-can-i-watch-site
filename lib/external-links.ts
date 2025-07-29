@@ -23,7 +23,7 @@ export function getIMDBLink(externalIds: ExternalIds): ExternalLink | null {
   return {
     name: 'IMDb',
     url: `https://www.imdb.com/title/${externalIds.imdb_id}`,
-    icon: '🎬', // Movie camera emoji
+    icon: '📽️', // Film projector emoji - more distinctive for IMDB
   };
 }
 
