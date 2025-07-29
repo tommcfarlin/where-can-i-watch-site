@@ -34,27 +34,34 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
           media_type: item.media_type,
         }));
 
-        // Make batch request
-        const response = await fetch('/api/providers/batch', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ items }),
-        });
-
-        if (!response.ok) {
-          throw new Error('Batch providers request failed');
-        }
-
-        const data = await response.json();
         const newProvidersData: Record<string, CountryProviders | null> = {};
 
-        // Process batch response
-        data.results?.forEach((result: any) => {
-          const key = `${result.media_type}-${result.id}`;
-          newProvidersData[key] = result.providers;
-        });
+        // Split into chunks of 50 to respect API limit
+        const chunkSize = 50;
+        for (let i = 0; i < items.length; i += chunkSize) {
+          const chunk = items.slice(i, i + chunkSize);
+
+          // Make batch request for this chunk
+          const response = await fetch('/api/providers/batch', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ items: chunk }),
+          });
+
+          if (!response.ok) {
+            throw new Error(`Batch providers request failed for chunk ${Math.floor(i / chunkSize) + 1}`);
+          }
+
+          const data = await response.json();
+
+          // Process batch response for this chunk
+          data.results?.forEach((result: any) => {
+            const key = `${result.media_type}-${result.id}`;
+            newProvidersData[key] = result.providers;
+          });
+        }
 
         setProvidersData(newProvidersData);
       } catch (error) {
