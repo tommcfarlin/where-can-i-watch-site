@@ -17,37 +17,49 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
   const [activeTab, setActiveTab] = useState<'all' | 'movie' | 'tv' | 'not-streaming'>('tv');
   const [providersData, setProvidersData] = useState<Record<string, CountryProviders | null>>({});
 
-  // Fetch providers data for all results
+    // Fetch providers data for all results using batch API
   useEffect(() => {
     const fetchAllProviders = async () => {
-      const newProvidersData: Record<string, CountryProviders | null> = {};
+      if (results.results.length === 0) return;
 
-      // Fetch providers for each result
-      const promises = results.results.map(async (item) => {
-        const key = `${item.media_type}-${item.id}`;
-        try {
-          const response = await fetch(
-            `/api/providers?id=${item.id}&type=${item.media_type}`
-          );
-          if (response.ok) {
-            const data = await response.json();
-            newProvidersData[key] = data.providers;
-          } else {
-            newProvidersData[key] = null;
-          }
-        } catch (error) {
-          console.error(`Failed to fetch providers for ${key}:`, error);
-          newProvidersData[key] = null;
+      try {
+        // Prepare batch request
+        const items = results.results.map(item => ({
+          id: item.id,
+          media_type: item.media_type,
+        }));
+
+        // Make batch request
+        const response = await fetch('/api/providers/batch', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ items }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Batch providers request failed');
         }
-      });
 
-      await Promise.all(promises);
-      setProvidersData(newProvidersData);
+        const data = await response.json();
+        const newProvidersData: Record<string, CountryProviders | null> = {};
+
+        // Process batch response
+        data.results?.forEach((result: any) => {
+          const key = `${result.media_type}-${result.id}`;
+          newProvidersData[key] = result.providers;
+        });
+
+        setProvidersData(newProvidersData);
+      } catch (error) {
+        console.error('Failed to fetch providers batch:', error);
+        // Fallback to empty providers data
+        setProvidersData({});
+      }
     };
 
-    if (results.results.length > 0) {
-      fetchAllProviders();
-    }
+    fetchAllProviders();
   }, [results.results]);
 
   // Calculate counts for each media type including streaming status
