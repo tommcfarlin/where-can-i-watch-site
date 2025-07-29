@@ -17,6 +17,7 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
   const [activeTab, setActiveTab] = useState<'all' | 'movie' | 'tv' | 'not-streaming'>('tv');
   const [providersData, setProvidersData] = useState<Record<string, CountryProviders | null>>({});
   const [isLoadingProviders, setIsLoadingProviders] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState({ current: 0, total: 0 });
 
     // Fetch providers data for all results using batch API
   useEffect(() => {
@@ -38,8 +39,15 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
 
         // Split into chunks of 50 to respect API limit
         const chunkSize = 50;
+        const totalChunks = Math.ceil(items.length / chunkSize);
+        setLoadingProgress({ current: 0, total: totalChunks });
+
         for (let i = 0; i < items.length; i += chunkSize) {
           const chunk = items.slice(i, i + chunkSize);
+          const chunkNumber = Math.floor(i / chunkSize) + 1;
+
+          // Update progress
+          setLoadingProgress({ current: chunkNumber, total: totalChunks });
 
           // Make batch request for this chunk
           const response = await fetch('/api/providers/batch', {
@@ -51,7 +59,7 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
           });
 
           if (!response.ok) {
-            throw new Error(`Batch providers request failed for chunk ${Math.floor(i / chunkSize) + 1}`);
+            throw new Error(`Batch providers request failed for chunk ${chunkNumber}`);
           }
 
           const data = await response.json();
@@ -61,6 +69,9 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
             const key = `${result.media_type}-${result.id}`;
             newProvidersData[key] = result.providers;
           });
+
+          // Update providers data progressively so users see results as they load
+          setProvidersData({ ...newProvidersData });
         }
 
         setProvidersData(newProvidersData);
@@ -183,7 +194,22 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
       {hasResults && !isLoading && isLoadingProviders && (
         <div className="text-center py-8">
           <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
-          <p className="text-sm text-muted-foreground mt-2">Loading streaming availability...</p>
+          <p className="text-sm text-muted-foreground mt-2">
+            Loading streaming availability...
+          </p>
+          {loadingProgress.total > 1 && (
+            <div className="mt-3">
+              <div className="w-64 mx-auto bg-muted rounded-full h-2">
+                <div
+                  className="bg-primary h-2 rounded-full transition-all duration-300"
+                  style={{ width: `${(loadingProgress.current / loadingProgress.total) * 100}%` }}
+                ></div>
+              </div>
+              <p className="text-xs text-muted-foreground/70 mt-1">
+                Checking availability... ({loadingProgress.current} of {loadingProgress.total})
+              </p>
+            </div>
+          )}
         </div>
       )}
 
