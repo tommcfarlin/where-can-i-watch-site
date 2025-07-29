@@ -15,42 +15,53 @@ export default function ExternalLinks({ id, mediaType, className = '' }: Externa
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
+    useEffect(() => {
     // Only fetch for movies and TV shows
     if (mediaType !== 'movie' && mediaType !== 'tv') {
       setIsLoading(false);
       return;
     }
 
-    const fetchExternalIds = async () => {
-      try {
-        setIsLoading(true);
-        setError(null);
+    // Debounce rapid re-renders
+    const timeoutId = setTimeout(() => {
+      const fetchExternalIds = async () => {
+        try {
+          setIsLoading(true);
+          setError(null);
 
-        const response = await fetch(`/api/external-ids?id=${id}&type=${mediaType}`);
+          const response = await fetch(`/api/external-ids?id=${id}&type=${mediaType}`, {
+            signal: AbortSignal.timeout(5000), // 5 second timeout
+          });
 
-        if (!response.ok) {
-          throw new Error('Failed to fetch external IDs');
-        }
+          if (!response.ok) {
+            throw new Error(`Failed to fetch external IDs: ${response.status}`);
+          }
 
-                const data = await response.json();
+          const data = await response.json();
 
-        if (data.success && data.external_ids) {
-          const links = getExternalLinks(data.external_ids);
-          setExternalLinks(links);
-        } else {
-          console.warn('Invalid external IDs response:', data);
+          if (data.success && data.external_ids) {
+            const links = getExternalLinks(data.external_ids);
+            setExternalLinks(links);
+          } else {
+            console.warn('Invalid external IDs response:', data);
+            setExternalLinks([]);
+          }
+        } catch (err) {
+          // Don't log timeout errors as they're expected
+          if (err instanceof Error && !err.name.includes('AbortError')) {
+            console.error('Error fetching external IDs:', err);
+          }
+          setError('Failed to load external links');
           setExternalLinks([]);
+        } finally {
+          setIsLoading(false);
         }
-      } catch (err) {
-        console.error('Error fetching external IDs:', err);
-        setError('Failed to load external links');
-      } finally {
-        setIsLoading(false);
-      }
-    };
+      };
 
-    fetchExternalIds();
+      fetchExternalIds();
+    }, 100); // 100ms debounce
+
+    return () => clearTimeout(timeoutId);
   }, [id, mediaType]);
 
   // Don't render anything if loading, error, or no links
@@ -80,21 +91,22 @@ export default function ExternalLinks({ id, mediaType, className = '' }: Externa
         <button
           key={link.name}
           onClick={() => handleLinkClick(link.url, link.name)}
-          className="
+                    className="
             flex items-center justify-center
-            w-8 h-8
+            w-8 h-8 sm:w-7 sm:h-7 md:w-8 md:h-8
             bg-card hover:bg-muted
             border border-muted hover:border-muted-foreground
             rounded-md
             transition-all duration-200
-            hover:scale-105
+            hover:scale-105 active:scale-95
             focus:outline-none focus:ring-2 focus:ring-primary/50
+            touch-manipulation
             group
           "
           title={`View on ${link.name}`}
           aria-label={`View on ${link.name}`}
         >
-          <span className="text-lg group-hover:scale-110 transition-transform duration-200">
+          <span className="text-lg sm:text-base md:text-lg group-hover:scale-110 transition-transform duration-200">
             {link.icon}
           </span>
         </button>
