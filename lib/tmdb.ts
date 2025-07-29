@@ -102,6 +102,16 @@ export class TMDBClient {
     return this.fetchFromTMDB<WatchProvidersResponse>(endpoint);
   }
 
+  // Get external IDs for a movie or TV show
+  async getExternalIds(id: number, mediaType: MediaType): Promise<ExternalIds> {
+    if (mediaType !== 'movie' && mediaType !== 'tv') {
+      throw new Error('External IDs are only available for movies and TV shows');
+    }
+
+    const endpoint = `/${mediaType}/${id}/external_ids`;
+    return this.fetchFromTMDB<ExternalIds>(endpoint);
+  }
+
   // Get popular movies (for fuzzy search database)
   async getPopularMovies(page = 1): Promise<{ results: MovieItem[] }> {
     const response = await this.fetchFromTMDB<{
