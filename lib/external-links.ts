@@ -11,12 +11,22 @@ export interface ExternalLink {
 }
 
 /**
+ * Validate IMDB ID format
+ * @param imdbId - IMDB ID to validate
+ * @returns boolean indicating if ID is valid
+ */
+function isValidIMDBId(imdbId: string): boolean {
+  // IMDB IDs follow the pattern: tt followed by 7-8 digits
+  return /^tt\d{7,8}$/.test(imdbId);
+}
+
+/**
  * Construct IMDB URL from external IDs
  * @param externalIds - External IDs from TMDB API
- * @returns IMDB link object or null if no IMDB ID
+ * @returns IMDB link object or null if no valid IMDB ID
  */
 export function getIMDBLink(externalIds: ExternalIds): ExternalLink | null {
-  if (!externalIds.imdb_id) {
+  if (!externalIds.imdb_id || !isValidIMDBId(externalIds.imdb_id)) {
     return null;
   }
 
@@ -34,6 +44,12 @@ export function getIMDBLink(externalIds: ExternalIds): ExternalLink | null {
  * @returns Array of available external links
  */
 export function getExternalLinks(externalIds: ExternalIds): ExternalLink[] {
+  // Validate input
+  if (!externalIds || typeof externalIds !== 'object') {
+    console.warn('Invalid external IDs provided:', externalIds);
+    return [];
+  }
+
   const links: ExternalLink[] = [];
 
   // Add IMDB link if available
@@ -43,8 +59,8 @@ export function getExternalLinks(externalIds: ExternalIds): ExternalLink[] {
   }
 
   // Could add other external links here if needed:
-  // - Wikidata
-  // - The TVDB (for TV shows)
+  // - Wikidata (if wikidata_id exists and is valid)
+  // - The TVDB (for TV shows, if tvdb_id exists and is valid)
   // - Social media links (Twitter, Facebook, Instagram)
 
   return links;

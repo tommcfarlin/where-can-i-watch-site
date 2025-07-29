@@ -33,11 +33,14 @@ export default function ExternalLinks({ id, mediaType, className = '' }: Externa
           throw new Error('Failed to fetch external IDs');
         }
 
-        const data = await response.json();
+                const data = await response.json();
 
         if (data.success && data.external_ids) {
           const links = getExternalLinks(data.external_ids);
           setExternalLinks(links);
+        } else {
+          console.warn('Invalid external IDs response:', data);
+          setExternalLinks([]);
         }
       } catch (err) {
         console.error('Error fetching external IDs:', err);
@@ -55,12 +58,20 @@ export default function ExternalLinks({ id, mediaType, className = '' }: Externa
     return null;
   }
 
-  const handleLinkClick = (url: string, name: string) => {
-    // Open in new tab
-    window.open(url, '_blank', 'noopener,noreferrer');
+    const handleLinkClick = (url: string, name: string) => {
+    // Validate URL before opening
+    try {
+      new URL(url); // This will throw if URL is invalid
 
-    // Optional: Track analytics
-    console.log(`External link clicked: ${name} for ${mediaType} ${id}`);
+      // Open in new tab with security attributes
+      window.open(url, '_blank', 'noopener,noreferrer');
+
+      // Optional: Track analytics
+      console.log(`External link clicked: ${name} for ${mediaType} ${id}`);
+    } catch (error) {
+      console.error('Invalid URL:', url, error);
+      // Could show user notification here if needed
+    }
   };
 
   return (
