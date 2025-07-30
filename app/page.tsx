@@ -74,7 +74,7 @@ export default function Home() {
         {error && (
           <div className="max-w-2xl mx-auto mb-ios-sm animate-fade-in">
             <div className="bg-card border border-muted rounded-ios-card p-ios-md">
-              <p className="text-foreground">{error}</p>
+              <p className="text-ios-label">{error}</p>
             </div>
           </div>
         )}

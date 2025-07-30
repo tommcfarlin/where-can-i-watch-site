@@ -40,7 +40,7 @@ export default function ExternalLinksIcon({ links, className = '' }: ExternalLin
           title={`View on ${link.name}`}
           aria-label={`View on ${link.name}`}
         >
-          <span className="text-sm">
+          <span className="text-ios-subhead">
             {link.icon}
           </span>
         </button>
