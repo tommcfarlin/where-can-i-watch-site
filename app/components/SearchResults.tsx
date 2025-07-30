@@ -18,6 +18,7 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
   const [providersData, setProvidersData] = useState<Record<string, CountryProviders | null>>({});
   const [isLoadingProviders, setIsLoadingProviders] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState({ current: 0, total: 0 });
+  const [isLargeResultSet, setIsLargeResultSet] = useState(false);
 
     // Fetch providers data for all results using batch API
   useEffect(() => {
@@ -26,6 +27,10 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
         setIsLoadingProviders(false);
         return;
       }
+
+      // Detect if this is a large result set
+      const isLarge = results.results.length > 50;
+      setIsLargeResultSet(isLarge);
 
       setIsLoadingProviders(true);
       try {
@@ -202,9 +207,19 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
         <div className="text-center py-8">
           <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
           <p className="text-sm text-muted-foreground mt-2">
-            Loading streaming availability...
+            {isLargeResultSet ? (
+              <>
+                Loading {results.results.length} results...
+                <br />
+                <span className="text-xs text-muted-foreground/60">
+                  Large result set detected - this may take longer
+                </span>
+              </>
+            ) : (
+              'Loading streaming availability...'
+            )}
           </p>
-          {loadingProgress.total > 1 && (
+          {isLargeResultSet && loadingProgress.total > 1 && (
             <div className="mt-3">
               <div className="w-64 mx-auto bg-muted rounded-full h-2">
                 <div
