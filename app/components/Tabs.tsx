@@ -17,14 +17,14 @@ export default function Tabs({ activeTab, onTabChange, movieCount, tvCount, notS
   ] as const;
 
   return (
-    <div className="border-b border-muted mb-6">
-      <nav className="-mb-px flex space-x-2 sm:space-x-4 md:space-x-8" aria-label="Tabs">
+    <div className="border-b border-muted mb-ios-lg">
+      <nav className="-mb-px flex gap-ios-md" aria-label="Tabs">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => onTabChange(tab.id)}
             className={`
-              py-2 px-0.5 sm:px-1 border-b-2 font-medium text-xs sm:text-sm md:text-base transition-all duration-200 flex items-center gap-0.5 sm:gap-1 md:gap-2 whitespace-nowrap
+              py-ios-sm px-ios-xs border-b-2 font-medium text-ios-footnote transition-all duration-200 flex items-center gap-ios-xs whitespace-nowrap
               ${
                 activeTab === tab.id
                   ? 'border-foreground text-foreground'
@@ -32,11 +32,11 @@ export default function Tabs({ activeTab, onTabChange, movieCount, tvCount, notS
               }
             `}
           >
-            <span className="text-sm sm:text-base md:text-lg">{tab.icon}</span>
+            <span className="text-ios-callout">{tab.icon}</span>
             <span>{tab.label}</span>
             {tab.count > 0 && (
               <span
-                className={`ml-0.5 sm:ml-1 md:ml-2 py-0.5 px-1 sm:px-1.5 md:px-2 rounded-full text-[10px] sm:text-xs transition-colors duration-200 ${
+                className={`ml-ios-xs py-ios-xs px-ios-sm rounded-full text-ios-caption-2 transition-colors duration-200 ${
                   activeTab === tab.id
                     ? 'bg-card border border-muted text-foreground'
                     : 'bg-muted text-muted-foreground'

@@ -17,7 +17,7 @@ export default function DidYouMean({ suggestion, confidence, searchQuery }: DidY
   };
 
   return (
-    <div className="mb-6 p-4 bg-card rounded-lg border border-muted">
+    <div className="mb-ios-lg p-ios-md bg-card rounded-ios-card border border-muted">
       <p className="text-sm">
         <span className="text-muted-foreground">
           Showing results for
@@ -30,7 +30,7 @@ export default function DidYouMean({ suggestion, confidence, searchQuery }: DidY
         </span>
       </p>
 
-      <div className="flex items-center gap-4 mt-2">
+      <div className="flex items-center gap-ios-md mt-ios-sm">
         <p className="text-xs text-muted-foreground">
           ({Math.round(confidence * 100)}% confidence)
         </p>

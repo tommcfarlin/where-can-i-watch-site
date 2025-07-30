@@ -169,7 +169,7 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
 
       {/* Franchise Detection Notice */}
       {(results as ExtendedSearchResponse & { detectedFranchise?: string }).detectedFranchise && (
-                <div className="mb-6 p-4 bg-card rounded-lg border border-muted">
+                <div className="mb-ios-lg p-ios-md bg-card rounded-ios-card border border-muted">
           <p className="text-sm">
             <span className="font-semibold text-foreground">
               🎬 Franchise detected!
@@ -208,9 +208,9 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
 
       {/* Loading providers state */}
       {hasResults && !isLoading && isLoadingProviders && (
-        <div className="text-center py-8">
+        <div className="text-center py-ios-xl">
           <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
-          <p className="text-sm text-muted-foreground mt-2">
+          <p className="text-ios-subhead text-muted-foreground mt-ios-sm">
             {isLargeResultSet ? (
               <>
                 Loading {results.results.length} results...
@@ -227,14 +227,14 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
             )}
           </p>
           {isLargeResultSet && loadingProgress.total > 1 && (
-            <div className="mt-3">
+            <div className="mt-ios-sm">
               <div className="w-64 mx-auto bg-muted rounded-full h-2">
                 <div
                   className="bg-primary h-2 rounded-full transition-all duration-300"
                   style={{ width: `${(loadingProgress.current / loadingProgress.total) * 100}%` }}
                 ></div>
               </div>
-              <p className="text-xs text-muted-foreground/70 mt-1">
+              <p className="text-ios-caption-1 text-muted-foreground/70 mt-ios-xs">
                 Checking availability... ({loadingProgress.current} of {loadingProgress.total})
               </p>
             </div>
@@ -246,7 +246,7 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
       {hasResults && !isLoading && !isLoadingProviders && (
         <>
           {filteredResults.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-ios-md">
               {filteredResults.map((item) => {
                 const key = `${item.media_type}-${item.id}`;
                 const itemProviders = providersData[key];
@@ -260,14 +260,14 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
               })}
             </div>
           ) : (
-            <div className="text-center py-12">
+            <div className="text-center py-ios-3xl">
               <p className="text-muted-foreground">
                 {activeTab === 'movie' && `No movies found for "${searchQuery}"`}
                 {activeTab === 'tv' && `No TV shows found for "${searchQuery}"`}
                 {activeTab === 'not-streaming' && `No non-streaming content found for "${searchQuery}"`}
                 {activeTab === 'all' && `No results found for "${searchQuery}"`}
               </p>
-              <p className="text-sm text-muted-foreground/70 mt-2">
+              <p className="text-ios-subhead text-muted-foreground/70 mt-ios-sm">
                 {activeTab === 'movie' && 'Try switching to the TV Shows tab'}
                 {activeTab === 'tv' && 'Try switching to the Movies tab'}
                 {activeTab === 'not-streaming' && 'Try switching to the All tab'}
@@ -276,7 +276,7 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
               {activeTab !== 'all' && (
                 <button
                   onClick={() => setActiveTab('all')}
-                  className="mt-4 text-muted-foreground hover:text-foreground hover:underline transition-colors"
+                  className="mt-ios-md text-muted-foreground hover:text-foreground hover:underline transition-colors"
                 >
                   View all results
                 </button>
@@ -288,15 +288,15 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
 
       {/* Loading State */}
       {isLoading && (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-ios-md">
           {[...Array(10)].map((_, i) => (
             <div
               key={i}
               className="animate-pulse"
             >
-                      <div className="aspect-[2/3] bg-muted rounded-lg" />
-        <div className="mt-2 h-4 bg-muted rounded w-3/4" />
-        <div className="mt-1 h-3 bg-muted rounded w-1/2" />
+                      <div className="aspect-[2/3] bg-muted rounded-ios-card" />
+        <div className="mt-ios-sm h-4 bg-muted rounded w-3/4" />
+        <div className="mt-ios-xs h-3 bg-muted rounded w-1/2" />
             </div>
           ))}
         </div>

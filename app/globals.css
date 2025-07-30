@@ -237,6 +237,18 @@ body {
 .space-ios-3xl { margin: var(--spacing-3xl); }
 .space-ios-4xl { margin: var(--spacing-4xl); }
 
+/* iOS Grid and Flexbox Utilities */
+.gap-ios-xs { gap: var(--spacing-xs); }
+.gap-ios-sm { gap: var(--spacing-sm); }
+.gap-ios-md { gap: var(--spacing-md); }
+.gap-ios-lg { gap: var(--spacing-lg); }
+.gap-ios-xl { gap: var(--spacing-xl); }
+
+.space-y-ios-xs > :not([hidden]) ~ :not([hidden]) { margin-top: var(--spacing-xs); }
+.space-y-ios-sm > :not([hidden]) ~ :not([hidden]) { margin-top: var(--spacing-sm); }
+.space-y-ios-md > :not([hidden]) ~ :not([hidden]) { margin-top: var(--spacing-md); }
+.space-y-ios-lg > :not([hidden]) ~ :not([hidden]) { margin-top: var(--spacing-lg); }
+
 /* Utility classes */
 .animate-in {
   animation: fadeIn 0.5s ease-in-out;

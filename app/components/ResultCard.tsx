@@ -145,19 +145,19 @@ export default function ResultCard({ item, providers: externalProviders }: Resul
         </div>
 
         {/* Title and Info */}
-        <div className="p-3">
+        <div className="p-ios-sm">
           <h3 className="font-semibold text-sm line-clamp-1 text-card-foreground">
             {title}
           </h3>
           {year && (
-            <p className="text-xs text-muted-foreground mt-1">
+            <p className="text-ios-caption-1 text-muted-foreground mt-ios-xs">
               {year}
             </p>
           )}
 
           {/* Quick Provider Preview */}
           {providers && allProviders.length > 0 && !showProviders && (
-            <div className="mt-2 flex items-center gap-2">
+            <div className="mt-ios-sm flex items-center gap-ios-sm">
               <div className="flex -space-x-2">
                 {allProviders.slice(0, 3).map((provider, index) => (
                   <div
@@ -205,9 +205,9 @@ export default function ResultCard({ item, providers: externalProviders }: Resul
 
         {/* Providers Section */}
         {showProviders && (
-          <div className="border-t border-muted p-3 animate-slide-in">
+          <div className="border-t border-muted p-ios-sm animate-slide-in">
             {isLoadingProviders ? (
-              <div className="flex justify-center py-2">
+              <div className="flex justify-center py-ios-sm">
                 <svg
                   className="animate-spin h-5 w-5 text-primary"
                   xmlns="http://www.w3.org/2000/svg"
@@ -230,14 +230,14 @@ export default function ResultCard({ item, providers: externalProviders }: Resul
                 </svg>
               </div>
             ) : streamingProviders.length > 0 || purchaseProviders.length > 0 ? (
-              <div className="space-y-3">
+              <div className="space-y-ios-sm">
                 {/* Streaming Providers */}
                 {streamingProviders.length > 0 && (
                   <div>
-                    <p className="text-xs text-muted-foreground mb-2">
+                    <p className="text-ios-caption-1 text-muted-foreground mb-ios-sm">
                       Stream on:
                     </p>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-ios-sm">
                       {streamingProviders.map((provider) => (
                         <ProviderBadge key={provider.provider_id} provider={provider} />
                       ))}
@@ -248,10 +248,10 @@ export default function ResultCard({ item, providers: externalProviders }: Resul
                 {/* Purchase Providers */}
                 {purchaseProviders.length > 0 && (
                   <div>
-                    <p className="text-xs text-muted-foreground mb-2">
+                    <p className="text-ios-caption-1 text-muted-foreground mb-ios-sm">
                       Buy/Rent on:
                     </p>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-ios-sm">
                       {purchaseProviders.map((provider) => (
                         <ProviderBadge key={provider.provider_id} provider={provider} />
                       ))}
@@ -260,13 +260,13 @@ export default function ResultCard({ item, providers: externalProviders }: Resul
                 )}
               </div>
             ) : (
-              <p className="text-xs text-muted-foreground text-center py-2">
+              <p className="text-ios-caption-1 text-muted-foreground text-center py-ios-sm">
                 Not available for streaming in the US
               </p>
             )}
 
             {/* External Links */}
-            <div className="mt-3 pt-3 border-t border-muted">
+            <div className="mt-ios-sm pt-ios-sm border-t border-muted">
               <ExternalLinks
                 id={item.id}
                 mediaType={item.media_type}

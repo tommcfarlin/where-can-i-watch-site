@@ -54,7 +54,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-ios-md py-ios-sm">
         {/* Header - iOS Typography */}
         <header className="text-center mb-ios-2xl mt-ios-lg animate-fade-in">
           <h1 className="text-ios-large-title font-ios-bold text-foreground mb-ios-sm">
@@ -66,14 +66,14 @@ export default function Home() {
         </header>
 
         {/* Search Section */}
-        <div className={`transition-all duration-500 ${searchResults ? 'mb-8' : 'mb-32'}`}>
+        <div className={`transition-all duration-500 ${searchResults ? 'mb-ios-sm' : 'mb-ios-4xl'}`}>
           <SearchBar onSearch={handleSearch} isLoading={isLoading} />
         </div>
 
         {/* Error Message */}
         {error && (
-          <div className="max-w-2xl mx-auto mb-8 animate-fade-in">
-            <div className="bg-card border border-muted rounded-lg p-4">
+          <div className="max-w-2xl mx-auto mb-ios-sm animate-fade-in">
+            <div className="bg-card border border-muted rounded-ios-card p-ios-md">
               <p className="text-foreground">{error}</p>
             </div>
           </div>
