@@ -10,10 +10,10 @@ interface TabsProps {
 
 export default function Tabs({ activeTab, onTabChange, movieCount, tvCount, notStreamingCount }: TabsProps) {
   const tabs = [
-    { id: 'tv', label: 'TV Shows', icon: '📺', count: tvCount },
-    { id: 'movie', label: 'Movies', icon: '🎬', count: movieCount },
-    { id: 'all', label: 'All', icon: '🎯', count: movieCount + tvCount },
-    { id: 'not-streaming', label: 'Not Streaming', icon: '⚠️', count: notStreamingCount },
+    { id: 'tv', label: 'TV Shows', count: tvCount },
+    { id: 'movie', label: 'Movies', count: movieCount },
+    { id: 'all', label: 'All', count: movieCount + tvCount },
+    { id: 'not-streaming', label: 'Not Streaming', count: notStreamingCount },
   ] as const;
 
   return (
@@ -26,16 +26,15 @@ export default function Tabs({ activeTab, onTabChange, movieCount, tvCount, notS
               key={tab.id}
               onClick={() => onTabChange(tab.id)}
               className={`
-                relative min-h-[44px] px-ios-md py-ios-sm rounded-ios-button font-ios-medium text-ios-subhead transition-all duration-300 flex items-center justify-center gap-ios-xs whitespace-nowrap flex-1 touch-manipulation active:scale-[0.98] ios-tab-button
+                relative min-h-[44px] px-ios-sm py-ios-sm rounded-ios-button font-ios-medium text-ios-subhead transition-all duration-300 flex items-center justify-center gap-ios-xs whitespace-nowrap flex-1 touch-manipulation active:scale-[0.98] ios-tab-button
                 ${
                   activeTab === tab.id
                     ? 'bg-ios-secondary-system-background text-ios-label shadow-sm'
                     : 'text-ios-secondary-label hover:text-ios-label hover:bg-ios-system-fill active:bg-ios-secondary-system-fill'
                 }
               `}
-            >
-              <span className="text-ios-body">{tab.icon}</span>
-              <span className="font-ios-medium">{tab.label}</span>
+                          >
+                <span className="font-ios-medium">{tab.label}</span>
               {tab.count > 0 && (
                 <span
                   className={`inline-flex items-center justify-center min-w-[18px] h-[18px] px-ios-xs text-ios-caption-2 font-ios-semibold rounded-full transition-all duration-200 ${
