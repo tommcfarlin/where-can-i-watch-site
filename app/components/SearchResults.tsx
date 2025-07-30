@@ -247,7 +247,7 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
       {hasResults && !isLoading && !isLoadingProviders && (
         <>
           {filteredResults.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-ios-md">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-ios-sm sm:gap-ios-md">
               {filteredResults.map((item) => {
                 const key = `${item.media_type}-${item.id}`;
                 const itemProviders = providersData[key];
@@ -289,7 +289,7 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
 
       {/* Loading State */}
       {isLoading && (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-ios-md">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-ios-sm sm:gap-ios-md">
           {[...Array(10)].map((_, i) => (
             <div
               key={i}
