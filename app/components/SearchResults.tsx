@@ -197,11 +197,11 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
 
       {/* General empty state */}
       {results.results.length === 0 && !isLoading && (
-        <div className="text-center py-12">
-          <p className="text-muted-foreground">
+        <div className="text-center py-ios-3xl">
+          <p className="text-ios-body text-ios-secondary-label">
             No results found for &ldquo;{searchQuery}&rdquo;
           </p>
-          <p className="text-sm text-muted-foreground/70 mt-2">
+          <p className="text-ios-subhead text-ios-tertiary-label mt-ios-sm">
             Try checking your spelling or using different keywords
           </p>
         </div>
@@ -216,7 +216,7 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
               <>
                 Loading {results.results.length} results...
                 <br />
-                <span className="text-xs text-muted-foreground/60">
+                <span className="text-ios-caption-1 text-ios-quaternary-label">
                   {hasDetectedFranchise
                     ? 'Franchise detected - loading additional content...'
                     : 'Large result set detected - this may take longer'

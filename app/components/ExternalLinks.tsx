@@ -90,7 +90,7 @@ export default function ExternalLinks({ id, mediaType, className = '' }: Externa
   if (isInlineDisplay) {
     // Inline display for below providers
     return (
-      <div className={`flex items-center gap-3 text-sm ${className.replace('inline-display', '')}`}>
+      <div className={`flex items-center gap-ios-sm text-ios-subhead ${className.replace('inline-display', '')}`}>
         {externalLinks.map((link) => (
           <button
             key={link.name}
@@ -130,7 +130,7 @@ export default function ExternalLinks({ id, mediaType, className = '' }: Externa
 
   // Original icon display for other uses
   return (
-    <div className={`flex gap-1 ${className}`}>
+          <div className={`flex gap-ios-xs ${className}`}>
       {externalLinks.map((link) => (
         <button
           key={link.name}
