@@ -200,6 +200,19 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* Hide browser's default search input clear button */
+.ios-search-container input[type="search"]::-webkit-search-cancel-button,
+.ios-search-container input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.ios-search-container input[type="search"]::-ms-clear {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
 .ios-search-container input:focus {
   transform: scale(1.002);
 }
