@@ -71,12 +71,12 @@ export default function SearchBar({ onSearch, isLoading = false }: SearchBarProp
           value={query}
           onChange={handleInputChange}
           placeholder="Search movies or TV shows..."
-          className="w-full pl-12 sm:pl-14 pr-20 sm:pr-24 py-3 sm:py-4 text-base sm:text-lg bg-card text-card-foreground rounded-lg border border-muted hover:border-muted-foreground focus:outline-none focus:ring-2 focus:ring-vercel-blue/20 focus:border-vercel-blue transition-all duration-200 placeholder:text-muted-foreground placeholder:text-sm sm:placeholder:text-base"
+          className="w-full pl-12 pr-ios-xl py-ios-sm text-ios-body bg-card text-card-foreground rounded-ios-card border border-muted hover:border-muted-foreground focus:outline-none focus:ring-2 focus:ring-vercel-blue/20 focus:border-vercel-blue transition-all duration-200 placeholder:text-muted-foreground placeholder:text-ios-subhead"
           autoFocus
         />
 
         {/* Search Icon */}
-        <div className="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 pointer-events-none">
+        <div className="absolute left-ios-md top-1/2 -translate-y-1/2 pointer-events-none">
           <svg
             className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground transition-colors duration-300 group-focus-within:text-primary"
             fill="none"
@@ -123,7 +123,7 @@ export default function SearchBar({ onSearch, isLoading = false }: SearchBarProp
           <button
             type="button"
             onClick={handleClear}
-            className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 p-1 sm:p-1.5 rounded-full hover:bg-muted transition-all duration-200 hover:scale-110"
+            className="absolute right-ios-md top-1/2 -translate-y-1/2 p-ios-xs rounded-full hover:bg-muted transition-all duration-200 hover:scale-110"
           >
             <svg
               className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground hover:text-foreground transition-colors"

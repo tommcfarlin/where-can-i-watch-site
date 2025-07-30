@@ -55,12 +55,12 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <header className="text-center mb-16 mt-12 animate-fade-in">
-          <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
+        {/* Header - iOS Typography */}
+        <header className="text-center mb-ios-2xl mt-ios-lg animate-fade-in">
+          <h1 className="text-ios-large-title font-ios-bold text-foreground mb-ios-sm">
             Where Can I Watch?
           </h1>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-ios-body text-muted-foreground">
             Find out which streaming services have your favorite movies and TV shows
           </p>
         </header>
