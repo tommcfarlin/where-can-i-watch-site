@@ -150,7 +150,7 @@ export default function ResultCard({ item, providers: externalProviders }: Resul
             {title}
           </h3>
           {year && (
-            <p className="text-ios-caption-1 text-muted-foreground mt-ios-xs">
+            <p className="text-ios-caption-1 text-ios-secondary-label mt-ios-xs">
               {year}
             </p>
           )}
@@ -234,7 +234,7 @@ export default function ResultCard({ item, providers: externalProviders }: Resul
                 {/* Streaming Providers */}
                 {streamingProviders.length > 0 && (
                   <div>
-                    <p className="text-ios-caption-1 text-muted-foreground mb-ios-sm">
+                    <p className="text-ios-caption-1 text-ios-tertiary-label mb-ios-sm">
                       Stream on:
                     </p>
                     <div className="flex flex-wrap gap-ios-sm">
@@ -248,7 +248,7 @@ export default function ResultCard({ item, providers: externalProviders }: Resul
                 {/* Purchase Providers */}
                 {purchaseProviders.length > 0 && (
                   <div>
-                    <p className="text-ios-caption-1 text-muted-foreground mb-ios-sm">
+                    <p className="text-ios-caption-1 text-ios-tertiary-label mb-ios-sm">
                       Buy/Rent on:
                     </p>
                     <div className="flex flex-wrap gap-ios-sm">
@@ -260,7 +260,7 @@ export default function ResultCard({ item, providers: externalProviders }: Resul
                 )}
               </div>
             ) : (
-              <p className="text-ios-caption-1 text-muted-foreground text-center py-ios-sm">
+              <p className="text-ios-caption-1 text-ios-tertiary-label text-center py-ios-sm">
                 Not available for streaming in the US
               </p>
             )}

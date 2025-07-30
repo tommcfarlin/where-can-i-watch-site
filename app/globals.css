@@ -63,33 +63,65 @@
   --spacing-4xl: 4rem;        /* 64px */
 }
 
-/* Vercel-inspired Dark Mode Color System */
+/* iOS Semantic Color System - Dark Mode */
 :root {
-  /* Vercel's Geist design system colors - dark only */
-  --background: 0 0% 0%;           /* Pure black like Vercel */
-  --foreground: 0 0% 100%;         /* Pure white text */
+  /* iOS Label Colors (Text Hierarchy) */
+  --ios-label: 0 0% 100%;                    /* #FFFFFF - Primary text */
+  --ios-secondary-label: 0 0% 92% / 0.6;     /* #EBEBF5 60% - Secondary text */
+  --ios-tertiary-label: 0 0% 92% / 0.3;      /* #EBEBF5 30% - Tertiary text */
+  --ios-quaternary-label: 0 0% 92% / 0.18;   /* #EBEBF5 18% - Quaternary text */
 
-  /* Card colors - subtle contrast from background */
-  --card: 0 0% 7%;                /* Very dark gray (#111111) */
-  --card-foreground: 0 0% 100%;    /* White text on cards */
+  /* iOS System Background Colors */
+  --ios-system-background: 0 0% 0%;          /* #000000 - Main background */
+  --ios-secondary-system-background: 220 13% 11%;  /* #1C1C1E - Cards/grouped content */
+  --ios-tertiary-system-background: 240 6% 18%;    /* #2C2C2E - Grouped backgrounds */
 
-  /* Muted colors - Vercel's accent system */
-  --muted: 0 0% 20%;               /* #333333 - darker muted background */
-  --muted-foreground: 0 0% 60%;    /* #999999 - muted text */
+  /* iOS System Grouped Background Colors */
+  --ios-system-grouped-background: 0 0% 0%;         /* #000000 - Main grouped background */
+  --ios-secondary-system-grouped-background: 220 13% 11%;  /* #1C1C1E - Secondary grouped */
+  --ios-tertiary-system-grouped-background: 240 6% 18%;    /* #2C2C2E - Tertiary grouped */
 
-  /* Primary - neutral gray, use blue sparingly */
-  --primary: 0 0% 90%;             /* Light gray for most UI elements */
-  --primary-foreground: 0 0% 0%;   /* Black text on light elements */
+  /* iOS Fill Colors */
+  --ios-system-fill: 0 0% 92% / 0.36;       /* #EBEBF5 36% - Thin materials */
+  --ios-secondary-system-fill: 0 0% 92% / 0.32;  /* #EBEBF5 32% - Medium materials */
+  --ios-tertiary-system-fill: 0 0% 92% / 0.24;   /* #EBEBF5 24% - Thick materials */
+  --ios-quaternary-system-fill: 0 0% 92% / 0.18; /* #EBEBF5 18% - Ultra thick materials */
 
-  /* Secondary - subtle grays */
-  --secondary: 0 0% 26%;           /* #444444 */
-  --secondary-foreground: 0 0% 100%;
+  /* iOS Separator Colors */
+  --ios-separator: 0 0% 22% / 0.65;          /* #38383A 65% opacity */
+  --ios-opaque-separator: 0 0% 22%;          /* #38383A - Solid separator */
 
-  /* Accent for highlights and interactions */
-  --accent: 0 0% 13%;              /* #222222 - slightly lighter than background */
-  --accent-foreground: 0 0% 100%;
+  /* iOS Link Color */
+  --ios-link: 211 100% 56%;                  /* #007AFF - System blue */
 
-  /* Border radius - iOS standard 16px for cards, 12px for buttons */
+  /* iOS Border and Interactive Colors */
+  --ios-system-gray: 0 0% 56%;               /* #8E8E93 */
+  --ios-system-gray2: 240 1% 48%;            /* #787880 */
+  --ios-system-gray3: 240 2% 42%;            /* #6D6D7D */
+  --ios-system-gray4: 240 1% 36%;            /* #5A5A65 */
+  --ios-system-gray5: 240 2% 31%;            /* #4C4C57 */
+  --ios-system-gray6: 240 2% 25%;            /* #3F3F48 */
+
+  /* Map iOS colors to app tokens for compatibility */
+  --background: var(--ios-system-background);
+  --foreground: var(--ios-label);
+
+  --card: var(--ios-secondary-system-background);
+  --card-foreground: var(--ios-label);
+
+  --muted: var(--ios-tertiary-system-background);
+  --muted-foreground: var(--ios-secondary-label);
+
+  --primary: var(--ios-link);
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: var(--ios-system-gray5);
+  --secondary-foreground: var(--ios-label);
+
+  --accent: var(--ios-secondary-system-background);
+  --accent-foreground: var(--ios-label);
+
+  /* iOS Border radius values */
   --radius: 0.75rem;               /* 12px - iOS button radius */
   --radius-card: 1rem;             /* 16px - iOS card radius */
 }
@@ -148,6 +180,18 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--muted-foreground) / 0.5);
 }
+
+/* iOS Semantic Color Utility Classes */
+.text-ios-label { color: hsl(var(--ios-label)); }
+.text-ios-secondary-label { color: hsl(var(--ios-secondary-label)); }
+.text-ios-tertiary-label { color: hsl(var(--ios-tertiary-label)); }
+.text-ios-quaternary-label { color: hsl(var(--ios-quaternary-label)); }
+
+.bg-ios-system-background { background-color: hsl(var(--ios-system-background)); }
+.bg-ios-secondary-system-background { background-color: hsl(var(--ios-secondary-system-background)); }
+.bg-ios-tertiary-system-background { background-color: hsl(var(--ios-tertiary-system-background)); }
+
+.border-ios-separator { border-color: hsl(var(--ios-separator)); }
 
 /* iOS Text Style Utility Classes */
 .text-large-title {

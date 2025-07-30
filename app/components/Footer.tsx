@@ -8,7 +8,7 @@ export default function Footer() {
           <p className="text-sm text-muted-foreground">
             © {currentYear} Where Can I Watch? All rights reserved.
           </p>
-          <p className="text-ios-caption-1 text-muted-foreground/70 mt-ios-sm">
+          <p className="text-ios-caption-1 text-ios-quaternary-label mt-ios-sm">
             Created by Tom McFarlin • Powered by{' '}
             <a
               href="https://www.themoviedb.org/"

@@ -234,7 +234,7 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
                   style={{ width: `${(loadingProgress.current / loadingProgress.total) * 100}%` }}
                 ></div>
               </div>
-              <p className="text-ios-caption-1 text-muted-foreground/70 mt-ios-xs">
+              <p className="text-ios-caption-1 text-ios-quaternary-label mt-ios-xs">
                 Checking availability... ({loadingProgress.current} of {loadingProgress.total})
               </p>
             </div>
@@ -267,7 +267,7 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
                 {activeTab === 'not-streaming' && `No non-streaming content found for "${searchQuery}"`}
                 {activeTab === 'all' && `No results found for "${searchQuery}"`}
               </p>
-              <p className="text-ios-subhead text-muted-foreground/70 mt-ios-sm">
+              <p className="text-ios-subhead text-ios-tertiary-label mt-ios-sm">
                 {activeTab === 'movie' && 'Try switching to the TV Shows tab'}
                 {activeTab === 'tv' && 'Try switching to the Movies tab'}
                 {activeTab === 'not-streaming' && 'Try switching to the All tab'}

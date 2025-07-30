@@ -17,7 +17,7 @@ export default function Tabs({ activeTab, onTabChange, movieCount, tvCount, notS
   ] as const;
 
   return (
-    <div className="border-b border-muted mb-ios-lg">
+                <div className="border-b border-ios-separator mb-ios-lg">
       <nav className="-mb-px flex gap-ios-md" aria-label="Tabs">
         {tabs.map((tab) => (
           <button

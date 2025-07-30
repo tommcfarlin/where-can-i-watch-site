@@ -9,7 +9,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Vercel-inspired color system
+        // iOS semantic color system (backwards compatible)
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
@@ -32,11 +32,22 @@ module.exports = {
           DEFAULT: 'hsl(var(--accent))',
           foreground: 'hsl(var(--accent-foreground))',
         },
-        // Vercel accent color for minimal usage
+
+        // iOS Semantic Colors - Direct Access
+        'ios-label': 'hsl(var(--ios-label))',
+        'ios-secondary-label': 'hsl(var(--ios-secondary-label))',
+        'ios-tertiary-label': 'hsl(var(--ios-tertiary-label))',
+        'ios-quaternary-label': 'hsl(var(--ios-quaternary-label))',
+        'ios-system-background': 'hsl(var(--ios-system-background))',
+        'ios-secondary-system-background': 'hsl(var(--ios-secondary-system-background))',
+        'ios-tertiary-system-background': 'hsl(var(--ios-tertiary-system-background))',
+        'ios-separator': 'hsl(var(--ios-separator))',
+        'ios-link': 'hsl(var(--ios-link))',
+
+        // Keep some Vercel compatibility
         'vercel-blue': '#0070f3',
-        // Minimal color palette
         blue: {
-          500: '#0070f3', // Vercel blue for rare accents
+          500: 'hsl(var(--ios-link))', // Use iOS link color
         },
         // Additional grays following Vercel's system
         gray: {
