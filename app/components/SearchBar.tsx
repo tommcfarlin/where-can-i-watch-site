@@ -19,11 +19,11 @@ export default function SearchBar({ onSearch, isLoading = false }: SearchBarProp
       clearTimeout(debounceTimer.current);
     }
 
-    // Only search if query is empty or has at least 2 characters
-    if (searchQuery.length === 0 || searchQuery.length >= 2) {
+    // Only search if query is empty or has at least 3 characters
+    if (searchQuery.length === 0 || searchQuery.length >= 3) {
       debounceTimer.current = window.setTimeout(() => {
         onSearch(searchQuery);
-      }, 300);
+      }, 500);
     }
   };
 
