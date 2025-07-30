@@ -17,37 +17,40 @@ export default function Tabs({ activeTab, onTabChange, movieCount, tvCount, notS
   ] as const;
 
   return (
-                <div className="border-b border-ios-separator mb-ios-lg">
-      <nav className="-mb-px flex gap-ios-md" aria-label="Tabs">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => onTabChange(tab.id)}
-            className={`
-              py-ios-sm px-ios-xs border-b-2 font-medium text-ios-footnote transition-all duration-200 flex items-center gap-ios-xs whitespace-nowrap
-              ${
-                activeTab === tab.id
-                  ? 'border-foreground text-foreground'
-                  : 'border-transparent text-muted-foreground hover:text-foreground hover:border-muted'
-              }
-            `}
-          >
-            <span className="text-ios-callout">{tab.icon}</span>
-            <span>{tab.label}</span>
-            {tab.count > 0 && (
-              <span
-                className={`ml-ios-xs py-ios-xs px-ios-sm rounded-full text-ios-caption-2 transition-colors duration-200 ${
+    <div className="mb-ios-lg">
+      {/* iOS Segmented Control Style Navigation */}
+      <div className="bg-ios-tertiary-system-background p-ios-xs rounded-ios-button">
+        <nav className="flex gap-ios-xs" aria-label="Tabs">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => onTabChange(tab.id)}
+              className={`
+                relative min-h-[44px] px-ios-md py-ios-sm rounded-ios-button font-ios-medium text-ios-subhead transition-all duration-300 flex items-center justify-center gap-ios-xs whitespace-nowrap flex-1 touch-manipulation active:scale-[0.98] ios-tab-button
+                ${
                   activeTab === tab.id
-                    ? 'bg-card border border-muted text-foreground'
-                    : 'bg-muted text-muted-foreground'
-                }`}
-              >
-                {tab.count}
-              </span>
-            )}
-          </button>
-        ))}
-      </nav>
+                    ? 'bg-ios-secondary-system-background text-ios-label shadow-sm'
+                    : 'text-ios-secondary-label hover:text-ios-label hover:bg-ios-system-fill active:bg-ios-secondary-system-fill'
+                }
+              `}
+            >
+              <span className="text-ios-body">{tab.icon}</span>
+              <span className="font-ios-medium">{tab.label}</span>
+              {tab.count > 0 && (
+                <span
+                  className={`inline-flex items-center justify-center min-w-[18px] h-[18px] px-ios-xs text-ios-caption-2 font-ios-semibold rounded-full transition-all duration-200 ${
+                    activeTab === tab.id
+                      ? 'bg-ios-link text-white'
+                      : 'bg-ios-secondary-label text-ios-system-background'
+                  }`}
+                >
+                  {tab.count}
+                </span>
+              )}
+            </button>
+          ))}
+        </nav>
+      </div>
     </div>
   );
 }

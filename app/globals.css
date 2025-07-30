@@ -264,6 +264,36 @@ body {
   }
 }
 
+/* iOS Tab Navigation Enhancements */
+.ios-tab-button {
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.ios-tab-button:active {
+  transform: scale(0.98);
+}
+
+/* iOS segmented control spring animation */
+@media (prefers-reduced-motion: no-preference) {
+  .ios-tab-button {
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .ios-tab-button:active {
+    transition: transform 0.1s ease-out;
+  }
+}
+
+/* iOS tab badge animations */
+.ios-tab-button span:last-child {
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.ios-tab-button:hover span:last-child {
+  transform: scale(1.05);
+}
+
 /* iOS Text Style Utility Classes */
 .text-large-title {
   font-size: var(--text-large-title);

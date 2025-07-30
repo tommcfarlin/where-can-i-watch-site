@@ -46,9 +46,10 @@ module.exports = {
 
         // Keep some Vercel compatibility
         'vercel-blue': '#0070f3',
-        blue: {
-          500: 'hsl(var(--ios-link))', // Use iOS link color
-        },
+                      blue: {
+                500: 'hsl(var(--ios-link))', // Use iOS link color
+              },
+              white: '#ffffff',
         // Additional grays following Vercel's system
         gray: {
           50: '#fafafa',
@@ -109,6 +110,7 @@ module.exports = {
         'ios-spring': 'iosSpring 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
         'ios-ease': 'iosEase 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
         'ios-scale-in': 'iosScaleIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+        'ios-tab-switch': 'iosTabSwitch 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
       },
       keyframes: {
         fadeIn: {
@@ -142,6 +144,11 @@ module.exports = {
           '50%': { transform: 'scale(1.02)' },
           '100%': { transform: 'scale(1)', opacity: '1' },
         },
+        iosTabSwitch: {
+          '0%': { transform: 'scale(0.95)', opacity: '0.8' },
+          '50%': { transform: 'scale(1.02)' },
+          '100%': { transform: 'scale(1)', opacity: '1' },
+        },
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -155,6 +162,9 @@ module.exports = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
         'subtle-gradient': 'linear-gradient(to bottom right, var(--tw-gradient-stops))',
+      },
+      scale: {
+        '98': '0.98',
       },
     },
   },
