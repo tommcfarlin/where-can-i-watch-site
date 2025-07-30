@@ -37,7 +37,7 @@ export default function RootLayout({
         className={`${inter.variable} ${geistMono.variable} font-sans antialiased min-h-screen flex flex-col`}
         suppressHydrationWarning
       >
-        <main className="flex-1">
+        <main className="flex-1 pb-24">
           {children}
         </main>
         <Footer />

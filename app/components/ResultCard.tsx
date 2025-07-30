@@ -74,16 +74,29 @@ export default function ResultCard({ item, providers: externalProviders }: Resul
   };
 
   const usProviders = providers?.providers;
-  // Combine all providers and deduplicate by provider_id
-  const allProvidersWithDuplicates = [
+
+  // Separate streaming providers (subscription/free) from purchase providers (buy/rent)
+  const streamingProvidersWithDuplicates = [
     ...(usProviders?.flatrate || []),
-    ...(usProviders?.free || []),
+    ...(usProviders?.free || [])
+  ];
+
+  const purchaseProvidersWithDuplicates = [
     ...(usProviders?.buy || []),
     ...(usProviders?.rent || [])
   ];
 
-  // Deduplicate providers by provider_id
-  const allProviders = allProvidersWithDuplicates.filter((provider, index, array) =>
+  // Deduplicate each category by provider_id
+  const streamingProviders = streamingProvidersWithDuplicates.filter((provider, index, array) =>
+    array.findIndex(p => p.provider_id === provider.provider_id) === index
+  );
+
+  const purchaseProviders = purchaseProvidersWithDuplicates.filter((provider, index, array) =>
+    array.findIndex(p => p.provider_id === provider.provider_id) === index
+  );
+
+  // All providers combined for preview (maintain backward compatibility)
+  const allProviders = [...streamingProviders, ...purchaseProviders].filter((provider, index, array) =>
     array.findIndex(p => p.provider_id === provider.provider_id) === index
   );
 
@@ -149,7 +162,7 @@ export default function ResultCard({ item, providers: externalProviders }: Resul
                 {allProviders.slice(0, 3).map((provider, index) => (
                   <div
                     key={provider.provider_id}
-                    className="relative w-6 h-6 rounded-full overflow-hidden border-2 border-card ring-1 ring-black/5"
+                    className="relative w-6 h-6 rounded-full overflow-hidden border-2 border-card ring-1 ring-black/5 cursor-default"
                     style={{ zIndex: 3 - index }}
                   >
                     {provider.logo_path ? (
@@ -216,16 +229,35 @@ export default function ResultCard({ item, providers: externalProviders }: Resul
                   />
                 </svg>
               </div>
-            ) : allProviders.length > 0 ? (
-              <div>
-                <p className="text-xs text-muted-foreground mb-2">
-                  Available on:
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {allProviders.map((provider) => (
-                    <ProviderBadge key={provider.provider_id} provider={provider} />
-                  ))}
-                </div>
+            ) : streamingProviders.length > 0 || purchaseProviders.length > 0 ? (
+              <div className="space-y-3">
+                {/* Streaming Providers */}
+                {streamingProviders.length > 0 && (
+                  <div>
+                    <p className="text-xs text-muted-foreground mb-2">
+                      Stream on:
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {streamingProviders.map((provider) => (
+                        <ProviderBadge key={provider.provider_id} provider={provider} />
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Purchase Providers */}
+                {purchaseProviders.length > 0 && (
+                  <div>
+                    <p className="text-xs text-muted-foreground mb-2">
+                      Buy/Rent on:
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {purchaseProviders.map((provider) => (
+                        <ProviderBadge key={provider.provider_id} provider={provider} />
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             ) : (
               <p className="text-xs text-muted-foreground text-center py-2">
