@@ -143,9 +143,8 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
       filtered = streamingMovies;
     } else if (activeTab === 'tv') {
       filtered = streamingTVShows;
-    } else if (activeTab === 'not-streaming') {
-      filtered = allNotStreaming;
     }
+    // Removed: not-streaming tab logic
 
     return {
       movieCount: streamingMovies.length,
