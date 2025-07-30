@@ -57,10 +57,10 @@ export default function Home() {
       <div className="container mx-auto px-ios-md py-ios-sm">
         {/* Header - iOS Typography */}
         <header className="text-center mb-ios-2xl mt-ios-lg animate-fade-in">
-          <h1 className="text-ios-large-title font-ios-bold text-foreground mb-ios-sm">
+          <h1 className="text-ios-large-title font-ios-bold text-ios-label mb-ios-sm">
             Where Can I Watch?
           </h1>
-          <p className="text-ios-body text-muted-foreground">
+          <p className="text-ios-body text-ios-secondary-label">
             Find out which streaming services have your favorite movies and TV shows
           </p>
         </header>

@@ -21,7 +21,7 @@ export default function ExternalLinksIcon({ links, className = '' }: ExternalLin
   };
 
   return (
-    <div className={`flex gap-1 ${className}`}>
+    <div className={`flex gap-ios-xs ${className}`}>
       {links.map((link) => (
         <button
           key={link.name}

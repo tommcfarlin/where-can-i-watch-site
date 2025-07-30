@@ -96,11 +96,11 @@ export default function ExternalLinks({ id, mediaType, className = '' }: Externa
             key={link.name}
             onClick={() => handleLinkClick(link.url, link.name)}
             className="
-              flex items-center gap-2
-              text-muted-foreground hover:text-foreground
+              flex items-center gap-ios-sm
+              text-ios-tertiary-label hover:text-ios-label
               transition-colors duration-200
-              focus:outline-none focus:ring-2 focus:ring-primary/50
-              rounded-md px-1
+              focus:outline-none focus:ring-2 focus:ring-ios-link/50
+              rounded-ios-button px-ios-xs
             "
             title={`View on ${link.name}`}
             aria-label={`View on ${link.name}`}
@@ -168,7 +168,7 @@ export default function ExternalLinks({ id, mediaType, className = '' }: Externa
               }}
             />
           ) : (
-            <span className="text-lg sm:text-base md:text-lg group-hover:scale-110 transition-transform duration-200">
+            <span className="text-ios-body group-hover:scale-110 transition-transform duration-200">
               {link.icon}
             </span>
           )}

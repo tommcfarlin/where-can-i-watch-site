@@ -120,7 +120,7 @@ export default function ResultCard({ item, providers: externalProviders }: Resul
           ) : (
             <div className="flex items-center justify-center h-full">
               <svg
-                className="w-20 h-20 text-muted-foreground"
+                className="w-20 h-20 text-ios-tertiary-label"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"

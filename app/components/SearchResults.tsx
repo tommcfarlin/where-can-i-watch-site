@@ -171,11 +171,11 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
       {/* Franchise Detection Notice */}
       {(results as ExtendedSearchResponse & { detectedFranchise?: string }).detectedFranchise && (
                 <div className="mb-ios-lg p-ios-md bg-card rounded-ios-card border border-muted">
-          <p className="text-sm">
-            <span className="font-semibold text-foreground">
+          <p className="text-ios-subhead">
+            <span className="font-ios-semibold text-ios-label">
               🎬 Franchise detected!
             </span>
-            <span className="text-muted-foreground ml-2">
+            <span className="text-ios-secondary-label ml-ios-sm">
               Showing additional {(results as ExtendedSearchResponse & { detectedFranchise?: string }).detectedFranchise} universe content that might not contain &ldquo;{searchQuery}&rdquo; in the title.
             </span>
           </p>
@@ -262,7 +262,7 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
             </div>
           ) : (
             <div className="text-center py-ios-3xl">
-              <p className="text-muted-foreground">
+              <p className="text-ios-body text-ios-secondary-label">
                 {activeTab === 'movie' && `No movies found for "${searchQuery}"`}
                 {activeTab === 'tv' && `No TV shows found for "${searchQuery}"`}
                 {activeTab === 'not-streaming' && `No non-streaming content found for "${searchQuery}"`}
@@ -277,7 +277,7 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
               {activeTab !== 'all' && (
                 <button
                   onClick={() => setActiveTab('all')}
-                  className="mt-ios-md text-muted-foreground hover:text-foreground hover:underline transition-colors"
+                  className="mt-ios-md text-ios-tertiary-label hover:text-ios-label hover:underline transition-colors"
                 >
                   View all results
                 </button>
