@@ -193,6 +193,29 @@ body {
 
 .border-ios-separator { border-color: hsl(var(--ios-separator)); }
 
+/* iOS Search Bar Enhancements */
+.ios-search-container input {
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ios-search-container input:focus {
+  transform: scale(1.002);
+}
+
+/* iOS-style button press feedback */
+.ios-search-container button:active {
+  transform: scale(0.96) translate(-50%, -50%);
+}
+
+/* Prevent iOS zoom on input focus */
+@media screen and (max-width: 768px) {
+  .ios-search-container input {
+    font-size: 16px; /* Prevents iOS zoom */
+  }
+}
+
 /* iOS Text Style Utility Classes */
 .text-large-title {
   font-size: var(--text-large-title);

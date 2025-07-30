@@ -64,39 +64,42 @@ export default function SearchBar({ onSearch, isLoading = false }: SearchBarProp
 
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-2xl mx-auto animate-fade-up">
-      <div className="relative group">
+      <div className="relative group ios-search-container">
         <input
           ref={inputRef}
-          type="text"
+          type="search"
           value={query}
           onChange={handleInputChange}
           placeholder="Search movies or TV shows..."
-          className="w-full pl-12 pr-ios-xl py-ios-sm text-ios-body bg-card text-card-foreground rounded-ios-card border border-muted hover:border-muted-foreground focus:outline-none focus:ring-2 focus:ring-vercel-blue/20 focus:border-vercel-blue transition-all duration-200 placeholder:text-muted-foreground placeholder:text-ios-subhead"
+          className="w-full h-11 pl-12 pr-ios-xl text-ios-body bg-ios-secondary-system-background text-ios-label rounded-ios-button border-0 focus:outline-none focus:bg-ios-tertiary-system-background focus:shadow-sm transition-all duration-200 placeholder:text-ios-tertiary-label touch-manipulation"
+          autoComplete="off"
+          spellCheck="false"
+          autoCapitalize="none"
+          autoCorrect="off"
+          role="searchbox"
+          aria-label="Search movies and TV shows"
           autoFocus
         />
 
-        {/* Search Icon */}
+        {/* Search Icon - iOS Style */}
         <div className="absolute left-ios-md top-1/2 -translate-y-1/2 pointer-events-none">
           <svg
-            className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground transition-colors duration-300 group-focus-within:text-primary"
+            className="w-4 h-4 text-ios-tertiary-label transition-colors duration-200 group-focus-within:text-ios-secondary-label"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
+            strokeWidth={2.5}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.35-4.35" strokeLinecap="round" />
           </svg>
         </div>
 
-        {/* Loading Spinner */}
+        {/* Loading Spinner - iOS Style */}
         {isLoading && (
-          <div className="absolute right-12 sm:right-16 top-1/2 -translate-y-1/2">
+          <div className="absolute right-ios-md top-1/2 -translate-y-1/2">
             <svg
-              className="animate-spin h-4 w-4 sm:h-5 sm:w-5 text-primary"
+              className="animate-spin h-4 w-4 text-ios-secondary-label"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -107,7 +110,7 @@ export default function SearchBar({ onSearch, isLoading = false }: SearchBarProp
                 cy="12"
                 r="10"
                 stroke="currentColor"
-                strokeWidth="4"
+                strokeWidth="3"
               ></circle>
               <path
                 className="opacity-75"
@@ -118,23 +121,23 @@ export default function SearchBar({ onSearch, isLoading = false }: SearchBarProp
           </div>
         )}
 
-        {/* Clear Button */}
+        {/* Clear Button - iOS Style */}
         {query && !isLoading && (
           <button
             type="button"
             onClick={handleClear}
-            className="absolute right-ios-md top-1/2 -translate-y-1/2 p-ios-xs rounded-full hover:bg-muted transition-all duration-200 hover:scale-110"
+            className="absolute right-ios-md top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-ios-tertiary-label hover:bg-ios-secondary-label transition-all duration-200 flex items-center justify-center touch-manipulation active:scale-95"
           >
             <svg
-              className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground hover:text-foreground transition-colors"
+              className="w-3 h-3 text-ios-system-background"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
+              strokeWidth={3}
             >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth={2}
                 d="M6 18L18 6M6 6l12 12"
               />
             </svg>
