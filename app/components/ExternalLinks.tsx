@@ -106,19 +106,21 @@ export default function ExternalLinks({ id, mediaType, className = '' }: Externa
             aria-label={`View on ${link.name}`}
           >
                         <img
-              src="https://www.imdb.com/favicon.ico"
+              src="https://m.media-amazon.com/images/G/01/imdb/images-ANDW73HA/favicon_desktop_32x32._CB1582158068_.png"
               alt="IMDb"
               className="w-4 h-4"
               onError={(e) => {
-                // Fallback to emoji if favicon fails to load
-                e.currentTarget.style.display = 'none';
-                const fallbackSpan = e.currentTarget.nextElementSibling as HTMLElement;
-                if (fallbackSpan) {
-                  fallbackSpan.style.display = 'inline';
+                // If IMDB favicon fails, try fallback
+                const img = e.currentTarget;
+                if (img.src.includes('media-amazon.com')) {
+                  // Try original favicon URL
+                  img.src = 'https://www.imdb.com/favicon.ico';
+                } else {
+                  // Use base64 IMDB logo as final fallback
+                  img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2IiByeD0iMiIgZmlsbD0iI0Y1QzUxOCIvPgo8cGF0aCBkPSJNMyA2SDE0VjEwSDNWNloiIGZpbGw9IiMwMDAwMDAiLz4KPHN2ZyB4PSIzIiB5PSI2IiB3aWR0aD0iMTEiIGhlaWdodD0iNCIgdmlld0JveD0iMCAwIDExIDQiPgo8dGV4dCB4PSI1LjUiIHk9IjMiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIzIiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0iI0Y1QzUxOCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SU1EYjwvdGV4dD4KPHN2Zz4KPHN2Zz4K';
                 }
               }}
             />
-            <span className="hidden text-lg">{link.icon}</span>
             <span className="font-medium">View on {link.name}</span>
           </button>
         ))}
@@ -148,9 +150,28 @@ export default function ExternalLinks({ id, mediaType, className = '' }: Externa
           title={`View on ${link.name}`}
           aria-label={`View on ${link.name}`}
         >
-          <span className="text-lg sm:text-base md:text-lg group-hover:scale-110 transition-transform duration-200">
-            {link.icon}
-          </span>
+          {link.name === 'IMDb' ? (
+            <img
+              src="https://m.media-amazon.com/images/G/01/imdb/images-ANDW73HA/favicon_desktop_32x32._CB1582158068_.png"
+              alt="IMDb"
+              className="w-4 h-4 group-hover:scale-110 transition-transform duration-200"
+              onError={(e) => {
+                // If IMDB favicon fails, try fallback
+                const img = e.currentTarget;
+                if (img.src.includes('media-amazon.com')) {
+                  // Try original favicon URL
+                  img.src = 'https://www.imdb.com/favicon.ico';
+                } else {
+                  // Use base64 IMDB logo as final fallback
+                  img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2IiByeD0iMiIgZmlsbD0iI0Y1QzUxOCIvPgo8cGF0aCBkPSJNMyA2SDE0VjEwSDNWNloiIGZpbGw9IiMwMDAwMDAiLz4KPHN2ZyB4PSIzIiB5PSI2IiB3aWR0aD0iMTEiIGhlaWdodD0iNCIgdmlld0JveD0iMCAwIDExIDQiPgo8dGV4dCB4PSI1LjUiIHk9IjMiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIzIiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0iI0Y1QzUxOCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SU1EYjwvdGV4dD4KPHN2Zz4KPHN2Zz4K';
+                }
+              }}
+            />
+          ) : (
+            <span className="text-lg sm:text-base md:text-lg group-hover:scale-110 transition-transform duration-200">
+              {link.icon}
+            </span>
+          )}
         </button>
       ))}
     </div>

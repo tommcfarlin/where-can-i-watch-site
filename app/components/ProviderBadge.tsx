@@ -14,7 +14,7 @@ export default function ProviderBadge({ provider }: ProviderBadgeProps) {
 
   if (logoUrl) {
     return (
-      <div className="relative w-10 h-10 rounded-lg overflow-hidden border border-muted" title={provider.provider_name}>
+      <div className="relative w-10 h-10 rounded-lg overflow-hidden border border-muted cursor-default" title={provider.provider_name}>
         <Image
           src={logoUrl}
           alt={provider.provider_name}
@@ -28,7 +28,7 @@ export default function ProviderBadge({ provider }: ProviderBadgeProps) {
 
   // Fallback to text if no logo
   return (
-          <span className="inline-block px-3 py-1 text-xs font-medium bg-muted text-muted-foreground rounded-full">
+    <span className="inline-block px-3 py-1 text-xs font-medium bg-muted text-muted-foreground rounded-full cursor-default">
       {provider.provider_name}
     </span>
   );
