@@ -311,6 +311,145 @@ body {
   }
 }
 
+/* iOS Native Animation System */
+:root {
+  /* iOS Standard Animation Curves */
+  --ios-ease: cubic-bezier(0.25, 0.1, 0.25, 1.0);        /* Standard iOS ease */
+  --ios-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);  /* iOS spring bounce */
+  --ios-ease-in: cubic-bezier(0.42, 0, 1, 1);             /* iOS ease in */
+  --ios-ease-out: cubic-bezier(0, 0, 0.58, 1);            /* iOS ease out */
+  --ios-ease-in-out: cubic-bezier(0.42, 0, 0.58, 1);      /* Core Animation */
+
+  /* iOS Standard Durations */
+  --ios-duration-micro: 150ms;      /* Button press, micro-interactions */
+  --ios-duration-quick: 200ms;      /* Hover states, quick feedback */
+  --ios-duration-standard: 300ms;   /* UI transitions, modals */
+  --ios-duration-emphasized: 400ms; /* Content transitions */
+  --ios-duration-slow: 500ms;       /* Page transitions, large animations */
+
+  /* iOS Motion Preferences */
+  --ios-reduced-duration: 100ms;    /* Reduced motion fallback */
+}
+
+/* iOS Animation Utility Classes */
+.ios-transition-micro {
+  transition-duration: var(--ios-duration-micro);
+  transition-timing-function: var(--ios-ease);
+}
+
+.ios-transition-quick {
+  transition-duration: var(--ios-duration-quick);
+  transition-timing-function: var(--ios-ease);
+}
+
+.ios-transition-standard {
+  transition-duration: var(--ios-duration-standard);
+  transition-timing-function: var(--ios-ease);
+}
+
+.ios-transition-spring {
+  transition-duration: var(--ios-duration-standard);
+  transition-timing-function: var(--ios-spring);
+}
+
+.ios-transition-emphasized {
+  transition-duration: var(--ios-duration-emphasized);
+  transition-timing-function: var(--ios-ease-in-out);
+}
+
+/* iOS-native transform animations */
+.ios-scale-press {
+  transform-origin: center;
+  transition: transform var(--ios-duration-micro) var(--ios-ease);
+}
+
+.ios-scale-press:active {
+  transform: scale(0.96);
+}
+
+.ios-scale-button {
+  transform-origin: center;
+  transition: transform var(--ios-duration-micro) var(--ios-ease);
+}
+
+.ios-scale-button:active {
+  transform: scale(0.98);
+}
+
+/* iOS spring entrance animations */
+@keyframes ios-spring-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+  }
+  50% {
+    transform: scale(1.05) translateY(-5px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes ios-fade-slide-in {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ios-scale-bounce {
+  0% {
+    transform: scale(0.9);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-ios-spring-in {
+  animation: ios-spring-in var(--ios-duration-emphasized) var(--ios-spring);
+}
+
+.animate-ios-fade-slide-in {
+  animation: ios-fade-slide-in var(--ios-duration-standard) var(--ios-ease);
+}
+
+.animate-ios-scale-bounce {
+  animation: ios-scale-bounce var(--ios-duration-standard) var(--ios-spring);
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .ios-transition-micro,
+  .ios-transition-quick,
+  .ios-transition-standard,
+  .ios-transition-spring,
+  .ios-transition-emphasized {
+    transition-duration: var(--ios-reduced-duration);
+    transition-timing-function: linear;
+  }
+
+  .animate-ios-spring-in,
+  .animate-ios-fade-slide-in,
+  .animate-ios-scale-bounce {
+    animation-duration: var(--ios-reduced-duration);
+    animation-timing-function: linear;
+  }
+
+  .ios-scale-press:active,
+  .ios-scale-button:active {
+    transform: scale(0.99);
+  }
+}
+
 /* iOS Text Style Utility Classes */
 .text-large-title {
   font-size: var(--text-large-title);

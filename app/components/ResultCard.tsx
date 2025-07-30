@@ -102,8 +102,8 @@ export default function ResultCard({ item, providers: externalProviders }: Resul
   );
 
   return (
-    <div className="group cursor-pointer animate-ios-scale-in ios-result-card" onClick={handleCardClick}>
-      <div className="relative overflow-hidden rounded-ios-card bg-ios-secondary-system-background hover:bg-ios-tertiary-system-background active:scale-[0.98] transition-all duration-200 shadow-sm hover:shadow-md touch-manipulation">
+    <div className="group cursor-pointer animate-ios-spring-in ios-result-card" onClick={handleCardClick}>
+      <div className="relative overflow-hidden rounded-ios-card bg-ios-secondary-system-background hover:bg-ios-tertiary-system-background ios-scale-button ios-transition-standard shadow-sm hover:shadow-md touch-manipulation">
         {/* Poster */}
         <div className="aspect-[2/3] relative bg-ios-tertiary-system-background">
           {item.poster_path ? (
@@ -186,7 +186,7 @@ export default function ResultCard({ item, providers: externalProviders }: Resul
                 </span>
               )}
               <svg
-                className={`w-4 h-4 text-ios-tertiary-label ml-auto transition-transform duration-300 ${
+                className={`w-4 h-4 text-ios-tertiary-label ml-auto ios-transition-standard ${
                   showProviders ? 'rotate-180' : ''
                 }`}
                 fill="none"
@@ -206,7 +206,7 @@ export default function ResultCard({ item, providers: externalProviders }: Resul
 
         {/* Providers Section */}
         {showProviders && (
-          <div className="border-t border-ios-separator p-ios-sm animate-slide-in bg-ios-tertiary-system-background/50">
+          <div className="border-t border-ios-separator p-ios-sm animate-ios-fade-slide-in bg-ios-tertiary-system-background/50">
             {isLoadingProviders ? (
               <div className="flex justify-center py-ios-sm">
                 <LoadingSpinner size="md" color="secondary" />

@@ -26,7 +26,7 @@ export default function Tabs({ activeTab, onTabChange, movieCount, tvCount, notS
               key={tab.id}
               onClick={() => onTabChange(tab.id)}
               className={`
-                relative min-h-[44px] px-ios-sm py-ios-sm rounded-ios-button font-ios-medium text-ios-subhead transition-all duration-300 flex items-center justify-center gap-ios-xs whitespace-nowrap flex-1 touch-manipulation active:scale-[0.98] ios-tab-button
+                relative min-h-[44px] px-ios-sm py-ios-sm rounded-ios-button font-ios-medium text-ios-subhead ios-transition-spring ios-scale-button flex items-center justify-center gap-ios-xs whitespace-nowrap flex-1 touch-manipulation ios-tab-button
                 ${
                   activeTab === tab.id
                     ? 'bg-ios-secondary-system-background text-ios-label shadow-sm'
@@ -37,7 +37,7 @@ export default function Tabs({ activeTab, onTabChange, movieCount, tvCount, notS
                 <span className="font-ios-medium">{tab.label}</span>
               {tab.count > 0 && (
                 <span
-                  className={`inline-flex items-center justify-center min-w-[18px] h-[18px] px-ios-xs text-ios-caption-2 font-ios-semibold rounded-full transition-all duration-200 ${
+                  className={`inline-flex items-center justify-center min-w-[18px] h-[18px] px-ios-xs text-ios-caption-2 font-ios-semibold rounded-full ios-transition-quick ${
                     activeTab === tab.id
                       ? 'bg-ios-link text-white'
                       : 'bg-ios-secondary-label text-ios-system-background'

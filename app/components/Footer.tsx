@@ -14,7 +14,7 @@ export default function Footer() {
               href="https://www.themoviedb.org/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-ios-secondary-label transition-colors underline"
+              className="hover:text-ios-secondary-label ios-transition-quick underline"
             >
               TMDB
             </a>

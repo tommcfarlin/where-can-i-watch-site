@@ -98,7 +98,7 @@ export default function ExternalLinks({ id, mediaType, className = '' }: Externa
             className="
               flex items-center gap-ios-sm
               text-ios-tertiary-label hover:text-ios-label
-              transition-colors duration-200
+              ios-transition-quick ios-scale-press
               focus:outline-none focus:ring-2 focus:ring-ios-link/50
               rounded-ios-button px-ios-xs
             "

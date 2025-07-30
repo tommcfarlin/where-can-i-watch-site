@@ -277,7 +277,7 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
               {activeTab !== 'all' && (
                 <button
                   onClick={() => setActiveTab('all')}
-                  className="mt-ios-md text-ios-tertiary-label hover:text-ios-label hover:underline transition-colors"
+                  className="mt-ios-md text-ios-tertiary-label hover:text-ios-label hover:underline ios-transition-quick"
                 >
                   View all results
                 </button>

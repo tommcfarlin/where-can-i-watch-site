@@ -37,7 +37,7 @@ export default function DidYouMean({ suggestion, confidence, searchQuery }: DidY
 
         <button
           onClick={handleClick}
-          className="text-ios-caption-1 text-ios-tertiary-label hover:text-ios-label hover:underline transition-colors"
+          className="text-ios-caption-1 text-ios-tertiary-label hover:text-ios-label hover:underline ios-transition-quick"
         >
           Search for &ldquo;{searchQuery}&rdquo; instead
         </button>
