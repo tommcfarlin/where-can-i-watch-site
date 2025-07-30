@@ -37,7 +37,7 @@ export default function RootLayout({
         className={`${inter.variable} ${geistMono.variable} font-sans antialiased min-h-screen flex flex-col`}
         suppressHydrationWarning
       >
-                  <main className="flex-1 pb-ios-3xl">
+                  <main className="flex-1 pb-ios-3xl" style={{ paddingTop: 'var(--ios-safe-padding-top)', paddingLeft: 'var(--ios-safe-padding-x)', paddingRight: 'var(--ios-safe-padding-x)' }}>
           {children}
         </main>
         <Footer />

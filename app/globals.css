@@ -222,10 +222,72 @@ body {
   transform: scale(0.96) translate(-50%, -50%);
 }
 
+/* iOS Safe Area and Viewport Optimization */
+:root {
+  /* iOS Safe Area Support */
+  --safe-area-inset-top: env(safe-area-inset-top);
+  --safe-area-inset-right: env(safe-area-inset-right);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom);
+  --safe-area-inset-left: env(safe-area-inset-left);
+
+  /* iPhone-optimized spacing */
+  --ios-safe-padding-top: max(var(--spacing-md), var(--safe-area-inset-top));
+  --ios-safe-padding-bottom: max(var(--spacing-md), var(--safe-area-inset-bottom));
+  --ios-safe-padding-x: max(var(--spacing-md), var(--safe-area-inset-left), var(--safe-area-inset-right));
+}
+
+/* iPhone-first responsive design */
+@media screen and (max-width: 428px) {
+  /* iPhone 14 Pro Max and smaller */
+  :root {
+    /* Adjust spacing for small screens */
+    --spacing-lg: 1.25rem;   /* 20px instead of 24px */
+    --spacing-xl: 1.75rem;   /* 28px instead of 32px */
+    --spacing-2xl: 2.25rem;  /* 36px instead of 40px */
+  }
+
+  /* Optimize touch targets */
+  .ios-result-card {
+    min-height: 48px; /* Larger touch target on small screens */
+  }
+
+  /* Optimize text sizing for readability */
+  .text-ios-large-title {
+    font-size: 1.875rem; /* 30px instead of 34px */
+  }
+}
+
+@media screen and (max-width: 375px) {
+  /* iPhone SE and smaller */
+  :root {
+    /* Further spacing reduction */
+    --spacing-md: 0.875rem;  /* 14px instead of 16px */
+    --spacing-lg: 1.125rem;  /* 18px instead of 24px */
+    --spacing-xl: 1.5rem;    /* 24px instead of 32px */
+  }
+
+  /* Compact layout adjustments */
+  .ios-result-card {
+    min-height: 52px; /* Even larger touch targets */
+  }
+}
+
 /* Prevent iOS zoom on input focus */
 @media screen and (max-width: 768px) {
   .ios-search-container input {
     font-size: 16px; /* Prevents iOS zoom */
+  }
+}
+
+/* iPhone landscape optimization */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+  /* Reduce vertical spacing in landscape */
+  :root {
+    --spacing-lg: 1rem;      /* 16px instead of 24px */
+    --spacing-xl: 1.25rem;   /* 20px instead of 32px */
+    --spacing-2xl: 1.5rem;   /* 24px instead of 40px */
+    --spacing-3xl: 2rem;     /* 32px instead of 48px */
+    --spacing-4xl: 2.5rem;   /* 40px instead of 64px */
   }
 }
 

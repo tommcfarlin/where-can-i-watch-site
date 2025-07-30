@@ -2,7 +2,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="fixed bottom-0 left-0 right-0 border-t border-muted bg-card z-30">
+    <footer className="fixed bottom-0 left-0 right-0 border-t border-muted bg-card z-30" style={{ paddingBottom: 'var(--ios-safe-padding-bottom)' }}>
       <div className="max-w-7xl mx-auto px-ios-md py-ios-sm">
         <div className="text-center">
           <p className="text-ios-footnote text-ios-quaternary-label">

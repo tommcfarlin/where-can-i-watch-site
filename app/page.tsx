@@ -54,7 +54,7 @@ export default function Home() {
 
   return (
           <div className="min-h-screen bg-background text-ios-label">
-      <div className="container mx-auto px-ios-md py-ios-sm">
+              <div className="container mx-auto px-ios-md py-ios-sm max-w-7xl">
         {/* Header - iOS Typography */}
                   <header className="text-center mb-ios-2xl mt-ios-lg animate-ios-fade-slide-in">
           <h1 className="text-ios-large-title font-ios-bold text-ios-label mb-ios-sm">
