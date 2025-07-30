@@ -294,6 +294,23 @@ body {
   transform: scale(1.05);
 }
 
+/* iOS Loading Animations */
+@keyframes ios-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.animate-ios-spin {
+  animation: ios-spin 1s linear infinite;
+}
+
+/* Respect reduced motion for loading animations */
+@media (prefers-reduced-motion: reduce) {
+  .animate-ios-spin {
+    animation: ios-spin 2s linear infinite;
+  }
+}
+
 /* iOS Text Style Utility Classes */
 .text-large-title {
   font-size: var(--text-large-title);

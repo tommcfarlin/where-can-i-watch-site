@@ -209,8 +209,8 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
       {/* Loading providers state */}
       {hasResults && !isLoading && isLoadingProviders && (
         <div className="text-center py-ios-xl">
-          <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
-          <p className="text-ios-subhead text-muted-foreground mt-ios-sm">
+          <LoadingSpinner size="md" color="secondary" />
+          <p className="text-ios-subhead text-ios-secondary-label mt-ios-sm">
             {isLargeResultSet ? (
               <>
                 Loading {results.results.length} results...
@@ -228,9 +228,9 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
           </p>
           {isLargeResultSet && loadingProgress.total > 1 && (
             <div className="mt-ios-sm">
-              <div className="w-64 mx-auto bg-muted rounded-full h-2">
+              <div className="w-64 mx-auto bg-ios-tertiary-system-background rounded-full h-1">
                 <div
-                  className="bg-primary h-2 rounded-full transition-all duration-300"
+                  className="bg-ios-link h-1 rounded-full transition-all duration-300 ease-out"
                   style={{ width: `${(loadingProgress.current / loadingProgress.total) * 100}%` }}
                 ></div>
               </div>
@@ -294,9 +294,9 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
               key={i}
               className="animate-pulse"
             >
-                      <div className="aspect-[2/3] bg-muted rounded-ios-card" />
-        <div className="mt-ios-sm h-4 bg-muted rounded w-3/4" />
-        <div className="mt-ios-xs h-3 bg-muted rounded w-1/2" />
+              <div className="aspect-[2/3] bg-ios-tertiary-system-background rounded-ios-card" />
+              <div className="mt-ios-sm h-4 bg-ios-tertiary-system-background rounded w-3/4" />
+              <div className="mt-ios-xs h-3 bg-ios-tertiary-system-background rounded w-1/2" />
             </div>
           ))}
         </div>
