@@ -6,6 +6,7 @@ import { isStreamable } from '@/lib/streaming-detection';
 import ResultCard from './ResultCard';
 import DidYouMean from './DidYouMean';
 import Tabs from './Tabs';
+import LoadingSpinner from './LoadingSpinner';
 
 interface SearchResultsProps {
   results: ExtendedSearchResponse;

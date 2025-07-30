@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { SearchResultItem, isMovieItem, CountryProviders } from '@/types/tmdb';
 import ProviderBadge from './ProviderBadge';
 import ExternalLinks from './ExternalLinks';
+import LoadingSpinner from './LoadingSpinner';
 
 interface ResultCardProps {
   item: SearchResultItem;
