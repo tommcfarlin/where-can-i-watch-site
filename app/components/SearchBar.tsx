@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import LoadingSpinner from './LoadingSpinner';
 
 interface SearchBarProps {
   onSearch: (query: string) => void;
