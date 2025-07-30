@@ -108,6 +108,7 @@ module.exports = {
         // iOS-style spring animations
         'ios-spring': 'iosSpring 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
         'ios-ease': 'iosEase 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+        'ios-scale-in': 'iosScaleIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
       },
       keyframes: {
         fadeIn: {
@@ -135,6 +136,11 @@ module.exports = {
         iosEase: {
           '0%': { transform: 'translateY(4px)', opacity: '0' },
           '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+        iosScaleIn: {
+          '0%': { transform: 'scale(0.9)', opacity: '0' },
+          '50%': { transform: 'scale(1.02)' },
+          '100%': { transform: 'scale(1)', opacity: '1' },
         },
       },
       borderRadius: {

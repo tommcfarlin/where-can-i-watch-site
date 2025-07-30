@@ -101,10 +101,10 @@ export default function ResultCard({ item, providers: externalProviders }: Resul
   );
 
   return (
-    <div className="group cursor-pointer animate-scale-in" onClick={handleCardClick}>
-      <div className="relative overflow-hidden rounded-lg bg-card border border-muted hover:border-muted-foreground transition-all duration-200">
+    <div className="group cursor-pointer animate-ios-scale-in ios-result-card" onClick={handleCardClick}>
+      <div className="relative overflow-hidden rounded-ios-card bg-ios-secondary-system-background hover:bg-ios-tertiary-system-background active:scale-[0.98] transition-all duration-200 shadow-sm hover:shadow-md touch-manipulation">
         {/* Poster */}
-        <div className="aspect-[2/3] relative bg-muted">
+        <div className="aspect-[2/3] relative bg-ios-tertiary-system-background">
           {item.poster_path ? (
             <Image
               src={`https://image.tmdb.org/t/p/w342${item.poster_path}`}
@@ -134,9 +134,9 @@ export default function ResultCard({ item, providers: externalProviders }: Resul
             </div>
           )}
 
-          {/* Media Type Badge */}
-          <div className="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <span className="px-2 py-1 text-xs font-medium bg-black/70 backdrop-blur-sm text-white rounded-md">
+          {/* Media Type Badge - iOS Style */}
+          <div className="absolute top-ios-sm left-ios-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <span className="px-ios-sm py-ios-xs text-ios-caption-1 font-medium bg-ios-system-background/80 backdrop-blur-sm text-ios-label rounded-ios-button border border-ios-separator/30">
               {item.media_type === 'movie' ? '🎬 Movie' : '📺 TV Show'}
             </span>
           </div>
@@ -146,7 +146,7 @@ export default function ResultCard({ item, providers: externalProviders }: Resul
 
         {/* Title and Info */}
         <div className="p-ios-sm">
-          <h3 className="font-semibold text-sm line-clamp-1 text-card-foreground">
+          <h3 className="font-ios-semibold text-ios-body line-clamp-1 text-ios-label">
             {title}
           </h3>
           {year && (
@@ -162,7 +162,7 @@ export default function ResultCard({ item, providers: externalProviders }: Resul
                 {allProviders.slice(0, 3).map((provider, index) => (
                   <div
                     key={provider.provider_id}
-                    className="relative w-6 h-6 rounded-full overflow-hidden border-2 border-card ring-1 ring-black/5 cursor-default"
+                    className="relative w-6 h-6 rounded-full overflow-hidden border-2 border-ios-secondary-system-background ring-1 ring-ios-separator/20 cursor-default"
                     style={{ zIndex: 3 - index }}
                   >
                     {provider.logo_path ? (
@@ -174,28 +174,28 @@ export default function ResultCard({ item, providers: externalProviders }: Resul
                         className="object-cover"
                       />
                     ) : (
-                      <div className="w-full h-full bg-muted" />
+                      <div className="w-full h-full bg-ios-tertiary-system-background" />
                     )}
                   </div>
                 ))}
               </div>
               {allProviders.length > 3 && (
-                <span className="text-xs text-muted-foreground">
+                <span className="text-ios-caption-1 text-ios-tertiary-label">
                   +{allProviders.length - 3} more
                 </span>
               )}
               <svg
-                className={`w-4 h-4 text-muted-foreground ml-auto transition-transform duration-300 ${
+                className={`w-4 h-4 text-ios-tertiary-label ml-auto transition-transform duration-300 ${
                   showProviders ? 'rotate-180' : ''
                 }`}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
+                strokeWidth={2.5}
               >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth={2}
                   d="M19 9l-7 7-7-7"
                 />
               </svg>
@@ -205,11 +205,11 @@ export default function ResultCard({ item, providers: externalProviders }: Resul
 
         {/* Providers Section */}
         {showProviders && (
-          <div className="border-t border-muted p-ios-sm animate-slide-in">
+          <div className="border-t border-ios-separator p-ios-sm animate-slide-in bg-ios-tertiary-system-background/50">
             {isLoadingProviders ? (
               <div className="flex justify-center py-ios-sm">
                 <svg
-                  className="animate-spin h-5 w-5 text-primary"
+                  className="animate-spin h-5 w-5 text-ios-secondary-label"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -220,7 +220,7 @@ export default function ResultCard({ item, providers: externalProviders }: Resul
                     cy="12"
                     r="10"
                     stroke="currentColor"
-                    strokeWidth="4"
+                    strokeWidth="3"
                   />
                   <path
                     className="opacity-75"

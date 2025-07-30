@@ -216,6 +216,41 @@ body {
   }
 }
 
+/* iOS Result Card Enhancements */
+.ios-result-card {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ios-result-card:active {
+  transform: scale(0.98);
+}
+
+.ios-result-card .group:hover img {
+  transform: scale(1.05);
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.ios-result-card .group:active img {
+  transform: scale(1.02);
+  transition: transform 0.1s ease-out;
+}
+
+/* iOS spring animation for card press */
+@media (prefers-reduced-motion: no-preference) {
+  .ios-result-card {
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                box-shadow 0.2s ease-out,
+                background-color 0.2s ease-out;
+  }
+}
+
+/* Ensure proper touch targets on mobile */
+@media (max-width: 768px) {
+  .ios-result-card {
+    min-height: 44px; /* iOS minimum touch target */
+  }
+}
+
 /* iOS Text Style Utility Classes */
 .text-large-title {
   font-size: var(--text-large-title);
