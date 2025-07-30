@@ -32,7 +32,7 @@ export default function ExternalLinksIcon({ links, className = '' }: ExternalLin
             bg-muted/30 hover:bg-muted
             border border-muted/50 hover:border-muted
             rounded
-            transition-all duration-200
+            ios-transition-quick ios-scale-press
             hover:scale-110
             focus:outline-none focus:ring-1 focus:ring-primary/50
             opacity-70 hover:opacity-100

@@ -56,7 +56,7 @@ export default function Home() {
           <div className="min-h-screen bg-background text-ios-label">
       <div className="container mx-auto px-ios-md py-ios-sm">
         {/* Header - iOS Typography */}
-        <header className="text-center mb-ios-2xl mt-ios-lg animate-fade-in">
+                  <header className="text-center mb-ios-2xl mt-ios-lg animate-ios-fade-slide-in">
           <h1 className="text-ios-large-title font-ios-bold text-ios-label mb-ios-sm">
             Where Can I Watch?
           </h1>
@@ -72,7 +72,7 @@ export default function Home() {
 
         {/* Error Message */}
         {error && (
-          <div className="max-w-2xl mx-auto mb-ios-sm animate-fade-in">
+          <div className="max-w-2xl mx-auto mb-ios-sm animate-ios-fade-slide-in">
             <div className="bg-card border border-muted rounded-ios-card p-ios-md">
               <p className="text-ios-label">{error}</p>
             </div>

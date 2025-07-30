@@ -293,7 +293,7 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
           {[...Array(10)].map((_, i) => (
             <div
               key={i}
-              className="animate-pulse"
+              className="animate-pulse animate-ios-fade-slide-in"
             >
               <div className="aspect-[2/3] bg-ios-tertiary-system-background rounded-ios-card" />
               <div className="mt-ios-sm h-4 bg-ios-tertiary-system-background rounded w-3/4" />
