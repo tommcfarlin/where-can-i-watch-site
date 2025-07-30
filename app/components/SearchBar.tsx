@@ -71,7 +71,7 @@ export default function SearchBar({ onSearch, isLoading = false }: SearchBarProp
           value={query}
           onChange={handleInputChange}
           placeholder="Search movies or TV shows..."
-          className="w-full h-11 pl-12 pr-ios-xl text-ios-body bg-ios-secondary-system-background text-ios-label rounded-ios-button border-0 focus:outline-none focus:bg-ios-tertiary-system-background focus:shadow-sm transition-all duration-200 placeholder:text-ios-tertiary-label touch-manipulation"
+          className="w-full h-11 pl-12 pr-ios-lg text-ios-body bg-ios-secondary-system-background text-ios-label rounded-ios-button border-0 focus:outline-none focus:bg-ios-tertiary-system-background focus:shadow-sm transition-all duration-200 placeholder:text-ios-tertiary-label touch-manipulation"
           autoComplete="off"
           spellCheck="false"
           autoCapitalize="none"
@@ -97,7 +97,7 @@ export default function SearchBar({ onSearch, isLoading = false }: SearchBarProp
 
         {/* Loading Spinner - iOS Style */}
         {isLoading && (
-          <div className="absolute right-ios-md top-1/2 -translate-y-1/2">
+          <div className="absolute right-ios-sm top-1/2 -translate-y-1/2">
             <svg
               className="animate-spin h-4 w-4 text-ios-secondary-label"
               xmlns="http://www.w3.org/2000/svg"
@@ -126,7 +126,7 @@ export default function SearchBar({ onSearch, isLoading = false }: SearchBarProp
           <button
             type="button"
             onClick={handleClear}
-            className="absolute right-ios-md top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-ios-tertiary-label hover:bg-ios-secondary-label transition-all duration-200 flex items-center justify-center touch-manipulation active:scale-95"
+            className="absolute right-ios-sm top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-ios-tertiary-label hover:bg-ios-secondary-label transition-all duration-200 flex items-center justify-center touch-manipulation active:scale-95"
           >
             <svg
               className="w-3 h-3 text-ios-system-background"
