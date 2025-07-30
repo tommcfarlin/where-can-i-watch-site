@@ -1,8 +1,8 @@
 'use client';
 
 interface TabsProps {
-  activeTab: 'all' | 'movie' | 'tv' | 'not-streaming';
-  onTabChange: (tab: 'all' | 'movie' | 'tv' | 'not-streaming') => void;
+  activeTab: 'all' | 'movie' | 'tv'; // | 'not-streaming'; // Temporarily hidden
+  onTabChange: (tab: 'all' | 'movie' | 'tv') => void; // | 'not-streaming') => void; // Temporarily hidden
   movieCount: number;
   tvCount: number;
   notStreamingCount: number;
@@ -13,11 +13,11 @@ export default function Tabs({ activeTab, onTabChange, movieCount, tvCount, notS
     { id: 'tv', label: 'TV Shows', count: tvCount },
     { id: 'movie', label: 'Movies', count: movieCount },
     { id: 'all', label: 'All', count: movieCount + tvCount },
-    { id: 'not-streaming', label: 'Not Streaming', count: notStreamingCount },
+    // Temporarily hidden: { id: 'not-streaming', label: 'Not Streaming', count: notStreamingCount },
   ] as const;
 
   return (
-    <div className="mb-ios-lg">
+    <div className="mt-ios-md mb-ios-lg">
       {/* iOS Segmented Control Style Navigation */}
       <div className="bg-ios-tertiary-system-background p-ios-xs rounded-ios-button">
         <nav className="flex gap-ios-xs" aria-label="Tabs">

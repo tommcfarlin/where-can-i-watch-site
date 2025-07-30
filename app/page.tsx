@@ -54,9 +54,9 @@ export default function Home() {
 
   return (
           <div className="min-h-screen bg-background text-ios-label">
-              <div className="container mx-auto px-ios-md py-ios-sm max-w-7xl">
+              <div className="container mx-auto px-ios-md max-w-7xl">
         {/* Header - iOS Typography */}
-                  <header className="text-center mb-ios-2xl mt-ios-lg animate-ios-fade-slide-in">
+                  <header className="text-center mb-ios-2xl mt-ios-sm animate-ios-fade-slide-in">
           <h1 className="text-ios-large-title font-ios-bold text-ios-label mb-ios-sm">
             Where Can I Watch?
           </h1>
@@ -66,7 +66,7 @@ export default function Home() {
         </header>
 
         {/* Search Section */}
-        <div className={`transition-all duration-500 ${searchResults ? 'mb-ios-sm' : 'mb-ios-4xl'}`}>
+        <div className={`ios-transition-emphasized ${searchResults ? 'mb-ios-md' : 'mb-ios-4xl'}`}>
           <SearchBar onSearch={handleSearch} isLoading={isLoading} />
         </div>
 

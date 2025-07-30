@@ -15,7 +15,7 @@ interface SearchResultsProps {
 }
 
 export default function SearchResults({ results, isLoading, searchQuery }: SearchResultsProps) {
-  const [activeTab, setActiveTab] = useState<'all' | 'movie' | 'tv' | 'not-streaming'>('tv');
+  const [activeTab, setActiveTab] = useState<'all' | 'movie' | 'tv'>('tv'); // Removed 'not-streaming'
   const [providersData, setProvidersData] = useState<Record<string, CountryProviders | null>>({});
   const [isLoadingProviders, setIsLoadingProviders] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState({ current: 0, total: 0 });
@@ -189,7 +189,7 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
           onTabChange={setActiveTab}
           movieCount={movieCount}
           tvCount={tvCount}
-          notStreamingCount={notStreamingCount}
+          notStreamingCount={0} // Hidden for now
         />
       )}
 
@@ -265,13 +265,11 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
               <p className="text-ios-body text-ios-secondary-label">
                 {activeTab === 'movie' && `No movies found for "${searchQuery}"`}
                 {activeTab === 'tv' && `No TV shows found for "${searchQuery}"`}
-                {activeTab === 'not-streaming' && `No non-streaming content found for "${searchQuery}"`}
                 {activeTab === 'all' && `No results found for "${searchQuery}"`}
               </p>
               <p className="text-ios-subhead text-ios-tertiary-label mt-ios-sm">
                 {activeTab === 'movie' && 'Try switching to the TV Shows tab'}
                 {activeTab === 'tv' && 'Try switching to the Movies tab'}
-                {activeTab === 'not-streaming' && 'Try switching to the All tab'}
                 {activeTab === 'all' && 'Try checking your spelling or using different keywords'}
               </p>
               {activeTab !== 'all' && (

@@ -19,6 +19,7 @@ export const metadata: Metadata = {
   title: "Where Can I Watch - Find Your Favorite Movies & TV Shows",
   description: "Instantly discover where to stream any movie or TV show across all major platforms. Never miss your favorite content again.",
   keywords: "streaming, movies, tv shows, where to watch, netflix, hulu, disney plus, amazon prime",
+  viewport: "width=device-width, initial-scale=1, viewport-fit=cover",
   openGraph: {
     title: "Where Can I Watch",
     description: "Find where to stream any movie or TV show",
