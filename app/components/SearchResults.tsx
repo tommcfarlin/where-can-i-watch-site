@@ -89,8 +89,9 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
 
   // Calculate counts for each media type including streaming status
   const { movieCount, tvCount, notStreamingCount, filteredResults } = useMemo(() => {
-    // Don't filter until providers data is loaded
-    if (isLoadingProviders || Object.keys(providersData).length === 0) {
+    // Show results progressively as provider data becomes available
+    // Only require that we have at least some provider data OR loading is complete
+    if (isLoadingProviders && Object.keys(providersData).length === 0) {
       return {
         movieCount: 0,
         tvCount: 0,
@@ -105,13 +106,19 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
       return providersData[key] || null;
     };
 
-    // Categorize all results by media type and streaming status
-    const allStreaming = results.results.filter(item => {
+    // Only categorize items that have provider data loaded
+    const itemsWithProviders = results.results.filter(item => {
+      const key = `${item.media_type}-${item.id}`;
+      return providersData.hasOwnProperty(key);
+    });
+
+    // Categorize loaded items by media type and streaming status
+    const allStreaming = itemsWithProviders.filter(item => {
       const providers = getItemProviders(item);
       return isStreamable(providers, 'US');
     });
 
-    const allNotStreaming = results.results.filter(item => {
+    const allNotStreaming = itemsWithProviders.filter(item => {
       const providers = getItemProviders(item);
       return !isStreamable(providers, 'US');
     });
