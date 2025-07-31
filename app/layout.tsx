@@ -85,7 +85,7 @@ export default function RootLayout({
           paddingRight: 'var(--ios-safe-padding-x)'
         }}
       >
-        <main className="flex-1 pb-ios-3xl">
+        <main className="flex-1 pb-40">
           {children}
         </main>
         <Footer />
