@@ -132,7 +132,7 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
           });
 
           // Update providers data progressively so users see results as they load
-          setProvidersData({ ...newProvidersData });
+          setProvidersData(prev => ({ ...prev, ...newProvidersData }));
         }
 
         setProvidersData(newProvidersData);
