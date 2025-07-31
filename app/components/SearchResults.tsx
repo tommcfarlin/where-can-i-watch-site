@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { ExtendedSearchResponse, CountryProviders } from '@/types/tmdb';
+import { ExtendedSearchResponse, CountryProviders, SearchResultItem } from '@/types/tmdb';
 import { isStreamable } from '@/lib/streaming-detection';
 import ResultCard from './ResultCard';
 import DidYouMean from './DidYouMean';
@@ -126,7 +126,7 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
           const data = await response.json();
 
           // Process batch response for this chunk
-          data.results?.forEach((result: any) => {
+          data.results?.forEach((result: { id: number; media_type: string; providers: CountryProviders | null }) => {
             const key = `${result.media_type}-${result.id}`;
             newProvidersData[key] = result.providers;
           });
@@ -162,7 +162,7 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
     }
 
     // Helper function to get providers for an item
-    const getItemProviders = (item: any) => {
+    const getItemProviders = (item: SearchResultItem) => {
       const key = `${item.media_type}-${item.id}`;
       return providersData[key] || null;
     };

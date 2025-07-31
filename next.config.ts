@@ -3,7 +3,23 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
   // Image optimization for performance
   images: {
-    domains: ['image.tmdb.org', 'm.media-amazon.com', 'www.imdb.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'image.tmdb.org',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'm.media-amazon.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.imdb.com',
+        pathname: '/**',
+      },
+    ],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     formats: ['image/webp', 'image/avif'],
@@ -14,7 +30,7 @@ const nextConfig: NextConfig = {
 
   // Performance optimizations
   experimental: {
-    optimizeCss: true,
+    // optimizeCss: true, // Temporarily disabled due to build issues
     optimizePackageImports: ['@/components', '@/lib', '@/types'],
   },
 
