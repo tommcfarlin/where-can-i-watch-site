@@ -55,12 +55,18 @@ export default function Home() {
   return (
           <div className="min-h-screen bg-background text-ios-label">
               <div className="container mx-auto px-ios-md max-w-7xl">
-        {/* Header - iOS Typography */}
-                  <header className="text-center mb-ios-2xl mt-ios-sm animate-ios-fade-slide-in">
+        {/* Header - iOS Typography with Proper Safe Area */}
+                  <header
+                    className="text-center mb-ios-2xl animate-ios-fade-slide-in"
+                    style={{
+                      paddingTop: 'max(var(--ios-safe-padding-top), 48px)',
+                      marginTop: '32px'
+                    }}
+                  >
           <h1 className="text-ios-large-title font-ios-bold text-ios-label mb-ios-sm">
             Where Can I Watch?
           </h1>
-          <p className="text-ios-body text-ios-secondary-label">
+          <p className="text-ios-body text-ios-secondary-label max-w-md mx-auto">
             Find out which streaming services have your favorite movies and TV shows
           </p>
         </header>
