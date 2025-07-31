@@ -103,7 +103,7 @@ export default function ResultCard({ item, providers: externalProviders }: Resul
 
   return (
     <div className="group cursor-pointer animate-ios-spring-in ios-result-card" onClick={handleCardClick}>
-      <div className="relative overflow-hidden rounded-ios-card bg-ios-secondary-system-background hover:bg-ios-tertiary-system-background ios-scale-button ios-transition-standard shadow-sm hover:shadow-md touch-manipulation">
+      <div className="relative overflow-hidden rounded-ios-card bg-ios-secondary-system-background hover:bg-ios-tertiary-system-background ios-scale-button ios-transition-standard shadow-sm hover:shadow-md touch-manipulation focus:outline-none focus:ring-2 focus:ring-ios-link/50">
         {/* Poster */}
         <div className="aspect-[2/3] relative bg-ios-tertiary-system-background">
           {item.poster_path ? (

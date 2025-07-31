@@ -246,7 +246,7 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
       {hasResults && !isLoading && !isLoadingProviders && (
         <>
           {filteredResults.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-ios-sm sm:gap-ios-md">
+            <div className="ios-result-grid grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-ios-sm sm:gap-ios-md ios-momentum-scroll">
               {filteredResults.map((item) => {
                 const key = `${item.media_type}-${item.id}`;
                 const itemProviders = providersData[key];
@@ -274,7 +274,7 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
               {activeTab !== 'all' && (
                 <button
                   onClick={() => setActiveTab('all')}
-                  className="mt-ios-md text-ios-tertiary-label hover:text-ios-label hover:underline ios-transition-quick"
+                  className="mt-ios-md text-ios-tertiary-label hover:text-ios-label hover:underline ios-transition-quick ios-scale-press focus:outline-none focus:ring-2 focus:ring-ios-link/50 rounded-ios-button px-ios-xs py-ios-xs touch-manipulation"
                 >
                   View all results
                 </button>

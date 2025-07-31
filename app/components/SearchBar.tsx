@@ -99,7 +99,7 @@ export default function SearchBar({ onSearch, isLoading = false }: SearchBarProp
         {/* Loading Spinner - iOS Style */}
         {isLoading && (
           <div className="absolute right-ios-sm top-1/2 -translate-y-1/2">
-            <LoadingSpinner size="sm" color="secondary" />
+            <LoadingSpinner size="sm" color="secondary" showPulse />
           </div>
         )}
 

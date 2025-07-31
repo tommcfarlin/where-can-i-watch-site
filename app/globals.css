@@ -366,10 +366,73 @@ body {
   animation: ios-spin 1s linear infinite;
 }
 
-/* Respect reduced motion for loading animations */
+/* Enhanced spinner progress animation */
+@keyframes ios-spin-progress {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 100, 200;
+    stroke-dashoffset: -15;
+  }
+  100% {
+    stroke-dasharray: 100, 200;
+    stroke-dashoffset: -125;
+  }
+}
+
+.animate-ios-spin-progress {
+  animation: ios-spin-progress 1.5s ease-in-out infinite;
+}
+
+/* Breathing pulse for enhanced loading feedback */
+@keyframes ios-pulse-gentle {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+.animate-ios-pulse-gentle {
+  animation: ios-pulse-gentle 2s ease-in-out infinite;
+}
+
+/* Skeleton loading shimmer */
+@keyframes ios-shimmer {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+
+.animate-ios-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--ios-tertiary-system-background) 0%,
+    var(--ios-quaternary-system-background) 50%,
+    var(--ios-tertiary-system-background) 100%
+  );
+  background-size: 468px 100%;
+  animation: ios-shimmer 1.2s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .animate-ios-spin {
-    animation: ios-spin 2s linear infinite;
+  .animate-ios-spin,
+  .animate-ios-spin-progress,
+  .animate-ios-pulse-gentle,
+  .animate-ios-shimmer {
+    animation: none;
+  }
+
+  .animate-ios-shimmer {
+    background: var(--ios-tertiary-system-background);
   }
 }
 
@@ -436,6 +499,42 @@ body {
 
 .ios-scale-button:active {
   transform: scale(0.98);
+}
+
+/* Enhanced card touch feedback */
+.ios-result-card {
+  transition: all var(--ios-duration-quick) var(--ios-ease);
+}
+
+.ios-result-card:hover {
+  transform: translateY(-2px);
+}
+
+.ios-result-card:active {
+  transform: translateY(-1px) scale(0.98);
+  transition-duration: var(--ios-duration-micro);
+}
+
+/* Subtle bounce for cards */
+@keyframes ios-card-bounce {
+  0% { transform: translateY(-2px) scale(1); }
+  50% { transform: translateY(-3px) scale(1.001); }
+  100% { transform: translateY(-2px) scale(1); }
+}
+
+.ios-result-card:hover {
+  animation: ios-card-bounce 0.3s var(--ios-ease) once;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ios-result-card:hover {
+    animation: none;
+    transform: none;
+  }
+
+  .ios-result-card:active {
+    transform: scale(0.98);
+  }
 }
 
 /* iOS spring entrance animations */
@@ -659,5 +758,79 @@ body {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+  }
+}
+
+/* iOS smooth scrolling behaviors */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--ios-safe-padding-top);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Enhanced tab switching with spring physics */
+.ios-tab-button {
+  position: relative;
+  transition: all var(--ios-duration-quick) var(--ios-spring);
+  transform-origin: center;
+}
+
+.ios-tab-button:active {
+  transform: scale(0.97);
+  transition-duration: var(--ios-duration-micro);
+}
+
+/* Smooth tab indicator movement */
+.ios-tab-indicator {
+  transition: all var(--ios-duration-emphasized) var(--ios-spring);
+}
+
+/* Enhanced card grid with staggered animations */
+.ios-result-grid {
+  container-type: inline-size;
+}
+
+.ios-result-card:nth-child(1) { animation-delay: 0ms; }
+.ios-result-card:nth-child(2) { animation-delay: 50ms; }
+.ios-result-card:nth-child(3) { animation-delay: 100ms; }
+.ios-result-card:nth-child(4) { animation-delay: 150ms; }
+.ios-result-card:nth-child(5) { animation-delay: 200ms; }
+.ios-result-card:nth-child(6) { animation-delay: 250ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ios-result-card {
+    animation-delay: 0ms;
+  }
+}
+
+/* Smooth focus transitions */
+:focus-visible {
+  outline: 2px solid var(--ios-link);
+  outline-offset: 2px;
+  border-radius: var(--ios-radius-button);
+  transition: outline var(--ios-duration-quick) var(--ios-ease);
+}
+
+/* iOS-native momentum scrolling */
+.ios-momentum-scroll {
+  -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch;
+}
+
+/* Smooth container queries for responsive layout */
+@container (min-width: 640px) {
+  .ios-result-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+}
+
+@container (min-width: 1024px) {
+  .ios-result-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
 }
