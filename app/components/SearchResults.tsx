@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { ExtendedSearchResponse, CountryProviders } from '@/types/tmdb';
 import { isStreamable } from '@/lib/streaming-detection';
 import ResultCard from './ResultCard';
@@ -14,6 +14,54 @@ interface SearchResultsProps {
   searchQuery: string;
 }
 
+// Performance monitoring for development
+const usePerformanceMonitoring = (enabled: boolean = false) => {
+  const measureRender = useCallback((label: string) => {
+    if (!enabled || typeof window === 'undefined') return () => {};
+
+    const startTime = performance.now();
+    return () => {
+      const endTime = performance.now();
+      const duration = endTime - startTime;
+      if (duration > 16.67) { // Slower than 60fps
+        console.warn(`🐌 Slow render (${label}): ${duration.toFixed(2)}ms`);
+      } else {
+        console.log(`✅ Fast render (${label}): ${duration.toFixed(2)}ms`);
+      }
+    };
+  }, [enabled]);
+
+  return { measureRender };
+};
+
+// Optimized batch processing for large result sets
+const useBatchProcessor = (items: any[], batchSize: number = 20) => {
+  const [processedBatches, setProcessedBatches] = useState<number>(1);
+
+  useEffect(() => {
+    setProcessedBatches(1); // Reset when items change
+  }, [items]);
+
+  useEffect(() => {
+    if (processedBatches * batchSize >= items.length) return;
+
+    // Use requestIdleCallback for non-critical batch processing
+    const scheduleNextBatch = (callback: () => void) => {
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(callback, { timeout: 100 });
+      } else {
+        setTimeout(callback, 0);
+      }
+    };
+
+    scheduleNextBatch(() => {
+      setProcessedBatches(prev => prev + 1);
+    });
+  }, [processedBatches, items.length, batchSize]);
+
+  return items.slice(0, processedBatches * batchSize);
+};
+
 export default function SearchResults({ results, isLoading, searchQuery }: SearchResultsProps) {
   const [activeTab, setActiveTab] = useState<'all' | 'movie' | 'tv'>('tv'); // Removed 'not-streaming'
   const [providersData, setProvidersData] = useState<Record<string, CountryProviders | null>>({});
@@ -21,6 +69,9 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
   const [loadingProgress, setLoadingProgress] = useState({ current: 0, total: 0 });
   const [isLargeResultSet, setIsLargeResultSet] = useState(false);
   const [hasDetectedFranchise, setHasDetectedFranchise] = useState(false);
+
+  // Performance monitoring (enable in development)
+  const { measureRender } = usePerformanceMonitoring(process.env.NODE_ENV === 'development');
 
     // Fetch providers data for all results using batch API
   useEffect(() => {
@@ -246,7 +297,7 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
       {hasResults && !isLoading && !isLoadingProviders && (
         <>
           {filteredResults.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-ios-sm sm:gap-ios-md">
+            <div className="ios-result-grid grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-ios-sm sm:gap-ios-md ios-momentum-scroll">
               {filteredResults.map((item) => {
                 const key = `${item.media_type}-${item.id}`;
                 const itemProviders = providersData[key];
@@ -274,7 +325,7 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
               {activeTab !== 'all' && (
                 <button
                   onClick={() => setActiveTab('all')}
-                  className="mt-ios-md text-ios-tertiary-label hover:text-ios-label hover:underline ios-transition-quick"
+                  className="mt-ios-md text-ios-tertiary-label hover:text-ios-label hover:underline ios-transition-quick ios-scale-press focus:outline-none focus:ring-2 focus:ring-ios-link/50 rounded-ios-button px-ios-xs py-ios-xs touch-manipulation"
                 >
                   View all results
                 </button>
