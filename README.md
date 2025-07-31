@@ -122,6 +122,19 @@ Development mode includes performance monitoring:
 - **Compression**: Gzip/Brotli compression
 - **Caching**: Static asset caching with cache busting
 
+### Shared Search Caching 🚀
+- **Cross-User Cache**: Popular searches like "batman" cached globally
+- **30-minute TTL**: Fresh results while avoiding redundant API calls
+- **Multiple Storage Options**: Vercel KV, file system, or database
+- **Smart Cache Keys**: Normalized queries for better hit rates
+
+**How it works:**
+```
+User A: Searches "batman" → TMDB API → Cache results
+User B: Searches "batman" → Cache HIT → Instant results ⚡
+User C: Searches "batman" → Cache HIT → Instant results ⚡
+```
+
 ### Runtime Performance
 - **GPU Acceleration**: translate3d() for smooth animations
 - **Will-Change**: Optimized browser compositing

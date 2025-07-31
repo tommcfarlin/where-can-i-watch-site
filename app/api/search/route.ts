@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getTMDBClient, TMDBApiError } from '@/lib/tmdb';
 import { getFuzzySearchService } from '@/lib/fuzzy-search';
 import { detectFranchise, getFranchiseSearchTerms } from '@/lib/franchise-mappings';
+import { getSharedSearchCache } from '@/lib/search-cache';
 import { ExtendedSearchResponse } from '@/types/tmdb';
 
 export async function GET(request: NextRequest) {
@@ -10,7 +11,8 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
     const query = searchParams.get('query');
     const page = searchParams.get('page') || '1';
-    const autoCorrect = searchParams.get('autoCorrect') !== 'false'; // Default true
+    const autoCorrect = searchParams.get('autoCorrect') !== 'false';
+    const useCache = searchParams.get('cache') !== 'false'; // Allow cache bypass for testing
 
     // Validate query
     if (!query) {
@@ -20,12 +22,29 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    const pageNum = parseInt(page);
+    const searchCache = getSharedSearchCache();
+
+    // 🎯 CHECK CACHE FIRST (for popular searches like "batman", "superman")
+    if (useCache) {
+      const cachedResult = await searchCache.get(query, pageNum);
+      if (cachedResult) {
+        return NextResponse.json({
+          ...cachedResult,
+          fromCache: true,
+          cacheTimestamp: Date.now()
+        });
+      }
+    }
+
     // Get TMDB client and fuzzy search service
     const client = getTMDBClient();
     const fuzzySearch = getFuzzySearchService();
 
+    console.log(`🔍 Cache MISS for "${query}" - fetching from TMDB`);
+
     // Perform the initial search
-    const results = await client.searchMulti(query, parseInt(page));
+    const results = await client.searchMulti(query, pageNum);
 
     // Filter out person results (we only want movies and TV shows)
     const filteredResults = results.results.filter(item => item.media_type !== 'person');
@@ -39,7 +58,7 @@ export async function GET(request: NextRequest) {
       const seenIds = new Set(filteredResults.map(item => `${item.media_type}-${item.id}`));
 
       // Search for each related title
-      for (const relatedTitle of franchiseTerms.slice(0, 5)) { // Limit to avoid too many API calls
+      for (const relatedTitle of franchiseTerms.slice(0, 5)) {
         try {
           const relatedResults = await client.searchMulti(relatedTitle, 1);
           const relatedFiltered = relatedResults.results
@@ -52,7 +71,6 @@ export async function GET(request: NextRequest) {
             filteredResults.push(item);
           }
         } catch (error) {
-          // Continue with other searches if one fails
           console.error(`Failed to search for related title "${relatedTitle}":`, error);
         }
       }
@@ -68,16 +86,15 @@ export async function GET(request: NextRequest) {
       results: filteredResults,
       suggestion: null,
       didAutoCorrect: false,
-      detectedFranchise
-    } as ExtendedSearchResponse & { detectedFranchise?: string };
+      detectedFranchise,
+      fromCache: false
+    } as ExtendedSearchResponse & { detectedFranchise?: string; fromCache?: boolean };
 
-    // If we have a likely typo and a good suggestion
+    // Handle typo correction
     if (hasLikelyTypo && suggestion && autoCorrect) {
-      // Re-search with the corrected query
       const correctedResults = await client.searchMulti(suggestion.suggestion, 1);
       const correctedFiltered = correctedResults.results.filter(item => item.media_type !== 'person');
 
-      // If the corrected search has better results, use those
       if (correctedFiltered.length > filteredResults.length) {
         response.results = correctedFiltered;
         response.total_results = correctedResults.total_results;
@@ -86,12 +103,16 @@ export async function GET(request: NextRequest) {
         response.didAutoCorrect = true;
         response.originalQuery = query;
       } else {
-        // Still provide the suggestion but keep original results
         response.suggestion = suggestion;
       }
     } else if (suggestion && filteredResults.length < 3) {
-      // Provide suggestion even without auto-correct
       response.suggestion = suggestion;
+    }
+
+    // 💾 CACHE THE RESULTS (for future users)
+    if (useCache && filteredResults.length > 0) {
+      // Only cache successful searches with results
+      await searchCache.set(query, response, pageNum);
     }
 
     return NextResponse.json(response);
