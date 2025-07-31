@@ -18,16 +18,11 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ['@/components', '@/lib', '@/types'],
   },
 
-  // Bundle analysis
+    // Bundle analysis (simplified to avoid conflicts)
   webpack: (config, { dev, isServer }) => {
-    // Performance monitoring in development
-    if (dev && !isServer) {
-      config.optimization.providedExports = true;
-      config.optimization.usedExports = true;
-    }
-
-    // Tree shaking optimizations
-    if (!dev) {
+    // Only add safe optimizations that don't conflict with Next.js caching
+    if (!dev && !isServer) {
+      // Tree shaking only in production client builds
       config.optimization.sideEffects = false;
     }
 
