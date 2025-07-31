@@ -47,8 +47,6 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 5,
-  userScalable: true,
   viewportFit: 'cover',
   themeColor: [
     { media: '(prefers-color-scheme: dark)', color: '#000000' },
@@ -83,7 +81,6 @@ export default function RootLayout({
       <body
         className={`${inter.className} min-h-screen flex flex-col bg-ios-system-background text-ios-label antialiased`}
         style={{
-          paddingTop: 'var(--ios-safe-padding-top)',
           paddingLeft: 'var(--ios-safe-padding-x)',
           paddingRight: 'var(--ios-safe-padding-x)'
         }}
