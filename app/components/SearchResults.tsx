@@ -259,25 +259,16 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
 
       {/* Loading providers state */}
       {hasResults && !isLoading && isLoadingProviders && (
-        <div className="text-center py-ios-xl">
+        <div className="text-center py-ios-xl flex flex-col items-center">
           <LoadingSpinner size="md" color="secondary" />
           <p className="text-ios-subhead text-ios-secondary-label mt-ios-sm">
-            {isLargeResultSet ? (
-              <>
-                Loading {results.results.length} results...
-                <br />
-                <span className="text-ios-caption-1 text-ios-quaternary-label">
-                  {hasDetectedFranchise
-                    ? 'Franchise detected - loading additional content...'
-                    : 'Large result set detected - this may take longer'
-                  }
-                </span>
-              </>
+            {loadingProgress.total > 1 ? (
+              `Checking availability... (${loadingProgress.current} of ${loadingProgress.total})`
             ) : (
               'Loading streaming availability...'
             )}
           </p>
-          {isLargeResultSet && loadingProgress.total > 1 && (
+          {loadingProgress.total > 1 && (
             <div className="mt-ios-sm">
               <div className="w-64 mx-auto bg-ios-tertiary-system-background rounded-full h-1">
                 <div
@@ -285,8 +276,11 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
                   style={{ width: `${(loadingProgress.current / loadingProgress.total) * 100}%` }}
                 ></div>
               </div>
-              <p className="text-ios-caption-1 text-ios-quaternary-label mt-ios-xs">
-                Checking availability... ({loadingProgress.current} of {loadingProgress.total})
+              <p className="text-ios-caption-1 text-ios-tertiary-label mt-ios-xs">
+                {hasDetectedFranchise
+                  ? 'Franchise content detected'
+                  : `Processing ${results.results.length} results`
+                }
               </p>
             </div>
           )}
