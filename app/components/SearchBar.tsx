@@ -79,8 +79,16 @@ export default function SearchBar({ onSearch, isLoading = false }: SearchBarProp
           autoCorrect="off"
           role="searchbox"
           aria-label="Search movies and TV shows"
+          aria-describedby="search-help"
+          aria-expanded={query.length > 0}
+          aria-autocomplete="list"
           autoFocus
         />
+
+        {/* Hidden help text for screen readers */}
+        <div id="search-help" className="sr-only">
+          Start typing to search for movies or TV shows. Results will appear automatically as you type.
+        </div>
 
         {/* Search Icon - iOS Style */}
         <div className="absolute left-ios-md top-1/2 -translate-y-1/2 pointer-events-none">

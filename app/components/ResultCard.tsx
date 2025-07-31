@@ -171,47 +171,59 @@ export default function ResultCard({ item, providers: externalProviders }: Resul
   );
 
   return (
-    <div className="group cursor-pointer animate-ios-spring-in ios-result-card" onClick={handleCardClick}>
+    <article
+      className="group cursor-pointer animate-ios-spring-in ios-result-card"
+      onClick={handleCardClick}
+      role="button"
+      tabIndex={0}
+      aria-label={`${title} - ${item.media_type === 'movie' ? 'Movie' : 'TV Show'}`}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handleCardClick();
+        }
+      }}
+    >
       <div className="relative overflow-hidden rounded-ios-card bg-ios-secondary-system-background hover:bg-ios-tertiary-system-background ios-scale-button ios-transition-standard shadow-sm hover:shadow-md touch-manipulation focus:outline-none focus:ring-2 focus:ring-ios-link/50">
         {/* Poster */}
-        <div className="aspect-[2/3] relative bg-ios-tertiary-system-background">
+        <div className="aspect-[2/3] relative bg-ios-tertiary-system-background overflow-hidden">
           {item.poster_path ? (
-                          <ProgressiveImage
-                src={`https://image.tmdb.org/t/p/w342${item.poster_path}`}
-                alt={title}
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
-                priority={false}
-              />
+            <ProgressiveImage
+              src={`https://image.tmdb.org/t/p/w342${item.poster_path}`}
+              alt={`${title} poster`}
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
+              priority={false}
+            />
           ) : (
-            <div className="flex items-center justify-center h-full">
+            <div className="flex items-center justify-center h-full" role="img" aria-label="No poster available">
               <svg
                 className="w-20 h-20 text-ios-tertiary-label"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
+                aria-hidden="true"
               >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth={1}
-                  d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
+                  strokeWidth={1.5}
+                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                 />
               </svg>
             </div>
           )}
 
-          {/* Media Type Badge - iOS Style */}
-          <div className="absolute top-ios-sm left-ios-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <span className="px-ios-sm py-ios-xs text-ios-caption-1 font-medium bg-ios-system-background/80 backdrop-blur-sm text-ios-label rounded-ios-button border border-ios-separator/30">
-              {item.media_type === 'movie' ? '🎬 Movie' : '📺 TV Show'}
+          {/* Media Type Badge */}
+          <div className="absolute top-ios-xs right-ios-xs">
+            <span className="px-ios-xs py-ios-xs text-ios-caption-2 bg-ios-system-background/80 backdrop-blur-sm text-ios-label rounded-ios-button border border-ios-separator/30 font-ios-medium">
+              {item.media_type === 'movie' ? 'Movie' : 'TV'}
             </span>
           </div>
-
-
         </div>
 
-        {/* Title and Info */}
-        <div className="p-ios-sm">
+        {/* Content */}
+        <div className="p-ios-sm space-y-ios-xs">
+          {/* Title */}
           <h3 className="font-ios-semibold text-ios-body line-clamp-1 text-ios-label">
             {title}
           </h3>
@@ -323,6 +335,6 @@ export default function ResultCard({ item, providers: externalProviders }: Resul
           </div>
         )}
       </div>
-    </div>
+    </article>
   );
 }

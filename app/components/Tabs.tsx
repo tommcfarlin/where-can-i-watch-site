@@ -20,7 +20,11 @@ export default function Tabs({ activeTab, onTabChange, movieCount, tvCount, notS
     <div className="mt-ios-md mb-ios-lg">
       {/* iOS Segmented Control Style Navigation */}
       <div className="bg-ios-tertiary-system-background p-ios-xs rounded-ios-button">
-        <nav className="flex gap-ios-xs" aria-label="Tabs">
+        <nav
+          className="flex gap-ios-xs"
+          aria-label="Content filter tabs"
+          role="tablist"
+        >
           {tabs.map((tab) => (
             <button
               key={tab.id}
@@ -33,8 +37,13 @@ export default function Tabs({ activeTab, onTabChange, movieCount, tvCount, notS
                     : 'text-ios-secondary-label hover:text-ios-label hover:bg-ios-system-fill active:bg-ios-secondary-system-fill'
                 }
               `}
-                          >
-                <span className="font-ios-medium">{tab.label}</span>
+              role="tab"
+              aria-selected={activeTab === tab.id}
+              aria-controls={`tabpanel-${tab.id}`}
+              id={`tab-${tab.id}`}
+              tabIndex={activeTab === tab.id ? 0 : -1}
+            >
+              <span className="font-ios-medium">{tab.label}</span>
               {tab.count > 0 && (
                 <span
                   className={`inline-flex items-center justify-center min-w-[18px] h-[18px] px-ios-xs text-ios-caption-2 font-ios-semibold rounded-full ios-transition-quick ${
@@ -42,6 +51,7 @@ export default function Tabs({ activeTab, onTabChange, movieCount, tvCount, notS
                       ? 'bg-ios-link text-white'
                       : 'bg-ios-secondary-label text-ios-system-background'
                   }`}
+                  aria-label={`${tab.count} ${tab.label.toLowerCase()}`}
                 >
                   {tab.count}
                 </span>
