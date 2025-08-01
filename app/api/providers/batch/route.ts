@@ -59,15 +59,41 @@ export async function POST(request: NextRequest) {
           continue;
         }
 
-        // Fetch providers
+        // Fetch providers with comprehensive error handling
         const providers = await client.getWatchProviders(item.id, item.media_type);
 
-        // Extract US providers (or return empty if not available)
-        const usProviders = providers.results.US || {
-          flatrate: [],
-          buy: [],
-          rent: [],
-          free: []
+        // Validate provider response structure
+        if (!providers || typeof providers !== 'object' || !providers.results) {
+          console.warn(`Invalid provider response for ${item.media_type}/${item.id}:`, providers);
+          results.push({
+            id: item.id,
+            media_type: item.media_type,
+            providers: null,
+          });
+          continue;
+        }
+
+        // Extract US providers with comprehensive null safety
+        const rawUSProviders = providers.results.US;
+
+        // Helper function to safely filter and validate provider arrays
+        const safeProviderArray = (arr: any[] | undefined | null) => {
+          if (!Array.isArray(arr)) return [];
+          return arr.filter(provider =>
+            provider &&
+            typeof provider === 'object' &&
+            provider.provider_id &&
+            provider.provider_name &&
+            provider.logo_path
+          );
+        };
+
+        const usProviders = {
+          flatrate: safeProviderArray(rawUSProviders?.flatrate),
+          buy: safeProviderArray(rawUSProviders?.buy),
+          rent: safeProviderArray(rawUSProviders?.rent),
+          free: safeProviderArray(rawUSProviders?.free),
+          link: rawUSProviders?.link || undefined
         };
 
         results.push({
@@ -83,6 +109,13 @@ export async function POST(request: NextRequest) {
 
       } catch (error) {
         console.error(`Failed to fetch providers for ${item.media_type}/${item.id}:`, error);
+
+        // Log additional details for debugging
+        if (error instanceof Error) {
+          console.error(`Error details: ${error.message}`);
+          console.error(`Stack trace: ${error.stack}`);
+        }
+
         results.push({
           id: item.id,
           media_type: item.media_type,
