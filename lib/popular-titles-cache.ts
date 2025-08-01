@@ -82,12 +82,13 @@ class PopularTitlesCache {
       for (let page = 1; page <= 3; page++) {
         const response = await client.getPopularMovies(page);
         const simplified = response.results
+          .filter(movie => movie && movie.title && movie.id) // Filter out null/invalid movies
           .map(movie => ({
             id: movie.id,
             title: movie.title.toLowerCase(),
             originalTitle: movie.title,
             mediaType: 'movie' as const,
-            popularity: movie.popularity,
+            popularity: movie.popularity || 0,
             year: movie.release_date ? movie.release_date.substring(0, 4) : ''
           }));
         titles.push(...simplified);
@@ -97,12 +98,13 @@ class PopularTitlesCache {
       for (let page = 1; page <= 3; page++) {
         const response = await client.getPopularTVShows(page);
         const simplified = response.results
+          .filter(show => show && show.name && show.id) // Filter out null/invalid shows
           .map(show => ({
             id: show.id,
             title: show.name.toLowerCase(),
             originalTitle: show.name,
             mediaType: 'tv' as const,
-            popularity: show.popularity,
+            popularity: show.popularity || 0,
             year: show.first_air_date ? show.first_air_date.substring(0, 4) : ''
           }));
         titles.push(...simplified);
