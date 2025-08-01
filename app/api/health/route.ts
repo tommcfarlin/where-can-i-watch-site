@@ -6,7 +6,7 @@ export async function GET() {
       status: 'ok',
       message: 'API is healthy',
       timestamp: new Date().toISOString(),
-      version: '1.1.0'
+      version: '1.1.1'
     });
   } catch (error) {
     return NextResponse.json(
