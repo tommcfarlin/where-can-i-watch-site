@@ -53,12 +53,29 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const client = getTMDBClient();
-    const results: BatchProviderResponse[] = [];
+    console.log('🔄 Initializing TMDB client and results array...');
 
-    // Process requests with rate limiting consideration
-    // Add small delay between requests to respect rate limits
-    for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
+    let client;
+    try {
+      client = getTMDBClient();
+      console.log('✅ TMDB client initialized successfully');
+    } catch (error) {
+      console.error('❌ Failed to initialize TMDB client:', error);
+      throw error;
+    }
+
+    const results: BatchProviderResponse[] = [];
+    console.log('✅ Results array initialized');
+
+    console.log('🔄 Starting provider batch processing loop...');
+    console.log(`📊 About to process ${items.length} items`);
+
+    try {
+      console.log('🏁 Entering main processing try block');
+
+      // Process requests with rate limiting consideration
+      // Add small delay between requests to respect rate limits
+      for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
       const item = items[itemIndex];
       currentItem = item; // Track current item for error context
 
@@ -95,8 +112,26 @@ export async function POST(request: NextRequest) {
         }
 
         // Fetch providers with comprehensive error handling
-        console.log(`📡 Fetching providers for ${item.media_type} ${item.id}`);
-        const providers = await client.getWatchProviders(item.id, item.media_type);
+        console.log(`📡 About to call TMDB API for ${item.media_type} ${item.id}`);
+        console.log(`🔧 TMDB client state:`, {
+          clientExists: !!client,
+          clientType: typeof client,
+          hasGetWatchProviders: !!(client && client.getWatchProviders)
+        });
+
+        let providers;
+        try {
+          console.log(`🌐 Calling client.getWatchProviders(${item.id}, "${item.media_type}")`);
+          providers = await client.getWatchProviders(item.id, item.media_type);
+          console.log(`✅ TMDB API call successful for ${item.media_type}/${item.id}`);
+        } catch (tmdbError) {
+          console.error(`❌ TMDB API call failed for ${item.media_type}/${item.id}:`, {
+            error: tmdbError,
+            message: tmdbError instanceof Error ? tmdbError.message : 'Unknown error',
+            stack: tmdbError instanceof Error ? tmdbError.stack : 'No stack'
+          });
+          throw tmdbError;
+        }
         console.log(`✅ Raw TMDB response for ${item.media_type}/${item.id}:`, {
           hasResults: !!providers?.results,
           hasUS: !!providers?.results?.US,
@@ -225,6 +260,22 @@ export async function POST(request: NextRequest) {
         console.log(`⚠️  Adding error result for failed item:`, errorResult);
         results.push(errorResult);
       }
+    }
+
+    console.log('🏁 Exiting main processing try block successfully');
+
+    } catch (processingError) {
+      console.error('❌ MAIN PROCESSING ERROR (this is the 5ms error!):', {
+        error: processingError,
+        message: processingError instanceof Error ? processingError.message : 'Unknown error',
+        stack: processingError instanceof Error ? processingError.stack : 'No stack',
+        line: processingError instanceof Error ? processingError.stack?.split('\n')[1] : 'No line info',
+        currentItem: currentItem,
+        resultsSoFar: results.length
+      });
+
+      // This is likely the source of the 5ms 400 error
+      throw processingError;
     }
 
     console.log(`\n🎉 Batch processing complete:`, {
