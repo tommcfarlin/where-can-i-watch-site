@@ -89,6 +89,9 @@ export class TMDBClient {
     return this.fetchFromTMDB<SearchMultiResponse>('/search/multi', {
       query: query.trim(),
       page: page.toString(),
+      include_adult: 'false',  // Filter out adult content
+      language: 'en-US',       // Prioritize English content
+      region: 'US',            // Prioritize US releases
     });
   }
 
@@ -121,6 +124,9 @@ export class TMDBClient {
       total_results: number;
     }>('/movie/popular', {
       page: page.toString(),
+      include_adult: 'false',  // Filter out adult content
+      language: 'en-US',       // Prioritize English content
+      region: 'US',            // Prioritize US releases
     });
 
     // Add media_type to each movie
@@ -141,6 +147,9 @@ export class TMDBClient {
       total_results: number;
     }>('/tv/popular', {
       page: page.toString(),
+      include_adult: 'false',  // Filter out adult content
+      language: 'en-US',       // Prioritize English content
+      region: 'US',            // Prioritize US releases
     });
 
     // Add media_type to each TV show

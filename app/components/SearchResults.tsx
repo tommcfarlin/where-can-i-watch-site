@@ -156,25 +156,14 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
       return providersData[key] || null;
     };
 
-    // PROGRESSIVE ENHANCEMENT: Show all results immediately, filter by streaming as data loads
+    // STREAMING-ONLY RESULTS: Only show results once we confirm streaming availability
     if (isLoadingProviders && Object.keys(providersData).length === 0) {
-      // Show raw counts from search results before provider filtering
-      const rawMovies = results.results.filter(item => item.media_type === 'movie');
-      const rawTVShows = results.results.filter(item => item.media_type === 'tv');
-
-      // Filter by active tab
-      let filtered = results.results; // Default to all content
-      if (activeTab === 'movie') {
-        filtered = rawMovies;
-      } else if (activeTab === 'tv') {
-        filtered = rawTVShows;
-      }
-
+      // Don't show any results until provider data loads
       return {
-        movieCount: rawMovies.length,
-        tvCount: rawTVShows.length,
-        notStreamingCount: 0, // Unknown during loading
-        filteredResults: filtered,
+        movieCount: 0,
+        tvCount: 0,
+        notStreamingCount: 0,
+        filteredResults: [],
       };
     }
 
@@ -251,7 +240,7 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
       )}
 
       {/* Tabs for filtering */}
-      {hasResults && !isLoading && (
+      {hasResults && !isLoading && !isLoadingProviders && (
         <Tabs
           activeTab={activeTab}
           onTabChange={setActiveTab}
@@ -276,22 +265,32 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
       )}
 
       {/* Loading providers progress indicator */}
-      {hasResults && !isLoading && isLoadingProviders && loadingProgress.total > 1 && (
-        <div className="mb-ios-md text-center">
-          <div className="w-full max-w-md mx-auto bg-ios-tertiary-system-background rounded-full h-1">
-            <div
-              className="bg-ios-link h-1 rounded-full transition-all duration-300 ease-out"
-              style={{ width: `${(loadingProgress.current / loadingProgress.total) * 100}%` }}
-            ></div>
+      {hasResults && !isLoading && isLoadingProviders && (
+        <div className="text-center py-ios-2xl">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-ios-secondary-system-background rounded-full mb-ios-md">
+            <LoadingSpinner size="lg" color="primary" />
           </div>
-          <p className="text-ios-caption-1 text-ios-tertiary-label mt-ios-xs">
-            Checking availability... ({loadingProgress.current} of {loadingProgress.total})
+          <p className="text-ios-body text-ios-label mb-ios-xs">
+            Checking streaming availability...
           </p>
+          {loadingProgress.total > 1 && (
+            <>
+              <div className="w-full max-w-md mx-auto bg-ios-tertiary-system-background rounded-full h-2 mb-ios-xs">
+                <div
+                  className="bg-ios-link h-2 rounded-full transition-all duration-300 ease-out"
+                  style={{ width: `${(loadingProgress.current / loadingProgress.total) * 100}%` }}
+                ></div>
+              </div>
+              <p className="text-ios-caption-1 text-ios-tertiary-label">
+                {loadingProgress.current} of {loadingProgress.total} checked
+              </p>
+            </>
+          )}
         </div>
       )}
 
       {/* Results Grid */}
-      {hasResults && !isLoading && (
+      {hasResults && !isLoading && !isLoadingProviders && (
         <>
           {filteredResults.length > 0 ? (
             <div className="ios-result-grid grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-ios-sm sm:gap-ios-md ios-momentum-scroll">
@@ -303,7 +302,7 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
                     key={item.id}
                     item={item}
                     providers={itemProviders}
-                    isLoadingProviders={isLoadingProviders}
+                    isLoadingProviders={false} // No longer needed since we wait for loading to complete
                   />
                 );
               })}
