@@ -185,9 +185,9 @@ export default function ResultCard({ item, providers: externalProviders, isLoadi
         }
       }}
     >
-      <div className="relative overflow-hidden rounded-ios-card bg-ios-secondary-system-background hover:bg-ios-tertiary-system-background ios-scale-button ios-transition-standard shadow-sm hover:shadow-md touch-manipulation focus:outline-none focus:ring-2 focus:ring-ios-link/50">
+      <div className="relative overflow-hidden rounded-lg bg-accents-1 hover:bg-accents-2 transition-all duration-200 shadow-sm hover:shadow-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/50">
         {/* Poster */}
-        <div className="aspect-[2/3] relative bg-ios-tertiary-system-background overflow-hidden">
+        <div className="aspect-[2/3] relative bg-accents-2 overflow-hidden">
           {item.poster_path ? (
             <ProgressiveImage
               src={`https://image.tmdb.org/t/p/w342${item.poster_path}`}
@@ -215,21 +215,21 @@ export default function ResultCard({ item, providers: externalProviders, isLoadi
           )}
 
           {/* Media Type Badge */}
-          <div className="absolute top-ios-xs right-ios-xs">
-            <span className="px-ios-xs py-ios-xs text-ios-caption-2 bg-ios-system-background/80 backdrop-blur-sm text-ios-label rounded-ios-button border border-ios-separator/30 font-ios-medium">
+          <div className="absolute top-2 right-2">
+            <span className="px-2 py-1 text-xs bg-background/80 backdrop-blur-sm text-foreground rounded border border-accents-3/30 font-medium">
               {item.media_type === 'movie' ? 'Movie' : 'TV'}
             </span>
           </div>
         </div>
 
         {/* Content */}
-        <div className="p-ios-sm space-y-ios-xs">
+        <div className="p-3 space-y-2">
           {/* Title */}
-          <h3 className="font-ios-semibold text-ios-body line-clamp-1 text-ios-label">
+          <h3 className="font-semibold text-sm line-clamp-1 text-foreground">
             {title}
           </h3>
           {year && (
-            <p className="text-ios-caption-1 text-ios-secondary-label mt-ios-xs">
+            <p className="text-xs text-accents-6 mt-1">
               {year}
             </p>
           )}

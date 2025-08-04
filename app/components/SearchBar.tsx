@@ -65,14 +65,14 @@ export default function SearchBar({ onSearch, isLoading = false }: SearchBarProp
 
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-2xl mx-auto animate-fade-up">
-      <div className="relative group ios-search-container">
+      <div className="relative group">
         <input
           ref={inputRef}
           type="search"
           value={query}
           onChange={handleInputChange}
           placeholder="Search movies or TV shows..."
-          className="w-full h-11 pl-ios-3xl pr-ios-lg text-ios-body bg-ios-secondary-system-background text-ios-label rounded-ios-button border-0 focus:outline-none focus:bg-ios-tertiary-system-background focus:shadow-sm ios-transition-quick placeholder:text-ios-tertiary-label touch-manipulation"
+          className="w-full h-11 pl-12 pr-10 text-sm bg-accents-1 text-foreground rounded-md border border-accents-3 focus:outline-none focus:border-primary focus:bg-accents-2 transition-all duration-200 placeholder:text-accents-5"
           autoComplete="off"
           spellCheck="false"
           autoCapitalize="none"
@@ -90,10 +90,10 @@ export default function SearchBar({ onSearch, isLoading = false }: SearchBarProp
           Start typing to search for movies or TV shows. Results will appear automatically as you type.
         </div>
 
-        {/* Search Icon - iOS Style */}
-        <div className="absolute left-ios-md top-1/2 -translate-y-1/2 pointer-events-none">
+        {/* Search Icon */}
+        <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
           <svg
-            className="w-4 h-4 text-ios-tertiary-label transition-colors duration-200 group-focus-within:text-ios-secondary-label"
+            className="w-4 h-4 text-accents-5 transition-colors duration-200 group-focus-within:text-accents-7"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -104,22 +104,22 @@ export default function SearchBar({ onSearch, isLoading = false }: SearchBarProp
           </svg>
         </div>
 
-        {/* Loading Spinner - iOS Style */}
+        {/* Loading Spinner */}
         {isLoading && (
-          <div className="absolute right-ios-sm top-1/2 -translate-y-1/2">
+          <div className="absolute right-3 top-1/2 -translate-y-1/2">
             <LoadingSpinner size="sm" color="secondary" showPulse />
           </div>
         )}
 
-        {/* Clear Button - iOS Style */}
+        {/* Clear Button */}
         {query && !isLoading && (
           <button
             type="button"
             onClick={handleClear}
-            className="absolute right-ios-sm top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-ios-tertiary-label hover:bg-ios-secondary-label ios-transition-quick ios-scale-press flex items-center justify-center touch-manipulation"
+            className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-accents-5 hover:bg-accents-7 transition-all duration-200 flex items-center justify-center"
           >
             <svg
-              className="w-3 h-3 text-ios-system-background"
+              className="w-3 h-3 text-accents-1"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
