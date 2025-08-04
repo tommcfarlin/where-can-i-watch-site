@@ -2,59 +2,43 @@
 @tailwind components;
 @tailwind utilities;
 
-/* iOS Typography System */
+/* Vercel/Geist Design System */
 :root {
-  /* iOS SF Pro Font Stack */
-  --font-sf-pro: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  /* Geist Font Stack */
+  --font-geist-sans: 'Geist Sans', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-geist-mono: 'Geist Mono', 'JetBrains Mono', 'Fira Code', Menlo, Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
 
-  /* iOS Text Styles - Font Sizes (in rem for scalability) */
-  --text-large-title: 2.125rem;    /* 34px */
-  --text-title-1: 1.75rem;         /* 28px */
-  --text-title-2: 1.375rem;        /* 22px */
-  --text-title-3: 1.25rem;         /* 20px */
-  --text-headline: 1.0625rem;      /* 17px */
-  --text-body: 1.0625rem;          /* 17px */
-  --text-callout: 1rem;            /* 16px */
-  --text-subhead: 0.9375rem;       /* 15px */
-  --text-footnote: 0.8125rem;      /* 13px */
-  --text-caption-1: 0.75rem;       /* 12px */
-  --text-caption-2: 0.6875rem;     /* 11px */
+  /* Keep SF Pro for compatibility */
+  --font-sf-pro: var(--font-geist-sans);
 
-  /* iOS Line Heights */
-  --line-height-large-title: 2.5625rem;  /* 41px */
-  --line-height-title-1: 2.125rem;       /* 34px */
-  --line-height-title-2: 1.75rem;        /* 28px */
-  --line-height-title-3: 1.5rem;         /* 24px */
-  --line-height-headline: 1.375rem;      /* 22px */
-  --line-height-body: 1.375rem;          /* 22px */
-  --line-height-callout: 1.3125rem;      /* 21px */
-  --line-height-subhead: 1.25rem;        /* 20px */
-  --line-height-footnote: 1.125rem;      /* 18px */
-  --line-height-caption-1: 1rem;         /* 16px */
-  --line-height-caption-2: 0.8125rem;    /* 13px */
+  /* Geist Spacing System (4px base unit) */
+  --geist-space: 4px;
+  --geist-space-2x: 8px;
+  --geist-space-4x: 16px;
+  --geist-space-8x: 32px;
+  --geist-space-16x: 64px;
+  --geist-space-24x: 96px;
+  --geist-space-32x: 128px;
+  --geist-space-48x: 192px;
+  --geist-space-64x: 256px;
+  --geist-space-small: 32px;
+  --geist-space-medium: 40px;
+  --geist-space-large: 48px;
+  --geist-space-gap: 24px;
+  --geist-space-gap-half: 12px;
+  --geist-space-gap-quarter: 8px;
+  --geist-gap: var(--geist-space-gap);
+  --geist-gap-half: var(--geist-space-gap-half);
+  --geist-gap-quarter: var(--geist-space-gap-quarter);
+  --geist-gap-double: var(--geist-space-large);
 
-  /* iOS Letter Spacing */
-  --letter-spacing-large-title: 0.025rem;    /* 0.40px at 16px base */
-  --letter-spacing-title-1: 0.0225rem;       /* 0.36px */
-  --letter-spacing-title-2: 0.022rem;        /* 0.35px */
-  --letter-spacing-title-3: 0.024rem;        /* 0.38px */
-  --letter-spacing-headline: -0.026rem;      /* -0.41px */
-  --letter-spacing-body: -0.026rem;          /* -0.41px */
-  --letter-spacing-callout: -0.02rem;        /* -0.32px */
-  --letter-spacing-subhead: -0.015rem;       /* -0.24px */
-  --letter-spacing-footnote: -0.005rem;      /* -0.08px */
-  --letter-spacing-caption-1: 0rem;          /* 0px */
-  --letter-spacing-caption-2: 0.004rem;      /* 0.07px */
+  /* Geist Border Radius */
+  --geist-radius: 5px;
+  --geist-marketing-radius: 8px;
 
-  /* iOS Font Weights */
-  --font-weight-regular: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
-  --font-weight-bold: 700;
-
-  /* iOS 8pt Spacing System */
-  --spacing-xs: 0.25rem;      /* 4px - micro spacing */
-  --spacing-sm: 0.5rem;       /* 8px - base unit */
+  /* Compatibility spacing for existing components */
+  --spacing-xs: 0.25rem;      /* 4px */
+  --spacing-sm: 0.5rem;       /* 8px */
   --spacing-md: 1rem;         /* 16px */
   --spacing-lg: 1.5rem;       /* 24px */
   --spacing-xl: 2rem;         /* 32px */
@@ -63,85 +47,83 @@
   --spacing-4xl: 4rem;        /* 64px */
 }
 
-/* iOS Semantic Color System - Dark Mode */
+/* Vercel/Geist Color System - Dark Mode Only */
 :root {
-  /* iOS Label Colors (Text Hierarchy) */
-  --ios-label: 0 0% 100%;                    /* #FFFFFF - Primary text */
-  --ios-secondary-label: 0 0% 92% / 0.6;     /* #EBEBF5 60% - Secondary text */
-  --ios-tertiary-label: 0 0% 92% / 0.3;      /* #EBEBF5 30% - Tertiary text */
-  --ios-quaternary-label: 0 0% 92% / 0.18;   /* #EBEBF5 18% - Quaternary text */
+  /* Base Colors */
+  --geist-white: #fff;
+  --geist-black: #000;
+  --geist-background: var(--geist-black);
+  --geist-foreground: var(--geist-white);
 
-  /* iOS System Background Colors */
-  --ios-system-background: 0 0% 0%;          /* #000000 - Main background */
-  --ios-secondary-system-background: 220 13% 11%;  /* #1C1C1E - Cards/grouped content */
-  --ios-tertiary-system-background: 240 6% 18%;    /* #2C2C2E - Grouped backgrounds */
+  /* Accent Scale - Dark Mode (1 is lightest, 8 is darkest in dark mode) */
+  --accents-1: #111;      /* Darkest - for cards/elevated surfaces */
+  --accents-2: #333;      /* Dark secondary surfaces */
+  --accents-3: #444;      /* Medium-dark borders */
+  --accents-4: #666;      /* Medium text/borders */
+  --accents-5: #888;      /* Light secondary text */
+  --accents-6: #999;      /* Lighter secondary text */
+  --accents-7: #eaeaea;   /* Light text */
+  --accents-8: #fafafa;   /* Lightest text */
 
-  /* iOS System Grouped Background Colors */
-  --ios-system-grouped-background: 0 0% 0%;         /* #000000 - Main grouped background */
-  --ios-secondary-system-grouped-background: 220 13% 11%;  /* #1C1C1E - Secondary grouped */
-  --ios-tertiary-system-grouped-background: 240 6% 18%;    /* #2C2C2E - Tertiary grouped */
+  /* Semantic Colors */
+  --geist-secondary-lighter: var(--accents-2);
+  --geist-secondary-light: var(--accents-3);
+  --geist-secondary: var(--accents-5);
+  --geist-secondary-dark: var(--accents-7);
 
-  /* iOS Fill Colors */
-  --ios-system-fill: 0 0% 92% / 0.36;       /* #EBEBF5 36% - Thin materials */
-  --ios-secondary-system-fill: 0 0% 92% / 0.32;  /* #EBEBF5 32% - Medium materials */
-  --ios-tertiary-system-fill: 0 0% 92% / 0.24;   /* #EBEBF5 24% - Thick materials */
-  --ios-quaternary-system-fill: 0 0% 92% / 0.18; /* #EBEBF5 18% - Ultra thick materials */
+  /* Success/Primary (Vercel Blue) */
+  --geist-success-lighter: #d3e5ff;
+  --geist-success-light: #3291ff;
+  --geist-success: #0070f3;        /* Vercel Blue */
+  --geist-success-dark: #0761d1;
 
-  /* iOS Separator Colors */
-  --ios-separator: 0 0% 22% / 0.65;          /* #38383A 65% opacity */
-  --ios-opaque-separator: 0 0% 22%;          /* #38383A - Solid separator */
+  /* Error Colors */
+  --geist-error-lighter: #f7d4d6;
+  --geist-error-light: #f33;
+  --geist-error: #e00;
+  --geist-error-dark: #c50000;
 
-  /* iOS Link Color */
-  --ios-link: 211 100% 56%;                  /* #007AFF - System blue */
+  /* Warning Colors */
+  --geist-warning-lighter: #ffefcf;
+  --geist-warning-light: #f7b955;
+  --geist-warning: #f5a623;
+  --geist-warning-dark: #ab570a;
 
-  /* iOS Border and Interactive Colors */
-  --ios-system-gray: 0 0% 56%;               /* #8E8E93 */
-  --ios-system-gray2: 240 1% 48%;            /* #787880 */
-  --ios-system-gray3: 240 2% 42%;            /* #6D6D7D */
-  --ios-system-gray4: 240 1% 36%;            /* #5A5A65 */
-  --ios-system-gray5: 240 2% 31%;            /* #4C4C57 */
-  --ios-system-gray6: 240 2% 25%;            /* #3F3F48 */
+  /* Additional Colors */
+  --geist-violet: #7928ca;
+  --geist-cyan: #50e3c2;
+  --geist-highlight-purple: #f81ce5;
+  --geist-highlight-pink: #ff0080;
 
-  /* Map iOS colors to app tokens for compatibility */
-  --background: var(--ios-system-background);
-  --foreground: var(--ios-label);
+  /* Utility Colors */
+  --geist-link-color: var(--geist-success);
+  --geist-selection: var(--geist-highlight-purple);
+  --shadow: rgba(0, 0, 0, 0.12);
 
-  --card: var(--ios-secondary-system-background);
-  --card-foreground: var(--ios-label);
-
-  --muted: var(--ios-tertiary-system-background);
-  --muted-foreground: var(--ios-secondary-label);
-
-  --primary: var(--ios-link);
-  --primary-foreground: 0 0% 100%;
-
-  --secondary: var(--ios-system-gray5);
-  --secondary-foreground: var(--ios-label);
-
-  --accent: var(--ios-secondary-system-background);
-  --accent-foreground: var(--ios-label);
-
-  /* iOS Border radius values */
-  --radius: 0.75rem;               /* 12px - iOS button radius */
-  --radius-card: 1rem;             /* 16px - iOS card radius */
+  /* Border Radius */
+  --radius: var(--geist-radius);           /* 5px - Geist standard */
+  --radius-card: var(--geist-marketing-radius);  /* 8px - Card radius */
 }
 
-/* Base styles with iOS font system */
+/* Base styles with Geist font system */
 * {
   box-sizing: border-box;
 }
 
 body {
-  @apply bg-background text-foreground antialiased;
-  font-family: var(--font-sf-pro);
+  font-family: var(--font-geist-sans);
   font-feature-settings: "rlig" 1, "calt" 1;
   min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  background-color: var(--geist-background);
+  color: var(--geist-foreground);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Clean background - no gradients like Vercel */
-body {
-  background-color: hsl(var(--background));
+/* Clean, minimal Vercel aesthetic */
+html {
+  background-color: var(--geist-background);
 }
 
 /* Smooth transitions for theme changes */

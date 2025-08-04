@@ -48,10 +48,7 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   viewportFit: 'cover',
-  themeColor: [
-    { media: '(prefers-color-scheme: dark)', color: '#000000' },
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-  ],
+  themeColor: '#000000',
 };
 
 export default function RootLayout({
@@ -79,10 +76,10 @@ export default function RootLayout({
         <link rel="preload" href="/fonts/sf-pro.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
       </head>
       <body
-        className={`${inter.className} min-h-screen flex flex-col bg-ios-system-background text-ios-label antialiased`}
+        className={`${inter.className} min-h-screen flex flex-col bg-background text-foreground antialiased`}
         style={{
-          paddingLeft: 'var(--ios-safe-padding-x)',
-          paddingRight: 'var(--ios-safe-padding-x)'
+          paddingLeft: 'var(--geist-space-gap)',
+          paddingRight: 'var(--geist-space-gap)'
         }}
       >
         <main className="flex-1 pb-40">

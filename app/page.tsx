@@ -11,11 +11,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Apply permanent dark mode
-  useEffect(() => {
-    document.documentElement.classList.add('dark');
-    document.body.classList.add('dark');
-  }, []);
+  // Dark mode is now permanent and handled by CSS
 
   // Initialize the fuzzy search cache on mount
   useEffect(() => {
@@ -53,7 +49,7 @@ export default function Home() {
   };
 
   return (
-          <div className="min-h-screen bg-background text-ios-label">
+          <div className="min-h-screen bg-background text-foreground">
               <div className="container mx-auto px-ios-md max-w-7xl">
         {/* Header - iOS Typography with Proper Safe Area */}
                   <header
