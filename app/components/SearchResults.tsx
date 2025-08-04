@@ -24,9 +24,9 @@ const usePerformanceMonitoring = (enabled: boolean = false) => {
       const endTime = performance.now();
       const duration = endTime - startTime;
       if (duration > 16.67) { // Slower than 60fps
-        console.warn(`🐌 Slow render (${label}): ${duration.toFixed(2)}ms`);
+                  console.warn(`Slow render (${label}): ${duration.toFixed(2)}ms`);
       } else {
-        console.log(`✅ Fast render (${label}): ${duration.toFixed(2)}ms`);
+        console.log(`Fast render (${label}): ${duration.toFixed(2)}ms`);
       }
     };
   }, [enabled]);
@@ -241,7 +241,7 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
                 <div className="mb-ios-lg p-ios-md bg-card rounded-ios-card border border-muted">
           <p className="text-ios-subhead">
             <span className="font-ios-semibold text-ios-label">
-              🎬 Franchise detected!
+              Franchise detected!
             </span>
             <span className="text-ios-secondary-label ml-ios-sm">
               Showing additional {(results as ExtendedSearchResponse & { detectedFranchise?: string }).detectedFranchise} universe content that might not contain &ldquo;{searchQuery}&rdquo; in the title.

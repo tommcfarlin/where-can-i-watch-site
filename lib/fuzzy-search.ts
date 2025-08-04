@@ -124,9 +124,9 @@ class FuzzySearchService {
 
   // Warm up the cache (pre-load popular titles)
   async warmUp(): Promise<void> {
-    console.log('🔥 Warming up fuzzy search...');
+          console.log('Warming up fuzzy search...');
     await this.ensureIndexReady();
-    console.log('✅ Fuzzy search ready');
+    console.log('Fuzzy search ready');
   }
 
   // Get cache statistics

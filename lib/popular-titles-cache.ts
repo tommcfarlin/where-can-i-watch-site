@@ -120,9 +120,9 @@ class PopularTitlesCache {
 
       this.cache = uniqueTitles;
       this.lastUpdated = Date.now();
-      console.log(`✅ Cache updated with ${uniqueTitles.length} titles`);
+      console.log(`Cache updated with ${uniqueTitles.length} titles`);
     } catch (error) {
-      console.error('❌ Failed to update popular titles cache:', error);
+              console.error('Failed to update popular titles cache:', error);
     } finally {
       this.isLoading = false;
     }

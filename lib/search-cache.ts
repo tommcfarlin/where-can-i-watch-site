@@ -173,7 +173,7 @@ class SharedSearchCache {
 
     if (!cached) return null;
 
-    console.log(`🎯 Cache HIT for "${query}" (saved TMDB API call)`);
+    console.log(`Cache HIT for "${query}" (saved TMDB API call)`);
     return cached.data;
   }
 

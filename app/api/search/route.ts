@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
     const pageNum = parseInt(page);
     const searchCache = getSharedSearchCache();
 
-    // 🎯 CHECK CACHE FIRST (for popular searches like "batman", "superman")
+    // CHECK CACHE FIRST (for popular searches like "batman", "superman")
     if (useCache) {
       const cachedResult = await searchCache.get(query, pageNum);
       if (cachedResult) {
