@@ -3,7 +3,7 @@ import { getFuzzySearchService } from '@/lib/fuzzy-search';
 
 export async function GET() {
   try {
-    console.log('🚀 Initializing services...');
+    console.log('Initializing services...');
 
     // Warm up the fuzzy search service (which also loads the cache)
     const fuzzySearch = getFuzzySearchService();

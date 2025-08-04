@@ -25,11 +25,11 @@ export async function POST(request: NextRequest) {
       itemCount: items?.length || 0,
       requestBody: JSON.stringify(body, null, 2)
     });
-    console.log('📊 Processing items:', items?.length);
+    console.log('Processing items:', items?.length);
 
     if (items?.length > 0) {
       items.forEach((item, index) => {
-        console.log(`🎬 Item ${index}:`, {
+        console.log(`Item ${index}:`, {
           id: item?.id,
           media_type: item?.media_type,
           hasId: !!item?.id,
@@ -58,17 +58,17 @@ export async function POST(request: NextRequest) {
     let client;
     try {
       client = getTMDBClient();
-      console.log('✅ TMDB client initialized successfully');
+      console.log('TMDB client initialized successfully');
     } catch (error) {
-      console.error('❌ Failed to initialize TMDB client:', error);
+              console.error('Failed to initialize TMDB client:', error);
       throw error;
     }
 
     const results: BatchProviderResponse[] = [];
-    console.log('✅ Results array initialized');
+          console.log('Results array initialized');
 
-    console.log('🔄 Starting provider batch processing loop...');
-    console.log(`📊 About to process ${items.length} items`);
+          console.log('Starting provider batch processing loop...');
+          console.log(`About to process ${items.length} items`);
 
     try {
       console.log('🏁 Entering main processing try block');
@@ -112,8 +112,8 @@ export async function POST(request: NextRequest) {
         }
 
         // Fetch providers with comprehensive error handling
-        console.log(`📡 About to call TMDB API for ${item.media_type} ${item.id}`);
-        console.log(`🔧 TMDB client state:`, {
+                  console.log(`About to call TMDB API for ${item.media_type} ${item.id}`);
+        console.log(`TMDB client state:`, {
           clientExists: !!client,
           clientType: typeof client,
           hasGetWatchProviders: !!(client && client.getWatchProviders)
@@ -121,18 +121,18 @@ export async function POST(request: NextRequest) {
 
         let providers;
         try {
-          console.log(`🌐 Calling client.getWatchProviders(${item.id}, "${item.media_type}")`);
-          providers = await client.getWatchProviders(item.id, item.media_type);
-          console.log(`✅ TMDB API call successful for ${item.media_type}/${item.id}`);
+                      console.log(`Calling client.getWatchProviders(${item.id}, "${item.media_type}")`);
+            providers = await client.getWatchProviders(item.id, item.media_type);
+          console.log(`TMDB API call successful for ${item.media_type}/${item.id}`);
         } catch (tmdbError) {
-          console.error(`❌ TMDB API call failed for ${item.media_type}/${item.id}:`, {
+                      console.error(`TMDB API call failed for ${item.media_type}/${item.id}:`, {
             error: tmdbError,
             message: tmdbError instanceof Error ? tmdbError.message : 'Unknown error',
             stack: tmdbError instanceof Error ? tmdbError.stack : 'No stack'
           });
           throw tmdbError;
         }
-        console.log(`✅ Raw TMDB response for ${item.media_type}/${item.id}:`, {
+                  console.log(`Raw TMDB response for ${item.media_type}/${item.id}:`, {
           hasResults: !!providers?.results,
           hasUS: !!providers?.results?.US,
           responseKeys: providers ? Object.keys(providers) : [],
@@ -198,7 +198,7 @@ export async function POST(request: NextRequest) {
             return isValid;
           });
 
-          console.log(`✅ ${arrayName} filtered: ${arr.length} → ${filtered.length} valid providers`);
+          console.log(`${arrayName} filtered: ${arr.length} → ${filtered.length} valid providers`);
           return filtered;
         };
 
@@ -224,7 +224,7 @@ export async function POST(request: NextRequest) {
           providers: usProviders,
         };
 
-        console.log(`✅ Successfully processed ${item.media_type}/${item.id} - adding to results`);
+        console.log(`Successfully processed ${item.media_type}/${item.id} - adding to results`);
         results.push(resultObject);
 
         // Small delay to respect rate limits (only if not the last item)

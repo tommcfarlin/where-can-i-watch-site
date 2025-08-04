@@ -7,7 +7,7 @@ import { ExternalIds } from '@/types/tmdb';
 export interface ExternalLink {
   name: string;
   url: string;
-  icon: string; // Emoji or icon identifier
+  icon: string; // Icon identifier
 }
 
 /**
@@ -33,7 +33,7 @@ export function getIMDBLink(externalIds: ExternalIds): ExternalLink | null {
   return {
     name: 'IMDb',
     url: `https://www.imdb.com/title/${externalIds.imdb_id}`,
-    icon: '📽️', // Film projector emoji - more distinctive for IMDB
+    icon: 'imdb', // IMDB icon identifier
   };
 }
 
