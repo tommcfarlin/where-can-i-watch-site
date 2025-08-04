@@ -150,27 +150,43 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
 
   // Calculate counts for each media type including streaming status
   const { movieCount, tvCount, notStreamingCount, filteredResults } = useMemo(() => {
-    // Show results progressively as provider data becomes available
-    // Only require that we have at least some provider data OR loading is complete
-    if (isLoadingProviders && Object.keys(providersData).length === 0) {
-      return {
-        movieCount: 0,
-        tvCount: 0,
-        notStreamingCount: 0,
-        filteredResults: [],
-      };
-    }
-
     // Helper function to get providers for an item
     const getItemProviders = (item: SearchResultItem) => {
       const key = `${item.media_type}-${item.id}`;
       return providersData[key] || null;
     };
 
-    // Only categorize items that have provider data loaded
+    // PROGRESSIVE ENHANCEMENT: Show all results immediately, filter by streaming as data loads
+    if (isLoadingProviders && Object.keys(providersData).length === 0) {
+      // Show raw counts from search results before provider filtering
+      const rawMovies = results.results.filter(item => item.media_type === 'movie');
+      const rawTVShows = results.results.filter(item => item.media_type === 'tv');
+
+      // Filter by active tab
+      let filtered = results.results; // Default to all content
+      if (activeTab === 'movie') {
+        filtered = rawMovies;
+      } else if (activeTab === 'tv') {
+        filtered = rawTVShows;
+      }
+
+      return {
+        movieCount: rawMovies.length,
+        tvCount: rawTVShows.length,
+        notStreamingCount: 0, // Unknown during loading
+        filteredResults: filtered,
+      };
+    }
+
+    // ENHANCED RESULTS: Filter by streaming availability as provider data becomes available
     const itemsWithProviders = results.results.filter(item => {
       const key = `${item.media_type}-${item.id}`;
       return providersData.hasOwnProperty(key);
+    });
+
+    const itemsWithoutProviders = results.results.filter(item => {
+      const key = `${item.media_type}-${item.id}`;
+      return !providersData.hasOwnProperty(key);
     });
 
     // Categorize loaded items by media type and streaming status
@@ -184,18 +200,20 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
       return !isStreamable(providers, 'US');
     });
 
-    // Filter streaming results by media type
-    const streamingMovies = allStreaming.filter(item => item.media_type === 'movie');
-    const streamingTVShows = allStreaming.filter(item => item.media_type === 'tv');
+    // Include items still loading (assume streamable until proven otherwise)
+    const allResults = [...allStreaming, ...itemsWithoutProviders];
+
+    // Filter results by media type
+    const streamingMovies = allResults.filter(item => item.media_type === 'movie');
+    const streamingTVShows = allResults.filter(item => item.media_type === 'tv');
 
     // Determine filtered results based on active tab
-    let filtered = allStreaming; // Default to all streaming content
+    let filtered = allResults; // Default to all content
     if (activeTab === 'movie') {
       filtered = streamingMovies;
     } else if (activeTab === 'tv') {
       filtered = streamingTVShows;
     }
-    // Removed: not-streaming tab logic
 
     return {
       movieCount: streamingMovies.length,
@@ -233,7 +251,7 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
       )}
 
       {/* Tabs for filtering */}
-      {hasResults && !isLoading && !isLoadingProviders && (
+      {hasResults && !isLoading && (
         <Tabs
           activeTab={activeTab}
           onTabChange={setActiveTab}
@@ -257,38 +275,23 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
         </div>
       )}
 
-      {/* Loading providers state */}
-      {hasResults && !isLoading && isLoadingProviders && (
-        <div className="text-center py-ios-xl flex flex-col items-center">
-          <LoadingSpinner size="md" color="secondary" />
-          <p className="text-ios-subhead text-ios-secondary-label mt-ios-sm">
-            {loadingProgress.total > 1 ? (
-              `Checking availability... (${loadingProgress.current} of ${loadingProgress.total})`
-            ) : (
-              'Loading streaming availability...'
-            )}
+      {/* Loading providers progress indicator */}
+      {hasResults && !isLoading && isLoadingProviders && loadingProgress.total > 1 && (
+        <div className="mb-ios-md text-center">
+          <div className="w-full max-w-md mx-auto bg-ios-tertiary-system-background rounded-full h-1">
+            <div
+              className="bg-ios-link h-1 rounded-full transition-all duration-300 ease-out"
+              style={{ width: `${(loadingProgress.current / loadingProgress.total) * 100}%` }}
+            ></div>
+          </div>
+          <p className="text-ios-caption-1 text-ios-tertiary-label mt-ios-xs">
+            Checking availability... ({loadingProgress.current} of {loadingProgress.total})
           </p>
-          {loadingProgress.total > 1 && (
-            <div className="mt-ios-sm">
-              <div className="w-64 mx-auto bg-ios-tertiary-system-background rounded-full h-1">
-                <div
-                  className="bg-ios-link h-1 rounded-full transition-all duration-300 ease-out"
-                  style={{ width: `${(loadingProgress.current / loadingProgress.total) * 100}%` }}
-                ></div>
-              </div>
-              <p className="text-ios-caption-1 text-ios-tertiary-label mt-ios-xs">
-                {hasDetectedFranchise
-                  ? 'Franchise content detected'
-                  : `Processing ${results.results.length} results`
-                }
-              </p>
-            </div>
-          )}
         </div>
       )}
 
       {/* Results Grid */}
-      {hasResults && !isLoading && !isLoadingProviders && (
+      {hasResults && !isLoading && (
         <>
           {filteredResults.length > 0 ? (
             <div className="ios-result-grid grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-ios-sm sm:gap-ios-md ios-momentum-scroll">
@@ -300,6 +303,7 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
                     key={item.id}
                     item={item}
                     providers={itemProviders}
+                    isLoadingProviders={isLoadingProviders}
                   />
                 );
               })}

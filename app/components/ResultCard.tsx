@@ -79,6 +79,7 @@ function ProgressiveImage({
 interface ResultCardProps {
   item: SearchResultItem;
   providers?: CountryProviders | null; // Optional: if provided, skip API fetch
+  isLoadingProviders?: boolean; // Whether provider data is currently being loaded globally
 }
 
 interface ProviderApiResponse {
@@ -89,7 +90,7 @@ interface ProviderApiResponse {
 // Base64 encoded 1x1 transparent pixel as a lightweight placeholder
 const BLUR_PLACEHOLDER = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k=';
 
-export default function ResultCard({ item, providers: externalProviders }: ResultCardProps) {
+export default function ResultCard({ item, providers: externalProviders, isLoadingProviders: globalLoadingProviders = false }: ResultCardProps) {
   const [providers, setProviders] = useState<ProviderApiResponse | null>(null);
   const [showProviders, setShowProviders] = useState(false);
   const [isLoadingProviders, setIsLoadingProviders] = useState(false);
@@ -277,6 +278,16 @@ export default function ResultCard({ item, providers: externalProviders }: Resul
                   d="M19 9l-7 7-7-7"
                 />
               </svg>
+            </div>
+          )}
+
+          {/* Loading Provider Data */}
+          {!providers && globalLoadingProviders && (
+            <div className="mt-ios-sm flex items-center gap-ios-sm text-ios-secondary-label">
+              <LoadingSpinner size="sm" color="secondary" />
+              <span className="text-ios-caption-1">
+                Checking availability...
+              </span>
             </div>
           )}
         </div>
