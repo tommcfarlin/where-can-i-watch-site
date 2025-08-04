@@ -76,10 +76,10 @@ export default function RootLayout({
         <link rel="preload" href="/fonts/sf-pro.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
       </head>
       <body
-        className={`${inter.className} min-h-screen flex flex-col bg-background text-foreground antialiased`}
+        className={`${inter.className} min-h-screen flex flex-col bg-ios-system-background text-ios-label antialiased`}
         style={{
-          paddingLeft: 'var(--geist-space-gap)',
-          paddingRight: 'var(--geist-space-gap)'
+          paddingLeft: 'var(--ios-safe-padding-x)',
+          paddingRight: 'var(--ios-safe-padding-x)'
         }}
       >
         <main className="flex-1 pb-40">

@@ -5,58 +5,44 @@ module.exports = {
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
-  // Dark mode only - no theme switching needed
+    // Dark mode only - no theme switching needed
   theme: {
     extend: {
       colors: {
-        // Vercel/Geist Design System Colors
-        background: 'var(--geist-background)',
-        foreground: 'var(--geist-foreground)',
-
-        // Card colors
+        // iOS semantic color system
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
         card: {
-          DEFAULT: 'var(--accents-1)',
-          foreground: 'var(--geist-foreground)',
+          DEFAULT: 'hsl(var(--card))',
+          foreground: 'hsl(var(--card-foreground))',
         },
-
-        // Primary colors (Vercel Blue)
         primary: {
-          DEFAULT: 'var(--geist-success)',
-          foreground: 'var(--geist-white)',
+          DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))',
         },
-
-        // Secondary colors
         secondary: {
-          DEFAULT: 'var(--accents-2)',
-          foreground: 'var(--geist-foreground)',
+          DEFAULT: 'hsl(var(--secondary))',
+          foreground: 'hsl(var(--secondary-foreground))',
         },
-
-        // Muted colors
         muted: {
-          DEFAULT: 'var(--accents-2)',
-          foreground: 'var(--accents-5)',
+          DEFAULT: 'hsl(var(--muted))',
+          foreground: 'hsl(var(--muted-foreground))',
         },
-
-        // Accent colors
         accent: {
-          DEFAULT: 'var(--accents-1)',
-          foreground: 'var(--geist-foreground)',
+          DEFAULT: 'hsl(var(--accent))',
+          foreground: 'hsl(var(--accent-foreground))',
         },
 
-        // Vercel Color Palette
-        'vercel-blue': 'var(--geist-success)',
-        'vercel-black': 'var(--geist-black)',
-        'vercel-white': 'var(--geist-white)',
-
-        // Accent scale (1-8, where 1 is lightest, 8 is darkest)
-        'accents-1': 'var(--accents-1)',
-        'accents-2': 'var(--accents-2)',
-        'accents-3': 'var(--accents-3)',
-        'accents-4': 'var(--accents-4)',
-        'accents-5': 'var(--accents-5)',
-        'accents-6': 'var(--accents-6)',
-        'accents-7': 'var(--accents-7)',
-        'accents-8': 'var(--accents-8)',
+        // iOS Semantic Colors - Direct Access
+        'ios-label': 'hsl(var(--ios-label))',
+        'ios-secondary-label': 'hsl(var(--ios-secondary-label))',
+        'ios-tertiary-label': 'hsl(var(--ios-tertiary-label))',
+        'ios-quaternary-label': 'hsl(var(--ios-quaternary-label))',
+        'ios-system-background': 'hsl(var(--ios-system-background))',
+        'ios-secondary-system-background': 'hsl(var(--ios-secondary-system-background))',
+        'ios-tertiary-system-background': 'hsl(var(--ios-tertiary-system-background))',
+        'ios-separator': 'hsl(var(--ios-separator))',
+        'ios-link': 'hsl(var(--ios-link))',
         // Additional grays following Vercel's system
         gray: {
           50: '#fafafa',
