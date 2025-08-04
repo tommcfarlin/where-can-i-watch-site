@@ -5,11 +5,11 @@ module.exports = {
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
-  darkMode: 'class', // Keep for compatibility but always use dark
+    // Dark mode only - no theme switching needed
   theme: {
     extend: {
       colors: {
-        // iOS semantic color system (backwards compatible)
+        // iOS semantic color system
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
@@ -43,13 +43,6 @@ module.exports = {
         'ios-tertiary-system-background': 'hsl(var(--ios-tertiary-system-background))',
         'ios-separator': 'hsl(var(--ios-separator))',
         'ios-link': 'hsl(var(--ios-link))',
-
-        // Keep some Vercel compatibility
-        'vercel-blue': '#0070f3',
-                      blue: {
-                500: 'hsl(var(--ios-link))', // Use iOS link color
-              },
-              white: '#ffffff',
         // Additional grays following Vercel's system
         gray: {
           50: '#fafafa',

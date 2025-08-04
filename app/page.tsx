@@ -11,11 +11,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Apply permanent dark mode
-  useEffect(() => {
-    document.documentElement.classList.add('dark');
-    document.body.classList.add('dark');
-  }, []);
+  // Dark mode is now permanent and handled by CSS
 
   // Initialize the fuzzy search cache on mount
   useEffect(() => {

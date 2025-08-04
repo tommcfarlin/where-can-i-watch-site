@@ -61,6 +61,10 @@
   --spacing-2xl: 2.5rem;      /* 40px */
   --spacing-3xl: 3rem;        /* 48px */
   --spacing-4xl: 4rem;        /* 64px */
+
+  /* iOS Safe Area Padding */
+  --ios-safe-padding-x: max(1rem, env(safe-area-inset-left));
+  --ios-safe-padding-y: max(1rem, env(safe-area-inset-top));
 }
 
 /* iOS Semantic Color System - Dark Mode */
@@ -142,6 +146,41 @@ body {
 /* Clean background - no gradients like Vercel */
 body {
   background-color: hsl(var(--background));
+}
+
+/* iOS Custom Utilities */
+.ios-transition-quick {
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.ios-transition-standard {
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.ios-scale-button {
+  transform: scale(1);
+  transition: transform 0.15s ease-out;
+}
+
+.ios-scale-button:active {
+  transform: scale(0.96);
+}
+
+.ios-scale-press {
+  transform: scale(1);
+  transition: transform 0.1s ease-out;
+}
+
+.ios-scale-press:active {
+  transform: scale(0.94);
+}
+
+.rounded-ios-button {
+  border-radius: 0.75rem; /* 12px */
+}
+
+.rounded-ios-card {
+  border-radius: 1rem; /* 16px */
 }
 
 /* Smooth transitions for theme changes */

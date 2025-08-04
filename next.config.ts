@@ -30,7 +30,6 @@ const nextConfig: NextConfig = {
 
   // Performance optimizations
   experimental: {
-    // optimizeCss: true, // Temporarily disabled due to build issues
     optimizePackageImports: ['@/components', '@/lib', '@/types'],
   },
 
