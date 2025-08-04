@@ -189,8 +189,8 @@ export default function SearchResults({ results, isLoading, searchQuery }: Searc
       return !isStreamable(providers, 'US');
     });
 
-    // Include items still loading (assume streamable until proven otherwise)
-    const allResults = [...allStreaming, ...itemsWithoutProviders];
+    // OPTION B: Only show confirmed streamable content (hide non-streamable entirely)
+    const allResults = [...allStreaming];
 
     // Filter results by media type
     const streamingMovies = allResults.filter(item => item.media_type === 'movie');
